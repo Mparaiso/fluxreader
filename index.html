@@ -5,14 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/styles.css"/>
-    <script src="https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="//www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js"></script>
+    <script src="//www.google.com/jsapi"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="javascript/flowReader.js"></script>
     <script src="javascript/dropBox.js"></script>
     <script src="javascript/googleFeed.js"></script>
+    <script src="javascript/modal.js"></script>
     <title>{{globals.title}}</title>
 </head>
 <body>
@@ -36,7 +40,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right" data-ng-cloak>
-                <li data-ng-hide="isAuthenticated()"><a href="#/signin">
+                <li data-ng-hide="isAuthenticated()"><a class="btn btn-link" data-ng-click="signIn()">
                     <span class="glyphicon glyphicon-cloud-upload"></span> Sign in with dropbox</a>
                 </li>
                 <li data-ng-show="isAuthenticated() && accountInfo.name" class="navbar-text">
@@ -51,5 +55,6 @@
 <main data-ng-view>
     <h1 class="center-block">Loading</h1>
 </main>
+
 </body>
 </html>

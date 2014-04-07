@@ -4,7 +4,7 @@
  * dependencies dropBox.js googleFeed.js angular.js angular-route.js
  */
 (function (window, undefined) {
-    angular.module('flowReader', ['ngRoute', 'dropBox', 'googleFeed'],
+    angular.module('flowReader', ['ngRoute', 'dropBox', 'googleFeed', 'modal'],
         function config($routeProvider, $locationProvider, dropBoxClientProvider, baseUrl) {
             /**
              * @note @angular injecting constant in config
@@ -15,11 +15,6 @@
                 .when('/', {
                     controller: 'IndexCtrl',
                     templateUrl: baseUrl.concat('templates/index.html')
-                })
-                .when('/signin', {
-                    controller: 'SignInCtrl',
-                    templateUrl: baseUrl.concat('templates/signin.html'),
-                    authenticated: false
                 })
                 .when('/dashboard', {
                     controller: 'DashboardCtrl',
@@ -36,8 +31,9 @@
         })
         .constant('baseUrl', window.location.pathname)
         .value('globals', {title: 'Flow Reader'})
-        .controller('MainCtrl', function ($scope, globals, $location, dropBoxClient) {
+        .controller('MainCtrl', function ($scope, globals, $location, dropBoxClient, baseUrl) {
             $scope.globals = globals;
+            $scope.baseUrl = baseUrl;
             $scope.isAuthenticated = function () {
                 return dropBoxClient.isAuthenticated();
             };
@@ -51,19 +47,23 @@
                         $location.path('/');
                     });
                 }
+            };
+            $scope.signIn = function () {
+                dropBoxClient.signIn();
             }
         })
         .controller('IndexCtrl', function ($log) {
             $log.debug('index');
         })
-        .controller('SignInCtrl', function ($log, dropBoxClient, $scope) {
-            $log.debug('signin');
-            $scope.signIn = function () {
-                dropBoxClient.signIn();
+        .controller('DashboardCtrl', function ($log, $scope, $window, feed) {
+            $scope.prompt = function () {
+                var url = $window.prompt('Enter the feed URL');
+                if (url) {
+                    feed.open().then(feed.findFeedByUrl.bind(feed, url)).then(function () {
+                        console.log('find', arguments);
+                    });
+                }
             }
-        })
-        .controller('DashboardCtrl', function ($log) {
-            $log.debug('authenticated');
         })
         .controller('AccountCtrl', function ($scope, dropBoxClient) {
             dropBoxClient.getAccountInfo().then(function (accountInfo) {
@@ -84,7 +84,7 @@
                 }
                 if (next.authenticated) {
                     if (!dropBoxClient.isAuthenticated()) {
-                        $location.path('/signin');
+                        $location.path('/');
                     }
                 }
             })

@@ -30,9 +30,16 @@ angular.module('dropBox', [])
             /* service */
             $get: function ($q) {
                 return {
+                    get client() {
+                        if (!this._client) {
+                            this.init();
+                        }
+                        return this._client;
+                    },
                     init: function () {
                         _client = new Dropbox.Client({key: _key});
                         _client.authenticate({interactive: false}, this.authenticationCallback);
+                        this._client = _client;
                     },
                     /* sign in */
                     signIn: function () {
