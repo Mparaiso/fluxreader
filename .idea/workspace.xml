@@ -25,14 +25,49 @@
       <file leaf-file-name="flowReader.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/javascript/flowReader.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="37" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="1332">
+            <state line="38" column="44" selection-start="1794" selection-end="1794" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="342">
+              <folding>
+                <element signature="e#0#137#0" expanded="false" />
+                <element signature="e#332#1643#0" expanded="false" />
+                <element signature="e#346#660#0" expanded="false" />
+                <element signature="e#715#851#0" expanded="false" />
+                <element signature="e#886#1066#0" expanded="false" />
+                <element signature="e#1104#1289#0" expanded="false" />
+                <element signature="e#1335#1475#0" expanded="false" />
+                <element signature="e#1835#2544#0" expanded="false" />
+                <element signature="e#1924#1995#0" expanded="false" />
+                <element signature="e#2205#2270#0" expanded="false" />
+                <element signature="e#2314#2534#0" expanded="false" />
+                <element signature="e#2369#2520#0" expanded="false" />
+                <element signature="e#2432#2500#0" expanded="false" />
+                <element signature="e#2595#2639#0" expanded="false" />
+                <element signature="e#2714#2855#0" expanded="false" />
+                <element signature="e#2790#2845#0" expanded="false" />
+                <element signature="e#2910#2962#0" expanded="false" />
+                <element signature="e#3032#3182#0" expanded="false" />
+                <element signature="e#3105#3170#0" expanded="false" />
+                <element signature="e#3259#4049#0" expanded="false" />
+                <element signature="e#3328#3585#0" expanded="false" />
+                <element signature="e#3666#4038#0" expanded="false" />
+                <element signature="e#3784#3831#0" expanded="false" />
+                <element signature="e#3872#4024#0" expanded="false" />
+                <element signature="e#3932#4006#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="account.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/account.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="39" selection-start="89" selection-end="89" vertical-scroll-proportion="-1.3333334" vertical-offset="0" max-vertical-offset="162">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="navigation.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/navigation.html">
+      <file leaf-file-name="sideNav.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/sideNav.html">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="108">
               <folding />
@@ -41,18 +76,9 @@
         </entry>
       </file>
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/index.html">
+        <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="13" selection-start="41" selection-end="41" vertical-scroll-proportion="-0.6666667" vertical-offset="0" max-vertical-offset="162">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dashboard.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/dashboard.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="13" selection-start="41" selection-end="41" vertical-scroll-proportion="-0.6666667" vertical-offset="0" max-vertical-offset="162">
+            <state line="51" column="27" selection-start="2672" selection-end="2672" vertical-scroll-proportion="-12.407408" vertical-offset="583" max-vertical-offset="1080">
               <folding />
             </state>
           </provider>
@@ -61,43 +87,25 @@
       <file leaf-file-name="signin.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/signin.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="19" selection-start="47" selection-end="47" vertical-scroll-proportion="-0.6666667" vertical-offset="0" max-vertical-offset="162">
+            <state line="2" column="27" selection-start="77" selection-end="77" vertical-scroll-proportion="-1.3333334" vertical-offset="0" max-vertical-offset="342">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/index.html">
+      <file leaf-file-name="dashboard.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/dashboard.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="79" selection-start="2112" selection-end="2112" vertical-scroll-proportion="0.5540541" vertical-offset="456" max-vertical-offset="954">
+            <state line="0" column="18" selection-start="18" selection-end="18" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="486">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dropBox.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/javascript/dropBox.js">
+      <file leaf-file-name="sprints.md" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sprints.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="44" selection-start="154" selection-end="154" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="936">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="googleFeed.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/javascript/googleFeed.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="32" selection-start="32" selection-end="32" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="108">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bin/server.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="0" selection-start="434" selection-end="434" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
+            <state line="3" column="45" selection-start="113" selection-end="113" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="252">
               <folding />
             </state>
           </provider>
@@ -114,33 +122,35 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/src/server.js" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/index.html" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/bower.json" />
         <option value="$PROJECT_DIR$/build/index.html" />
-        <option value="$PROJECT_DIR$/bin/server.js" />
-        <option value="$PROJECT_DIR$/javascript/googleFeed.js" />
-        <option value="$PROJECT_DIR$/sprints.md" />
-        <option value="$PROJECT_DIR$/javascript/dropBox.js" />
         <option value="$PROJECT_DIR$/css/styles.css" />
         <option value="$PROJECT_DIR$/makefile" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/javascript/flowReader.js" />
-        <option value="$PROJECT_DIR$/templates/index.html" />
-        <option value="$PROJECT_DIR$/templates/dashboard.html" />
-        <option value="$PROJECT_DIR$/templates/signin.html" />
         <option value="$PROJECT_DIR$/templates/navigation.html" />
+        <option value="$PROJECT_DIR$/bin/server.js" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/javascript/dropBox.js" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/templates/signin.html" />
+        <option value="$PROJECT_DIR$/javascript/flowReader.js" />
+        <option value="$PROJECT_DIR$/templates/account.html" />
+        <option value="$PROJECT_DIR$/sprints.md" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/javascript/main.js" />
+        <option value="$PROJECT_DIR$/javascript/googleFeed.js" />
+        <option value="$PROJECT_DIR$/templates/dashboard.html" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="321" />
-    <option name="y" value="178" />
-    <option name="width" value="905" />
-    <option name="height" value="579" />
+    <option name="x" value="89" />
+    <option name="y" value="277" />
+    <option name="width" value="1085" />
+    <option name="height" value="350" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -233,20 +243,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="feedpress2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="feedpress2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -287,13 +283,13 @@
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="ToolWindowManager">
-    <frame x="321" y="178" width="905" height="579" extended-state="0" />
+    <frame x="89" y="277" width="1085" height="350" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21070234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21169916" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -329,13 +325,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="51" selection-start="128" selection-end="128" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="24" selection-start="243" selection-end="243" vertical-scroll-proportion="-4.0" vertical-offset="54" max-vertical-offset="468">
@@ -350,37 +339,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bin/server.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="0" selection-start="434" selection-end="434" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/googleFeed.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="32" selection-start="32" selection-end="32" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="456">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/dropBox.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="44" selection-start="154" selection-end="154" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="936">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="5" selection-start="18" selection-end="18" vertical-scroll-proportion="0.037190083" vertical-offset="0" max-vertical-offset="484">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sprints.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="10" selection-start="78" selection-end="78" vertical-scroll-proportion="0.11157025" vertical-offset="0" max-vertical-offset="484">
           <folding />
         </state>
       </provider>
@@ -399,44 +360,119 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/flowReader.js">
+    <entry file="file://$PROJECT_DIR$/bin/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="37" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="1332">
+        <state line="15" column="26" selection-start="352" selection-end="352" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="468">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bower_components/angular/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="972">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="8" selection-start="197" selection-end="197" vertical-scroll-proportion="0.44334975" vertical-offset="0" max-vertical-offset="406">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="13" selection-start="41" selection-end="41" vertical-scroll-proportion="-0.6666667" vertical-offset="0" max-vertical-offset="162">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/dashboard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="13" selection-start="41" selection-end="41" vertical-scroll-proportion="-0.6666667" vertical-offset="0" max-vertical-offset="162">
+        <state line="0" column="25" selection-start="25" selection-end="25" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="407">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/signin.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="19" selection-start="47" selection-end="47" vertical-scroll-proportion="-0.6666667" vertical-offset="0" max-vertical-offset="162">
+        <state line="2" column="27" selection-start="77" selection-end="77" vertical-scroll-proportion="-1.3333334" vertical-offset="0" max-vertical-offset="342">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/navigation.html">
+    <entry file="file://$PROJECT_DIR$/templates/account.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="108">
+        <state line="2" column="39" selection-start="89" selection-end="89" vertical-scroll-proportion="-1.3333334" vertical-offset="0" max-vertical-offset="162">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/sideNav.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="434">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sprints.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="45" selection-start="113" selection-end="113" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="252">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="79" selection-start="2112" selection-end="2112" vertical-scroll-proportion="0.5540541" vertical-offset="456" max-vertical-offset="954">
+        <state line="51" column="27" selection-start="2672" selection-end="2672" vertical-scroll-proportion="-12.407408" vertical-offset="583" max-vertical-offset="1080">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/flowReader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="44" selection-start="1794" selection-end="1794" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="342">
+          <folding>
+            <element signature="e#0#137#0" expanded="false" />
+            <element signature="e#332#1643#0" expanded="false" />
+            <element signature="e#346#660#0" expanded="false" />
+            <element signature="e#715#851#0" expanded="false" />
+            <element signature="e#886#1066#0" expanded="false" />
+            <element signature="e#1104#1289#0" expanded="false" />
+            <element signature="e#1335#1475#0" expanded="false" />
+            <element signature="e#1835#2544#0" expanded="false" />
+            <element signature="e#1924#1995#0" expanded="false" />
+            <element signature="e#2205#2270#0" expanded="false" />
+            <element signature="e#2314#2534#0" expanded="false" />
+            <element signature="e#2369#2520#0" expanded="false" />
+            <element signature="e#2432#2500#0" expanded="false" />
+            <element signature="e#2595#2639#0" expanded="false" />
+            <element signature="e#2714#2855#0" expanded="false" />
+            <element signature="e#2790#2845#0" expanded="false" />
+            <element signature="e#2910#2962#0" expanded="false" />
+            <element signature="e#3032#3182#0" expanded="false" />
+            <element signature="e#3105#3170#0" expanded="false" />
+            <element signature="e#3259#4049#0" expanded="false" />
+            <element signature="e#3328#3585#0" expanded="false" />
+            <element signature="e#3666#4038#0" expanded="false" />
+            <element signature="e#3784#3831#0" expanded="false" />
+            <element signature="e#3872#4024#0" expanded="false" />
+            <element signature="e#3932#4006#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/googleFeed.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="13" selection-start="69" selection-end="69" vertical-scroll-proportion="0.08294931" vertical-offset="0" max-vertical-offset="434">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/dropBox.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="33" selection-start="1121" selection-end="1121" vertical-scroll-proportion="-0.41092637" vertical-offset="821" max-vertical-offset="1404">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/dashboard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="18" selection-start="18" selection-end="18" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="486">
           <folding />
         </state>
       </provider>

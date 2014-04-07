@@ -13,6 +13,7 @@ dir = /*process.argv[2] ||*/ process.cwd();
 port = 3100;
 app = express();
 app.use(express.static(dir));
+app.use(express.logger());
 
 http.createServer(app).listen(port, function () {
     console.log('listening on port :'.concat(port));
