@@ -5,26 +5,27 @@
  */
 (function (undefined) {
     angular.module('flowReader', ['ngRoute', 'dropBox', 'googleFeed'],
-        function config($routeProvider, $locationProvider, dropBoxClientProvider) {
+        function config($routeProvider, $locationProvider, dropBoxClientProvider, baseUrl) {
             $routeProvider
                 .when('/', {
                     controller: 'IndexCtrl',
-                    templateUrl: '/templates/index.html'
+                    templateUrl: baseUrl.concat('templates/index.html')
                 })
                 .when('/signin', {
                     controller: 'SignInCtrl',
-                    templateUrl: '/templates/signin.html',
+                    templateUrl: baseUrl.concat('templates/signin.html'),
                     authenticated: false
                 })
                 .when('/private', {
                     controller: 'SignInCtrl',
-                    templateUrl: '/templates/private.html',
+                    templateUrl: baseUrl.concat('templates/private.html'),
                     authenticated: true
                 })
                 .otherwise({redirectTo: '/'});
             //$locationProvider.html5Mode(true);
             dropBoxClientProvider.setKey('aa8d82y2a6iqbs9');
         })
+        .constant('baseUrl', window.location.pathname)
         .value('globals', {title: 'Flow Reader'})
         .controller('MainCtrl', function ($log, $scope, globals) {
             $scope.title = globals.title;
