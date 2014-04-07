@@ -5,7 +5,7 @@ commit:
 	@git add .
 	@git commit -am"$(message) `date`"
 push: commit
-	@git push origin --tags
+	@git push origin master --tags
 push-pages: commit
 	@git push origin gh-pages --tags
 build:
