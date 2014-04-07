@@ -22,7 +22,7 @@
                     authenticated: true
                 })
                 .otherwise({redirectTo: '/'});
-            $locationProvider.html5Mode(true);
+            //$locationProvider.html5Mode(true);
             dropBoxClientProvider.setKey('aa8d82y2a6iqbs9');
         })
         .value('globals', {title: 'Flow Reader'})
