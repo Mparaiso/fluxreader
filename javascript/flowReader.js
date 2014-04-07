@@ -6,6 +6,11 @@
 (function (undefined) {
     angular.module('flowReader', ['ngRoute', 'dropBox', 'googleFeed'],
         function config($routeProvider, $locationProvider, dropBoxClientProvider, baseUrl) {
+            /**
+             * @note @angular injecting constant in config
+             * @link http://stackoverflow.com/questions/16339595/angular-js-configuration-for-different-enviroments
+             * @link http://stackoverflow.com/questions/12664787/what-providers-services-are-available-in-module-config
+             */
             $routeProvider
                 .when('/', {
                     controller: 'IndexCtrl',
@@ -16,7 +21,7 @@
                     templateUrl: baseUrl.concat('templates/signin.html'),
                     authenticated: false
                 })
-                .when('/private', {
+                .when('/dashboard', {
                     controller: 'SignInCtrl',
                     templateUrl: baseUrl.concat('templates/private.html'),
                     authenticated: true

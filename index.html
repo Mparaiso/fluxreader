@@ -21,6 +21,28 @@
         <h1 class="alert alert-warning">This Website makes heavy use of javascript,please enable javascript</h1>
     </section>
 </noscript>
+<nav class="navbar navbar-inverse" data-role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" data-ng-cloak href="#/">{{title}}</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right" ng-cloak>
+                <li data-ng-show="!isAuthenticated()"><a href="#/signin">
+                    <span class="glyphicon glyphicon-cloud"></span> Sign in</a>
+                </li>
+                <li data-ng-show="isAuthenticated()"><a href="#/signout">Sign out</a></li>
+            </ul>
+        </div>
+</nav>
 <main data-ng-view></main>
 </body>
 </html>
