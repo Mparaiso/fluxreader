@@ -40,10 +40,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="48" selection-start="489" selection-end="489" vertical-scroll-proportion="-5.3333335" vertical-offset="0" max-vertical-offset="558">
+            <state line="8" column="33" selection-start="473" selection-end="473" vertical-scroll-proportion="0.3243243" vertical-offset="0" max-vertical-offset="558">
               <folding />
             </state>
           </provider>
@@ -58,10 +58,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="makefile" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="makefile" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/makefile">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="18" selection-start="163" selection-end="163" vertical-scroll-proportion="0.29338843" vertical-offset="2" max-vertical-offset="558">
+            <state line="8" column="18" selection-start="163" selection-end="163" vertical-scroll-proportion="0.0" vertical-offset="2" max-vertical-offset="558">
               <folding />
             </state>
           </provider>
@@ -125,10 +125,10 @@
         <option value="$PROJECT_DIR$/sprints.md" />
         <option value="$PROJECT_DIR$/javascript/dropBox.js" />
         <option value="$PROJECT_DIR$/javascript/flowReader.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/styles.css" />
         <option value="$PROJECT_DIR$/makefile" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -381,13 +381,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="48" selection-start="489" selection-end="489" vertical-scroll-proportion="-5.3333335" vertical-offset="0" max-vertical-offset="558">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/styles.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="1" selection-start="46" selection-end="46" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="144">
@@ -404,7 +397,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/makefile">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="18" selection-start="163" selection-end="163" vertical-scroll-proportion="0.29338843" vertical-offset="2" max-vertical-offset="558">
+        <state line="8" column="18" selection-start="163" selection-end="163" vertical-scroll-proportion="0.0" vertical-offset="2" max-vertical-offset="558">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="33" selection-start="473" selection-end="473" vertical-scroll-proportion="0.3243243" vertical-offset="0" max-vertical-offset="558">
           <folding />
         </state>
       </provider>
