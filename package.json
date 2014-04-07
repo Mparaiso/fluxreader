@@ -1,0 +1,20 @@
+{
+    "name": "flowreader",
+    "version": "0.0.0",
+    "description": "a pure client-side rss reader written in javascript",
+    "main": "index.js",
+    "scripts": {
+        "test": "test"
+    },
+    "dependencies": {
+        "express": "3.X"
+    },
+    "keywords": [
+        "rss",
+        "reader",
+        "feed",
+        "reader"
+    ],
+    "author": "mparaiso <mparaiso@online.fr>",
+    "license": "LGPL"
+}
