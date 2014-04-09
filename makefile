@@ -1,6 +1,8 @@
 src="src/."
 destination="build/"
 bin="bin/"
+test:
+	@npm test &
 commit:
 	@git add .
 	@git commit -am"$(message) `date`"
@@ -23,4 +25,4 @@ help:
 	@echo "install: install npm modules and bower components"
 start:
 	@node $(bin)/server.js ./ &
-.PHONY: build start help push commit
+.PHONY: build start help push commit test

@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.2.17-build.100+sha.feb54d6
+ * @license AngularJS v1.2.16
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -68,7 +68,7 @@ function minErr(module) {
       return match;
     });
 
-    message = message + '\nhttp://errors.angularjs.org/1.2.17-build.100+sha.feb54d6/' +
+    message = message + '\nhttp://errors.angularjs.org/1.2.16/' +
       (module ? module + '/' : '') + code;
     for (i = 2; i < arguments.length; i++) {
       message = message + (i == 2 ? '?' : '&') + 'p' + (i-2) + '=' +
@@ -1919,11 +1919,11 @@ function setupModuleLoader(window) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.2.17-build.100+sha.feb54d6',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.2.16',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 2,
-  dot: 17,
-  codeName: 'snapshot'
+  dot: 16,
+  codeName: 'badger-enumeration'
 };
 
 
@@ -6289,7 +6289,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             if (jqLiteIsTextNode(directiveValue)) {
               $template = [];
             } else {
-              $template = jqLite(trim(directiveValue));
+              $template = jqLite(directiveValue);
             }
             compileNode = $template[0];
 
@@ -6716,7 +6716,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             if (jqLiteIsTextNode(content)) {
               $template = [];
             } else {
-              $template = jqLite(trim(content));
+              $template = jqLite(content);
             }
             compileNode = $template[0];
 

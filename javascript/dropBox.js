@@ -3,8 +3,8 @@
  * MANAGE DROPBOX API
  * @dependencies dropbox-datastores-1.0-latest.js
  */
-angular.module('dropBox', [])
-    .provider('dropBoxClient', function () {
+angular.module('dropbox', [])
+    .provider('dropboxClient', function () {
         /**
          * DROPBOX API
          * service configuration
@@ -31,15 +31,14 @@ angular.module('dropBox', [])
             $get: function ($q) {
                 return {
                     get client() {
-                        if (!this._client) {
+                        if (!_client) {
                             this.init();
                         }
-                        return this._client;
+                        return _client;
                     },
                     init: function () {
                         _client = new Dropbox.Client({key: _key});
                         _client.authenticate({interactive: false}, this.authenticationCallback);
-                        this._client = _client;
                     },
                     /* sign in */
                     signIn: function () {
@@ -58,6 +57,9 @@ angular.module('dropBox', [])
                     },
                     isAuthenticated: function () {
                         return _client.isAuthenticated();
+                    },
+                    getDatastoreManager:function(){
+                        this.client.getDatastoreManager()
                     },
                     /* get account info */
                     getAccountInfo: function () {

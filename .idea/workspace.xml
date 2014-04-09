@@ -22,82 +22,48 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="account.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/account.html">
+      <file leaf-file-name="dropboxDatabase.test.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/unit/dropboxDatabase.test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="39" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="162">
+            <state line="64" column="58" selection-start="2627" selection-end="2627" vertical-scroll-proportion="0.0" vertical-offset="722" max-vertical-offset="1602">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2" column="3" selection-start="22" selection-end="22" vertical-scroll-proportion="0.053175777" vertical-offset="0" max-vertical-offset="677">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="modal.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/modal.html">
+      <file leaf-file-name="dropboxDatabase.mock.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/mocks/dropboxDatabase.mock.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="849" selection-end="849" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="432">
+            <state line="22" column="25" selection-start="779" selection-end="779" vertical-scroll-proportion="0.0" vertical-offset="396" max-vertical-offset="612">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sideNav.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/sideNav.html">
+      <file leaf-file-name="dropbox.mock.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/mocks/dropbox.mock.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="108">
+            <state line="7" column="27" selection-start="219" selection-end="219" vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="792">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="flowReader.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/javascript/flowReader.js">
+      <file leaf-file-name="dropboxDatabase.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/javascript/dropboxDatabase.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="49" selection-start="1543" selection-end="1543" vertical-scroll-proportion="0.0" vertical-offset="576" max-vertical-offset="1764">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dropBox.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/javascript/dropBox.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="78" column="7" selection-start="2895" selection-end="2895" vertical-scroll-proportion="0.0" vertical-offset="1404" max-vertical-offset="1512">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="database.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/javascript/database.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="23" selection-start="1144" selection-end="1144" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="828">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="17" selection-start="654" selection-end="654" vertical-scroll-proportion="0.37571156" vertical-offset="0" max-vertical-offset="1170">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="googleFeed.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/javascript/googleFeed.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="36" selection-start="1213" selection-end="1213" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="846">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="25" selection-start="25" selection-end="25" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="162">
+            <state line="63" column="10" selection-start="1927" selection-end="1927" vertical-scroll-proportion="0.0" vertical-offset="1134" max-vertical-offset="2358">
               <folding />
             </state>
           </provider>
@@ -110,17 +76,19 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/javascript/dropboxDatabase.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/test/unit/dropboxDatabase.test.js" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/src/server.js" />
         <option value="$PROJECT_DIR$/src/index.html" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/bower.json" />
         <option value="$PROJECT_DIR$/build/index.html" />
         <option value="$PROJECT_DIR$/css/styles.css" />
         <option value="$PROJECT_DIR$/makefile" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/templates/navigation.html" />
         <option value="$PROJECT_DIR$/bin/server.js" />
         <option value="$PROJECT_DIR$/README.md" />
@@ -134,18 +102,28 @@
         <option value="$PROJECT_DIR$/templates/dashboard.html" />
         <option value="$PROJECT_DIR$/javascript/googleFeed.js" />
         <option value="$PROJECT_DIR$/javascript/flowReader.js" />
-        <option value="$PROJECT_DIR$/javascript/dropBox.js" />
         <option value="$PROJECT_DIR$/javascript/database.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/javascript/dropBox.js" />
+        <option value="$PROJECT_DIR$/javascript/dropBoxDatabase.js" />
+        <option value="$PROJECT_DIR$/test/karma.config.js" />
+        <option value="$PROJECT_DIR$/bower.json" />
+        <option value="C:/Bin/phantomjs.cmd" />
+        <option value="C:/Bin/phantomjs.sh" />
+        <option value="$PROJECT_DIR$/test/karma.conf.js" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/test/mocks/dropboxDatabase.mock.js" />
+        <option value="$PROJECT_DIR$/javascript/dropboxDatabase.js" />
+        <option value="$PROJECT_DIR$/test/unit/dropboxDatabase.test.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="99" />
-    <option name="y" value="65" />
-    <option name="width" value="1118" />
-    <option name="height" value="662" />
+    <option name="x" value="337" />
+    <option name="width" value="945" />
+    <option name="height" value="772" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -155,14 +133,45 @@
             <id />
           </State>
           <State>
-            <id>Spelling</id>
+            <id>Code quality toolsJavaScript</id>
           </State>
-        </expanded-state>
-        <selected-state>
+          <State>
+            <id>Code style issuesJavaScript</id>
+          </State>
+          <State>
+            <id>DOM issuesJavaScript</id>
+          </State>
+          <State>
+            <id>Error handlingJavaScript</id>
+          </State>
+          <State>
+            <id>GeneralJavaScript</id>
+          </State>
+          <State>
+            <id>HTML</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>Node.jsJavaScript</id>
+          </State>
+          <State>
+            <id>PHP</id>
+          </State>
+          <State>
+            <id>Portability issues</id>
+          </State>
+          <State>
+            <id>Probable bugsJavaScript</id>
+          </State>
           <State>
             <id>Spelling</id>
           </State>
-        </selected-state>
+          <State>
+            <id>UndefinedPHP</id>
+          </State>
+        </expanded-state>
       </profile-state>
     </entry>
   </component>
@@ -206,35 +215,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="feedpress2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="feedpress2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="feedpress2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="feedpress2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="feedpress2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javascript" />
+              <option name="myItemId" value="flowreader" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -244,7 +225,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="options.lastSelected" value="Errors" />
+    <property name="options.lastSelected" value="editor.preferences.appearance" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
@@ -299,13 +280,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="99" y="65" width="1118" height="662" extended-state="0" />
-    <editor active="false" />
+    <frame x="337" y="0" width="945" height="772" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32982457" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17387387" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24332978" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -313,11 +294,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="UnknownFeatures">
@@ -341,42 +322,128 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/account.html">
+    <entry file="file://$PROJECT_DIR$/test/unit/dropboxDatabase.test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="39" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="162">
+        <state line="66" column="56" selection-start="2737" selection-end="2737" vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="1386">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/mocks/dropboxDatabase.mock.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="25" selection-start="779" selection-end="779" vertical-scroll-proportion="0.0" vertical-offset="396" max-vertical-offset="612">
           <folding />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/mocks/dropbox.mock.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="27" selection-start="219" selection-end="219" vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="792">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/dropboxDatabase.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="10" selection-start="1927" selection-end="1927" vertical-scroll-proportion="0.0" vertical-offset="1134" max-vertical-offset="2358">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/dropboxDatabase.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="17" selection-start="153" selection-end="153" vertical-scroll-proportion="0.0" vertical-offset="54" max-vertical-offset="414">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/googleFeed.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="36" selection-start="1213" selection-end="1213" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="846" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="25" selection-start="25" selection-end="25" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="162" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/account.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="39" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="162" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/modal.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="849" selection-end="849" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="432">
-          <folding />
-        </state>
+        <state line="18" column="0" selection-start="849" selection-end="849" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="432" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/sideNav.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="108">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="108" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/javascript/flowReader.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="49" selection-start="1543" selection-end="1543" vertical-scroll-proportion="0.0" vertical-offset="576" max-vertical-offset="1764">
-          <folding />
-        </state>
+        <state line="32" column="49" selection-start="1543" selection-end="1543" vertical-scroll-proportion="0.0" vertical-offset="576" max-vertical-offset="1764" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/dropBox.js">
+    <entry file="file://$PROJECT_DIR$/javascript/dropbox.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="7" selection-start="2895" selection-end="2895" vertical-scroll-proportion="0.0" vertical-offset="1404" max-vertical-offset="1512">
+        <state line="78" column="7" selection-start="2895" selection-end="2895" vertical-scroll-proportion="0.0" vertical-offset="1404" max-vertical-offset="1512" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/dropboxDatabase.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="23" selection-start="1144" selection-end="1144" vertical-scroll-proportion="0.0" vertical-offset="540" max-vertical-offset="828">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/database.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="17" selection-start="654" selection-end="654" vertical-scroll-proportion="0.0" vertical-offset="198" max-vertical-offset="1170" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/googleFeed.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="36" selection-start="1213" selection-end="1213" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="846" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="25" selection-start="25" selection-end="25" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="162" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/account.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="39" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="162" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/modal.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="849" selection-end="849" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="432" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/sideNav.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="108" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/flowReader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="49" selection-start="1543" selection-end="1543" vertical-scroll-proportion="0.0" vertical-offset="576" max-vertical-offset="1764" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/dropbox.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="78" column="7" selection-start="2895" selection-end="2895" vertical-scroll-proportion="0.0" vertical-offset="1404" max-vertical-offset="1512" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/dropboxDatabase.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="23" selection-start="1144" selection-end="1144" vertical-scroll-proportion="0.0" vertical-offset="274" max-vertical-offset="828">
           <folding />
@@ -385,38 +452,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="41" selection-start="2972" selection-end="2972" vertical-scroll-proportion="0.0" vertical-offset="678" max-vertical-offset="1170">
-          <folding />
-        </state>
+        <state line="55" column="41" selection-start="2972" selection-end="2972" vertical-scroll-proportion="0.0" vertical-offset="678" max-vertical-offset="1170" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/javascript/googleFeed.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="36" selection-start="1213" selection-end="1213" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="846">
-          <folding />
-        </state>
+        <state line="25" column="36" selection-start="1213" selection-end="1213" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="846" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="25" selection-start="25" selection-end="25" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="162">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="24" selection-start="243" selection-end="243" vertical-scroll-proportion="-4.0" vertical-offset="54" max-vertical-offset="468" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bower.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="18" selection-start="138" selection-end="138" vertical-scroll-proportion="-4.6666665" vertical-offset="0" max-vertical-offset="486" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="5" selection-start="18" selection-end="18" vertical-scroll-proportion="0.037190083" vertical-offset="0" max-vertical-offset="484" />
+        <state line="0" column="25" selection-start="25" selection-end="25" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="162" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/makefile">
@@ -439,11 +485,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="972" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="8" selection-start="197" selection-end="197" vertical-scroll-proportion="0.44334975" vertical-offset="0" max-vertical-offset="406" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sprints.md">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="45" selection-start="113" selection-end="113" vertical-scroll-proportion="0.10150376" vertical-offset="0" max-vertical-offset="532" />
@@ -451,9 +492,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/account.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="39" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="162">
-          <folding />
-        </state>
+        <state line="2" column="39" selection-start="89" selection-end="89" vertical-scroll-proportion="0.0" vertical-offset="36" max-vertical-offset="162" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/dashboard.html">
@@ -463,9 +502,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/modal.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="849" selection-end="849" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="432">
-          <folding />
-        </state>
+        <state line="18" column="0" selection-start="849" selection-end="849" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="432" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/javascript/modal.js">
@@ -475,49 +512,97 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/sideNav.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="434">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/googleFeed.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="36" selection-start="1213" selection-end="1213" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="846">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/flowReader.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="49" selection-start="1543" selection-end="1543" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="738">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/dropBox.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="7" selection-start="2895" selection-end="2895" vertical-scroll-proportion="0.0" vertical-offset="149" max-vertical-offset="360">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/database.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="23" selection-start="1144" selection-end="1144" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="828">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="434" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="25" selection-start="25" selection-end="25" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="407">
-          <folding />
-        </state>
+        <state line="0" column="25" selection-start="25" selection-end="25" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="407" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/dropbox.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="44" selection-start="180" selection-end="180" vertical-scroll-proportion="0.20149253" vertical-offset="0" max-vertical-offset="1548" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/flowReader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="49" selection-start="1543" selection-end="1543" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="738" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="17" selection-start="654" selection-end="654" vertical-scroll-proportion="0.37571156" vertical-offset="0" max-vertical-offset="1170">
+        <state line="26" column="11" selection-start="1360" selection-end="1360" vertical-scroll-proportion="-0.3438114" vertical-offset="643" max-vertical-offset="1170" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/googleFeed.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="36" selection-start="1213" selection-end="1213" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="846" />
+      </provider>
+    </entry>
+    <entry file="file://C:/Bin/phantomjs.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="17" selection-start="29" selection-end="29" vertical-scroll-proportion="0.028753994" vertical-offset="0" max-vertical-offset="626" />
+      </provider>
+    </entry>
+    <entry file="file://C:/Bin/phantomjs.cmd">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="12" selection-start="17" selection-end="40" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="108" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="8" selection-start="197" selection-end="197" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="342" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bower.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="34" selection-start="104" selection-end="104" vertical-scroll-proportion="-2.6666667" vertical-offset="0" max-vertical-offset="504" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="49" selection-start="551" selection-end="551" vertical-scroll-proportion="0.88235295" vertical-offset="0" max-vertical-offset="774" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/karma.conf.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="29" selection-start="661" selection-end="661" vertical-scroll-proportion="0.84375" vertical-offset="0" max-vertical-offset="774" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/dropboxDatabase.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="63" column="10" selection-start="1927" selection-end="1927" vertical-scroll-proportion="0.0" vertical-offset="378" max-vertical-offset="1710">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/mocks/dropbox.mock.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="27" selection-start="219" selection-end="219" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="792">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/mocks/dropboxDatabase.mock.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="25" selection-start="779" selection-end="779" vertical-scroll-proportion="0.0" vertical-offset="56" max-vertical-offset="612">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/dropboxDatabase.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="58" selection-start="2627" selection-end="2627" vertical-scroll-proportion="0.0" vertical-offset="722" max-vertical-offset="1602">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="3" selection-start="22" selection-end="22" vertical-scroll-proportion="0.053175777" vertical-offset="0" max-vertical-offset="677">
           <folding />
         </state>
       </provider>
