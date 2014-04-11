@@ -19,9 +19,6 @@ angular.module('dropbox', [])
             getKey: function () {
                 return _key;
             },
-            getClient: function () {
-                return _client;
-            },
             authenticationCallback: function (error) {
                 if (error) {
                     console.log('authentication error', error);
@@ -35,6 +32,9 @@ angular.module('dropbox', [])
                             this.init();
                         }
                         return _client;
+                    },
+                    set client(value) {
+                        _client = value;
                     },
                     init: function () {
                         _client = new Dropbox.Client({key: _key});
@@ -58,7 +58,7 @@ angular.module('dropbox', [])
                     isAuthenticated: function () {
                         return _client.isAuthenticated();
                     },
-                    getDatastoreManager:function(){
+                    getDatastoreManager: function () {
                         this.client.getDatastoreManager()
                     },
                     /* get account info */

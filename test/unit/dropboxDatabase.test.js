@@ -25,11 +25,6 @@
                 angular.module('test', ['dropbox.mock', 'dropboxDatabase']);
                 module('test');
             });
-            it('should exist', function () {
-                inject(function (tableFactory) {
-                    expect(tableFactory).not.toBeNull();
-                });
-            });
             describe('#create', function () {
                 it('should return a table object', function () {
                     inject(function (tableFactory) {
@@ -69,7 +64,9 @@
             describe('#findAll',function(){
                 it('should return a promise',function(done){
                     this.foodTable.findAll({}).then(function(result){
+                        console.log('foo');
                         expect(result instanceof Array).toBe(true);
+                        done();
                     });
                 });
             });

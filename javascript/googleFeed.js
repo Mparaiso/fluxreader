@@ -1,15 +1,27 @@
+/* globals angular,google */
 (function (window, google, undefined) {
-    angular.module('googleFeed', [])
+    angular.module('googleFeed',[])
         /* feed service */
         .provider('feed', function () {
-            var initialized = false;
+            var _google, initialized = false;
             return {
+                setGoogle: function (google) {
+                    _google = google;
+                    return this;
+                },
+                getGoogle: function () {
+                    if (_google == null) {
+                        console.log('using default google global variable');
+                        _google = google;
+                    }
+                    return _google;
+                },
                 $get: function ($q, $timeout) {
                     return {
                         /* load a feed according to its url */
                         findFeedByUrl: function (feedUrl) {
                             var defer = $q.defer();
-                            var feed = new google.feeds.Feed(feedUrl);
+                            var feed = new _google.feeds.Feed(feedUrl);
                             feed.load(function (result) {
                                 if (result.error) {
                                     return defer.reject(result.error);
@@ -23,7 +35,7 @@
                             console.log('open');
                             if (!initialized) {
                                 var defer = $q.defer();
-                                google.load('feeds', '1', {callback: function () {
+                                _google.load('feeds', '1', {callback: function () {
                                     console.log('init', arguments);
                                     initialized = true;
                                     defer.resolve();

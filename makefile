@@ -23,6 +23,7 @@ help:
 	@echo "build: build project"
 	@echo "start: start test server"
 	@echo "install: install npm modules and bower components"
+	@echo "test: start karma js test runner"
 start:
 	@node $(bin)/server.js ./ &
 .PHONY: build start help push commit test
