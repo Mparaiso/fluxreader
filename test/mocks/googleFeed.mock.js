@@ -20,7 +20,6 @@ angular.module('googleFeed.mock', [])
                     open: function () {
                         var deferred = $q.defer();
                         $timeout(deferred.resolve.bind(deferred, {}), 1);
-
                         return deferred.promise;
                     }
                 }

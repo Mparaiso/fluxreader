@@ -1,8 +1,8 @@
-describe('dropboxClient', function () {
+xdescribe('dropboxClient', function () {
     beforeEach(function () {
         module('dropbox');
     });
-    it('should exist', function () {
+    it('should not be undefined', function () {
         inject(function (dropboxClient) {
             expect(dropboxClient).not.toBe(null);
             expect(dropboxClient).not.toBe(undefined);

@@ -1,11 +1,13 @@
+/*global angular,google*/
 /**
  * @copyright mparaiso <mparaiso@online.fr>
  * @license LGPL
  * dependencies dropbox.js googleFeed.js angular.js angular-route.js
  */
 (function (window, undefined) {
+    "use strict";
     angular.module('flowReader', ['ngRoute', 'dropbox', 'googleFeed'],
-        function config($routeProvider, $locationProvider, dropboxClientProvider, baseUrl) {
+        function config(feedAPIProvider,$routeProvider, $locationProvider, dropboxClientProvider, baseUrl) {
             /**
              * @note @angular injecting constant in config
              * @link http://stackoverflow.com/questions/16339595/angular-js-configuration-for-different-enviroments
@@ -28,6 +30,7 @@
                 .otherwise({redirectTo: '/'});
             //$locationProvider.html5Mode(true);
             dropboxClientProvider.setKey('aa8d82y2a6iqbs9');
+            feedAPIProvider.setGoogle(google);
         })
         .constant('baseUrl', window.location.pathname)
         .value('globals', {title: 'Flow Reader'})
@@ -55,15 +58,13 @@
         .controller('IndexCtrl', function ($log) {
             $log.debug('index');
         })
-        .controller('DashboardCtrl', function ($log, $scope, $window, feed) {
-            $scope.suscribe = function () {
+        .controller('DashboardCtrl', function ($log, $scope, $window, feedAPI) {
+            $scope.subscribe = function () {
                 var url = $window.prompt('Enter the feed URL');
-                if (url) {
-                    feed.open().then(feed.findFeedByUrl.bind(feed, url)).then(function () {
-                        console.log('find', arguments);
-                    });
-                }
-            }
+                return feedAPI.open().then(feedAPI.findFeedByUrl.bind(feedAPI, url)).then(function () {
+                    console.log('find', arguments);
+                });
+            };
         })
         .controller('AccountCtrl', function ($scope, dropboxClient) {
             dropboxClient.getAccountInfo().then(function (accountInfo) {

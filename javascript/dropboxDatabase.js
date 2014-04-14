@@ -30,7 +30,8 @@
         getTable: function () {
             var self = this;
             if (!this._table) {
-                return this.database.openDefaultDatastore().then(function (datastore) {
+                return this.database.open().then(function (datastore) {
+                    console.log('Table#getTable');
                     self._table = datastore.getTable(self.tableName);
                     return self.timeout(function () {
                         return self._table;
@@ -80,17 +81,17 @@
         }
     };
     angular.module('dropboxDatabase', [])
-        .factory('database', function (dropboxClient, $q, $timeout) {
+        .factory('database', function (dropboxClient, $q) {
             var datastore, datastoreManager;
             return {
                 /**
                  * open default datastore
                  * @returns {$q.promise}
                  */
-                openDefaultDatastore: function () {
+                open: function () {
+                    var d = $q.defer();
                     if (!datastore) {
-                        var d = $q.defer();
-                        datastoreManager = dropboxClient.getDatastoreManager();
+                        datastoreManager = datastoreManager || dropboxClient.getDatastoreManager();
                         datastoreManager.openDefaultDatastore(function (err, _datastore) {
                             if (err) {
                                 d.reject(err);
@@ -99,11 +100,10 @@
                                 d.resolve(datastore);
                             }
                         });
-                        return d.promise;
+                    } else {
+                        d.resolve(datastore);
                     }
-                    return $timeout(function () {
-                        return datastore;
-                    }, 1);
+                    return d.promise;
                 }
             };
         })

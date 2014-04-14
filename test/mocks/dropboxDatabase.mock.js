@@ -7,7 +7,7 @@ angular.module('dropboxDatabase.mock', [])
              * open default datastore
              * @returns {$q.promise}
              */
-            openDefaultDatastore: function () {
+            open: function () {
                 var d = $q.defer();
                 d.resolve(this.datastore);
                 return d.promise;

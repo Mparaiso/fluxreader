@@ -4,7 +4,7 @@ module.exports = function (config) {
         basePath: '../',
 
         files: [
-            'bower_components/es5-shim/es5-shim.js',
+//            'bower_components/es5-shim/es5-shim.js',
             'https://www.google.com/jsapi',
             'bower_components/angular/angular.js',
             'bower_components/angular-route/angular-route.js',
@@ -16,6 +16,7 @@ module.exports = function (config) {
             'javascript/dropboxDatabase.js',
             'javascript/dropbox.js',
             'javascript/flowReader.js',
+            'javascript/flowReader.domain.js',
             'test/mocks/**/*.js',
             'test/unit/**/*.js'
         ],
@@ -30,20 +31,12 @@ module.exports = function (config) {
             'karma-chrome-launcher',
             'karma-firefox-launcher',
             'karma-phantomjs-launcher',
-            'karma-jasmine',
-            'karma-coverage'
+            'karma-jasmine'
         ],
 
         junitReporter: {
             outputFile: 'test_out/unit.xml',
             suite: 'unit'
-        },
-        reporters: ['coverage'],
-        preprocessors: {
-            // source files, that you wanna generate coverage for
-            // do not include tests or libraries
-            // (these files will be instrumented by Istanbul)
-            'src/*.js': ['coverage']
         }
     });
 };

@@ -2,7 +2,7 @@
 (function (window, google, undefined) {
     angular.module('googleFeed',[])
         /* feed service */
-        .provider('feed', function () {
+        .provider('feedAPI', function () {
             var _google, initialized = false;
             return {
                 setGoogle: function (google) {
@@ -10,7 +10,7 @@
                     return this;
                 },
                 getGoogle: function () {
-                    if (_google == null) {
+                    if (_google === undefined) {
                         console.log('using default google global variable');
                         _google = google;
                     }
@@ -22,6 +22,8 @@
                         findFeedByUrl: function (feedUrl) {
                             var defer = $q.defer();
                             var feed = new _google.feeds.Feed(feedUrl);
+                            feed.includeHistoricalEntries();
+                            feed.setNumEntries(30);
                             feed.load(function (result) {
                                 if (result.error) {
                                     return defer.reject(result.error);
