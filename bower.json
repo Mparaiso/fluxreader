@@ -18,6 +18,7 @@
     "angular": "~1.2.X",
     "angular-mocks": "~1.2.15",
     "angular-route": "~1.2.16",
-    "es5-shim": "~2.3.0"
+    "es5-shim": "~2.3.0",
+    "async": "~0.7.0"
   }
 }

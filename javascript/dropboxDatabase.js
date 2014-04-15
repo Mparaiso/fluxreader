@@ -1,125 +1,117 @@
 /*jslint es5:true,node:true*/
-/*global angular*/
-(function () {
+/*global angular,async*/
+(function() {
     "use strict";
-    var Table = function (tableName, database, timeout, q) {
-        Object.defineProperties(this, {
-            timeout: {
-                get: function () {
-                    return timeout
-                }
-            },
-            q: {
-                get: function () {
-                    return q
-                }
-            },
-            tableName: {
-                get: function () {
-                    return tableName
-                }
-            },
-            database: {
-                get: function () {
-                    return database;
-                }
-            }
-        });
+    var Table = function(tableName, database, timeout) {
+        this._tableName = tableName;
+        this._database = database;
+        this._timeout = timeout;
     };
     Table.prototype = {
-        getTable: function () {
+        getTable: function(callback) {
             var self = this;
             if (!this._table) {
-                return this.database.open().then(function (datastore) {
-                    console.log('Table#getTable');
-                    self._table = datastore.getTable(self.tableName);
-                    return self.timeout(function () {
-                        return self._table;
-                    }, 1);
+                this._database.open(function(err, datastore) {
+                    self._table = datastore.getTable(self._tableName);
+                    callback(err, self._table);
                 });
             } else {
-                return self.timeout(function () {
+                return self.timeout(function() {
                     return self._table;
                 }, 1);
             }
-
         },
-        insert: function (record) {
-            return this.getTable().then(function (table) {
-                return this.timeout(function () {
-                    return table.insert(record);
-                });
+        insert: function(record, callback) {
+            this.getTable(function(err, table) {
+                var result = table.insert(record);
+                callback(null, result);
             });
         },
-        'delete': function (record) {
-            var self = this;
-            return this.find({ID: record.ID}).then(function (_record) {
-                if (_record) {
-                    _record.deleteRecord();
-                    delete record.ID;
-                    self.timeout(function () {
-                        return record;
-                    });
+        delete: function(record, callback) {
+            this.find({
+                ID: record.ID
+            }, function(err, record) {
+                if (record) {
+                    record.deleteRecord();
                 }
+                callback(err, record);
             });
         },
-        findAll: function () {
-            var self = this, args = [].slice.call(arguments);
-            return this.getTable().then(function (table) {
-                return self.timeout(function () {
-                    return table.query.apply(table, args);
-                });
+        findAll: function(query, callback) {
+            this.getTable(function(err, table) {
+                var records = table.query(table, query);
+                callback(err, records);
             });
         },
-        find: function () {
-            var self = this;
-            return this.findAll.apply(this, [].slice.call(arguments)).then(function (records) {
-                return self.timeout(function () {
-                    return records[0];
-                });
+        find: function(query, callback) {
+            this.findAll(query, function(err, records) {
+                var result;
+                if (records) {
+                    result = records[0];
+                }
+                callback(err, result);
             });
         }
     };
     angular.module('dropboxDatabase', [])
-        .factory('database', function (dropboxClient, $q) {
+        .constant('Table', Table)
+        .factory('database', function(dropboxClient, $timeout) {
             var datastore, datastoreManager;
             return {
                 /**
                  * open default datastore
-                 * @returns {$q.promise}
+                 * @param  {Function} callback
+                 * @return {void}
                  */
-                open: function () {
-                    var d = $q.defer();
+                open: function(callback) {
                     if (!datastore) {
                         datastoreManager = datastoreManager || dropboxClient.getDatastoreManager();
-                        datastoreManager.openDefaultDatastore(function (err, _datastore) {
-                            if (err) {
-                                d.reject(err);
-                            } else {
-                                datastore = _datastore;
-                                d.resolve(datastore);
-                            }
+                        datastoreManager.openDefaultDatastore(function(err, _datastore) {
+                            datastore = _datastore;
+                            callback(err, datastore);
                         });
                     } else {
-                        d.resolve(datastore);
+                        $timeout(callback.bind(null, null, datastore), 1);
                     }
-                    return d.promise;
                 }
             };
         })
-        .factory('tableFactory', function (database, $q, $timeout) {
+        .factory('tableFactory', function(database, $q, $timeout) {
             return {
-                /**
-                 * type {Table}
-                 */
                 Table: Table,
                 /**
                  * create a new table object
                  * @param tableName
                  */
-                create: function (tableName) {
-                    return new this.Table(tableName, database, $timeout, $q);
-                }/*end create*/
+                create: function(tableName) {
+                    return new this.Table(tableName, database, $timeout);
+                }
+            };
+        })
+        .factory('Entry', function(tableFactory) {
+            var entryTable = tableFactory.create('entry');
+            return {
+                insert: function(entry, callback) {
+                    entryTable.insert(entry, callback);
+                }
+            };
+        })
+        .factory('Feed', function(tableFactory, Entry) {
+            var feedTable = tableFactory.create('feed');
+            return {
+                insert: function(feed, callback) {
+                    var _feed, entries = feed.entries;
+                    delete feed.entries;
+                    feedTable.insert(feed, function(err, feed) {
+                        _feed = feed;
+                        async.each(entries, function(entry, next) {
+                            Entry.insert(entry, next);
+                        }, function(err, result) {
+                            return callback(err, _feed);
+                        });
+                    });
+
+                }
             };
         });
 }());

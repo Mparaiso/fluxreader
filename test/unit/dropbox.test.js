@@ -1,21 +1,41 @@
-xdescribe('dropboxClient', function () {
-    beforeEach(function () {
-        module('dropbox');
-    });
-    it('should not be undefined', function () {
-        inject(function (dropboxClient) {
-            expect(dropboxClient).not.toBe(null);
-            expect(dropboxClient).not.toBe(undefined);
-        });
-    });
-    describe('#client', function () {
-        it('should set the client', function () {
-            inject(function (dropboxClient) {
-                var client = {};
-                dropboxClient.client=client;
-                expect(dropboxClient.client).toBe(client);
+/*global describe,beforeEach,jasmine,module,inject,it,expect*/
+describe('dropbox', function() {
+    "use strict";
+    describe('dropboxClient', function() {
+        beforeEach(function() {
+            module('dropbox', function($provide) {
+                $provide.factory('client', function() {
+                    return jasmine.createSpyObj(
+                        'client', ['authenticate',
+                       , 'signOut', 'getDatastoreManager', 'isAuthenticated',
+                        'getAccountInfo']
+                    );
+                });
             });
+        });
+        beforeEach(function() {
+            var self = this;
+            inject(function(dropboxClient, client) {
+                self.dropboxClient = dropboxClient;
+                self.client = client;
+            });
+        });
+        it('#signIn', function() {
+            this.dropboxClient.signIn();
+            expect(this.client.authenticate).toHaveBeenCalled();
+        });
+        it('#signOut', function() {
+            this.dropboxClient.signOut();
+        });
 
+        it('#isAuthenticated', function() {
+            this.dropboxClient.isAuthenticated();
+        });
+        it('#getDatastoreManager', function() {
+            this.dropboxClient.getDatastoreManager();
+        });
+        it('#getAccountInfo', function() {
+            this.dropboxClient.getAccountInfo();
         });
     });
 });

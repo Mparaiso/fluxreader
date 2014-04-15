@@ -1,17 +1,19 @@
-module.exports = function (config) {
+module.exports = function(config) {
+    "use strict";
     config.set({
 
         basePath: '../',
 
         files: [
-//            'bower_components/es5-shim/es5-shim.js',
+            'bower_components/es5-shim/es5-shim.js',
+            'bower_components/async/lib/async.js',
             'https://www.google.com/jsapi',
             'bower_components/angular/angular.js',
             'bower_components/angular-route/angular-route.js',
-//            'bower_components/angular-resource/angular-resource.js',
-//            'bower_components/angular-animate/angular-animate.js',
+ //            'bower_components/angular-resource/angular-resource.js',
+ //            'bower_components/angular-animate/angular-animate.js',
             'bower_components/angular-mocks/angular-mocks.js',
-//            'app/js/**/*.js',
+ //            'app/js/**/*.js',
             'javascript/googleFeed.js',
             'javascript/dropboxDatabase.js',
             'javascript/dropbox.js',
