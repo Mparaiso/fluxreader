@@ -1,7 +1,7 @@
 /*global angular,google*/
 /**
- * @copyright mparaiso <mparaiso@online.fr>
- * @license LGPL
+ * @copyright 2014 mparaiso <mparaiso@online.fr>
+ * @license GPL
  * dependencies dropbox.js googleFeed.js angular.js angular-route.js
  */
 (function (window, undefined) {
@@ -145,6 +145,14 @@
         .controller('IndexCtrl', function ($scope, $log) {
             $log.debug('IndexCtrl');
         })
+        .controller('SearchCtrl', function ($scope, $route, EntryRepository) {
+            $scope.search = $route.current.params.q;
+            $scope.pageTitle = ['Results for "', $scope.search, '" '].join("");
+            $scope.EntryRepository = EntryRepository;
+            EntryRepository.load(function () {
+                $scope.$apply('EntryRepository');
+            });
+        })
         .controller('DashboardCtrl', function ($scope, EntryRepository) {
             $scope.pageTitle = "Latest Entries";
             $scope.EntryRepository = EntryRepository;
@@ -153,7 +161,7 @@
             });
         })
         .controller('FeedCtrl', function ($scope, feed, EntryRepository) {
-            $scope.pageTitle = ['Latest Entries for "',feed.title,'"'].join('');
+            $scope.pageTitle = ['Latest Entries for "', feed.title, '"'].join('');
             $scope.feed = feed;
             $scope.EntryRepository = EntryRepository;
             EntryRepository.load(function (err, entries) {
@@ -192,6 +200,11 @@
             FeedRepository.load(function () {
                 $scope.$apply('FeedRepository');
             });
+        })
+        .controller('SearchFormCtrl', function ($scope, $route) {
+            $scope.search = function () {
+                console.log(this);
+            };
         })
         .run(function (dropboxClient, $location, $route, $rootScope, $log) {
             dropboxClient.authenticate(function (error, result) {

@@ -1,16 +1,21 @@
-<aside class="col-xs-2">
+<!-- top.html-->
+<!--
+ @copyright 2014 mparaiso <mparaiso@online.fr>
+ @license GPL
+-->
+<aside class="col-md-2">
     <section data-ng-controller="SubscribeCtrl">
         <form>
             <button class="btn btn-danger btn form-control" data-ng-click="subscribe()">Subscribe</button>
         </form>
     </section>
 </aside>
-<form name="search" class="col-xs-10">
+<form name="search" class="col-md-10" ng-submit="search()" ng-controller="SearchFormCtrl">
     <div class="input-group">
         <label for="q"></label>
         <input type="search" name="q" id="q" class="form-control"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-default">Search</button>
+                            <button type="submit" class="btn btn-default">Search</button>
                         </span>
     </div>
 </form>

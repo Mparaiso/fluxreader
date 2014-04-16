@@ -1,9 +1,14 @@
+<!-- entity-list.html-->
+<!--
+ @copyright 2014 mparaiso <mparaiso@online.fr>
+ @license GPL
+-->
 <section ng-controller="EntryListCtrl">
     <div class="lead">{{pageTitle}}</div>
     <h2 class="text-muted" data-ng-show="EntryRepository.entries.length<=0">No entry
         yet, subscribe to a feed by clicking on the red button</h2>
     <table class="table table-condensed table-hover">
-        <tr data-ng-repeat="entry in EntryRepository.entries|orderBy:publishedDate|limitTo:100">
+        <tr data-ng-repeat="entry in EntryRepository.entries|filter:search|orderBy:publishedDate|limitTo:100">
             <td title="{{entry.contentSnippet||entry.title}}">
                 <a data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:50}}</a>
             </td>

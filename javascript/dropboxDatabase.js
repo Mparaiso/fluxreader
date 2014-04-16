@@ -1,5 +1,9 @@
 /*jslint es5:true,browser:true,devel:true*/
 /*global angular,async*/
+/**
+ * @copyright 2014 mparaiso <mparaiso@online.fr>
+ * @license GPL
+ */
 (function () {
     "use strict";
     function Table(tableName, database, timeout) {

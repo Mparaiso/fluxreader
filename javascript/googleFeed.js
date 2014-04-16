@@ -1,11 +1,18 @@
 /*globals angular,google */
+/**
+ * @copyright 2014 mparaiso <mparaiso@online.fr>
+ * @license GPL
+ */
 (function (window, google, undefined) {
     "use strict";
     angular.module('googleFeed', [])
         /* feed service */
         .provider('feedFinder', function () {
-            var _google, initialized = false;
+            var numEntries = 30, _google, initialized = false;
             return {
+                setNumEntries: function (number) {
+                    numEntries = number;
+                },
                 setGoogle: function (google) {
                     _google = google;
                     return this;
@@ -23,7 +30,7 @@
                         findFeedByUrl: function (feedUrl, callback) {
                             var feed = new _google.feeds.Feed(feedUrl);
                             feed.includeHistoricalEntries();
-                            feed.setNumEntries(30);
+                            feed.setNumEntries(numEntries);
                             feed.load(function (result) {
                                 callback(result.error, result.feed);
                             });
