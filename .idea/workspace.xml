@@ -46,10 +46,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sprints.md" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="sprints.md" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sprints.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="43" selection-start="579" selection-end="579" vertical-scroll-proportion="0.59016395" vertical-offset="0" max-vertical-offset="427">
+            <state line="14" column="43" selection-start="579" selection-end="579" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="378">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="29" selection-start="1015" selection-end="1015" vertical-scroll-proportion="0.675" vertical-offset="54" max-vertical-offset="792">
               <folding />
             </state>
           </provider>
@@ -100,7 +109,6 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/test/unit/dropbox.test.js" />
         <option value="$PROJECT_DIR$/javascript/googleFeed.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/styles.css" />
         <option value="$PROJECT_DIR$/test/unit/dropboxDatabase.test.js" />
         <option value="$PROJECT_DIR$/test/mocks/dropboxDatabase.mock.js" />
@@ -113,6 +121,7 @@
         <option value="$PROJECT_DIR$/templates/dashboard.html" />
         <option value="$PROJECT_DIR$/javascript/dropboxDatabase.js" />
         <option value="$PROJECT_DIR$/sprints.md" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -534,13 +543,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="39" selection-start="1071" selection-end="1071" vertical-scroll-proportion="0.5265082" vertical-offset="54" max-vertical-offset="792">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/phpstorm.jar!/resources/html5-schema/common.rnc">
       <provider selected="true" editor-type-id="text-editor">
         <state line="132" column="23" selection-start="3392" selection-end="3392" vertical-scroll-proportion="0.33333334" vertical-offset="2189" max-vertical-offset="8712">
@@ -647,7 +649,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sprints.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="43" selection-start="579" selection-end="579" vertical-scroll-proportion="0.59016395" vertical-offset="0" max-vertical-offset="427">
+        <state line="14" column="43" selection-start="579" selection-end="579" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="378">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="29" selection-start="1015" selection-end="1015" vertical-scroll-proportion="0.675" vertical-offset="54" max-vertical-offset="792">
           <folding />
         </state>
       </provider>
