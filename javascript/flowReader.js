@@ -7,7 +7,7 @@
 (function (window, undefined) {
     "use strict";
     angular.module('flowReader', ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed'],
-        function config(feedFinderProvider, $routeProvider, $locationProvider, dropboxClientProvider, baseUrl) {
+        function (feedFinderProvider, $routeProvider, $locationProvider, dropboxClientProvider, baseUrl) {
             /**
              * @note @angular injecting constant in config
              * @link http://stackoverflow.com/questions/16339595/angular-js-configuration-for-different-enviroments
@@ -35,6 +35,24 @@
                                     deferred.resolve(entry);
                                 } else {
                                     deferred.reject(entry);
+                                }
+                            });
+                            return deferred.promise;
+                        }
+                    }
+                })
+                .when('/dashboard/feed/:id', {
+                    controller: 'FeedCtrl',
+                    authenticated: true,
+                    templateUrl: baseUrl.concat('templates/dashboard.html'),
+                    resolve: {
+                        feed: function ($route, $q, Feed) {
+                            var deferred = $q.defer();
+                            Feed.getById($route.current.params.id, function (err, feed) {
+                                if (feed) {
+                                    deferred.resolve(feed);
+                                } else {
+                                    deferred.reject(err);
                                 }
                             });
                             return deferred.promise;
@@ -127,8 +145,23 @@
         .controller('IndexCtrl', function ($scope, $log) {
             $log.debug('IndexCtrl');
         })
-        .controller('DashboardCtrl', function ($scope, $log) {
-            $log.debug('dashboard');
+        .controller('DashboardCtrl', function ($scope, EntryRepository) {
+            $scope.pageTitle = "Latest Entries";
+            $scope.EntryRepository = EntryRepository;
+            EntryRepository.load(function () {
+                $scope.$apply('EntryRepository');
+            });
+        })
+        .controller('FeedCtrl', function ($scope, feed, EntryRepository) {
+            $scope.pageTitle = ['Latest Entries for "',feed.title,'"'].join('');
+            $scope.feed = feed;
+            $scope.EntryRepository = EntryRepository;
+            EntryRepository.load(function (err, entries) {
+                EntryRepository.entries = entries.filter(function (e) {
+                    return e.feedId === feed.id;
+                });
+                $scope.$apply('EntryRepository');
+            });
         })
         .controller('AccountCtrl', function ($scope, dropboxClient) {
             dropboxClient.getAccountInfo(function (err, accountInfo) {
@@ -143,12 +176,7 @@
             });
         })
         .controller('EntryListCtrl', function ($timeout, $scope, Entry, Feed, EntryRepository, FeedRepository) {
-            $scope.EntryRepository = EntryRepository;
-            $timeout(function () {
-                EntryRepository.load(function () {
-                    $scope.$apply('EntryRepository');
-                });
-            }, 100);
+
         })
         .controller('FeedListCtrl', function ($window, $scope, Feed, FeedRepository, EntryRepository) {
             $scope.FeedRepository = FeedRepository;

@@ -8,19 +8,7 @@
     <div class="row">
         <aside class="col-xs-2" data-ng-include="baseUrl+'templates/side.html'">
         </aside>
-        <article class="col-xs-10">
-            <div class="lead">Latest Articles</div>
-            <table class="table table-condensed table-hover" ng-controller="EntryListCtrl">
-                <tr data-ng-repeat="entry in EntryRepository.entries|orderBy:publishedDate|limitTo:100">
-                    <td title="{{entry.contentSnippet||entry.title}}">
-                        <a data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:50}}</a>
-                    </td>
-                    <td data-id="{{entry.id}}" data-feedId="{{entry.feedId}}" class="text-muted text-small">
-                        {{entry.feed.title|limitTo:20}}
-                    </td>
-                    <td class="text-muted text-small">{{entry.publishedDate|date:'MM/dd/yyyy hh:mm'}}</td>
-                </tr>
-            </table>
+        <article class="col-xs-10" data-ng-include="baseUrl+'templates/entry-list.html'">
         </article>
     </div>
 </section>
