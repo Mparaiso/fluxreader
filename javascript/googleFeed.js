@@ -1,8 +1,9 @@
-/* globals angular,google */
+/*globals angular,google */
 (function (window, google, undefined) {
-    angular.module('googleFeed',[])
+    "use strict";
+    angular.module('googleFeed', [])
         /* feed service */
-        .provider('feedAPI', function () {
+        .provider('feedFinder', function () {
             var _google, initialized = false;
             return {
                 setGoogle: function (google) {
@@ -19,37 +20,27 @@
                 $get: function ($q, $timeout) {
                     return {
                         /* load a feed according to its url */
-                        findFeedByUrl: function (feedUrl) {
-                            var defer = $q.defer();
+                        findFeedByUrl: function (feedUrl, callback) {
                             var feed = new _google.feeds.Feed(feedUrl);
                             feed.includeHistoricalEntries();
                             feed.setNumEntries(30);
                             feed.load(function (result) {
-                                if (result.error) {
-                                    return defer.reject(result.error);
-                                }
-                                return defer.resolve(result.feed);
+                                callback(result.error, result.feed);
                             });
-                            return defer.promise;
                         },
                         /* create a feed loader if undefined */
-                        open: function () {
-                            console.log('open');
+                        open: function (callback) {
                             if (!initialized) {
-                                var defer = $q.defer();
-                                _google.load('feeds', '1', {callback: function () {
-                                    console.log('init', arguments);
-                                    initialized = true;
-                                    defer.resolve();
-                                }});
-                                return defer.promise;
+                                _google.load('feeds', '1', {
+                                    callback: callback
+                                });
                             } else {
-                                return $timeout(angular.noop, 1);
+                                $timeout(callback, 1);
                             }
 
                         }
-                    }
+                    };
                 }
-            }
+            };
         });
 }(this, google));

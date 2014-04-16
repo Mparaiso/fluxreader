@@ -5,6 +5,7 @@
     angular.module('dropbox.mock', [])
         .factory('dropboxClient', function($timeout) {
             var datastoreMock = {
+
                 getTable: function(tableName) {
                     return {
                         tableName: tableName,
@@ -20,6 +21,7 @@
                 }
             };
             return {
+                authenticate:function(){},
                 init: function() {
                     return;
                 },

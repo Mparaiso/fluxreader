@@ -3,18 +3,16 @@ describe('dropbox', function() {
     "use strict";
     describe('dropboxClient', function() {
         beforeEach(function() {
+            var self = this;
             module('dropbox', function($provide) {
                 $provide.factory('client', function() {
                     return jasmine.createSpyObj(
                         'client', ['authenticate',
-                       , 'signOut', 'getDatastoreManager', 'isAuthenticated',
+                       'signOut', 'getDatastoreManager', 'isAuthenticated',
                         'getAccountInfo']
                     );
                 });
             });
-        });
-        beforeEach(function() {
-            var self = this;
             inject(function(dropboxClient, client) {
                 self.dropboxClient = dropboxClient;
                 self.client = client;

@@ -18,7 +18,6 @@ module.exports = function(config) {
             'javascript/dropboxDatabase.js',
             'javascript/dropbox.js',
             'javascript/flowReader.js',
-            'javascript/flowReader.domain.js',
             'test/mocks/**/*.js',
             'test/unit/**/*.js'
         ],

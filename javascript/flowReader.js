@@ -6,8 +6,8 @@
  */
 (function (window, undefined) {
     "use strict";
-    angular.module('flowReader', ['ngRoute', 'dropbox', 'googleFeed'],
-        function config(feedAPIProvider,$routeProvider, $locationProvider, dropboxClientProvider, baseUrl) {
+    angular.module('flowReader', ['ngRoute', 'dropbox', 'dropboxDatabase', 'googleFeed'],
+        function config(feedFinderProvider, $routeProvider, $locationProvider, dropboxClientProvider, baseUrl) {
             /**
              * @note @angular injecting constant in config
              * @link http://stackoverflow.com/questions/16339595/angular-js-configuration-for-different-enviroments
@@ -27,52 +27,121 @@
                     controller: 'AccountCtrl',
                     templateUrl: baseUrl.concat('templates/account.html')
                 })
-                .otherwise({redirectTo: '/'});
+                .otherwise({
+                    redirectTo: '/'
+                });
             //$locationProvider.html5Mode(true);
-            dropboxClientProvider.setKey('aa8d82y2a6iqbs9');
-            feedAPIProvider.setGoogle(google);
+            //dropboxClientProvider.setKey('aa8d82y2a6iqbs9');
+            feedFinderProvider.setGoogle(google);
         })
+        .constant('DROPBOX_APIKEY', 'gi42kr1ox74tyrb')
         .constant('baseUrl', window.location.pathname)
-        .value('globals', {title: 'Flow Reader'})
+        .value('globals', {
+            title: 'Flow Reader'
+        })
         .controller('MainCtrl', function ($scope, globals, $location, dropboxClient, baseUrl) {
+            $scope.accountInfo = {};
             $scope.globals = globals;
             $scope.baseUrl = baseUrl;
             $scope.isAuthenticated = function () {
                 return dropboxClient.isAuthenticated();
             };
-            //@promise unwrapping deprecated @link https://github.com/angular/angular.js/commit/5dc35b527b3c99f6544b8cb52e93c6510d3ac577
-            dropboxClient.getAccountInfo().then(function (accountInfo) {
+            //@note promise unwrapping deprecated @link https://github.com/angular/angular.js/commit/5dc35b527b3c99f6544b8cb52e93c6510d3ac577
+            dropboxClient.getAccountInfo(function (err, accountInfo) {
                 $scope.accountInfo = accountInfo;
+                $scope.$apply('accountInfo');
             });
             $scope.signOut = function () {
                 if (dropboxClient.isAuthenticated()) {
-                    dropboxClient.signOut().then(function () {
+                    dropboxClient.signOut(function () {
                         $location.path('/');
                     });
                 }
             };
             $scope.signIn = function () {
                 dropboxClient.signIn();
-            }
-        })
-        .controller('IndexCtrl', function ($log) {
-            $log.debug('index');
-        })
-        .controller('DashboardCtrl', function ($log, $scope, $window, feedAPI) {
-            $scope.subscribe = function () {
-                var url = $window.prompt('Enter the feed URL');
-                return feedAPI.open().then(feedAPI.findFeedByUrl.bind(feedAPI, url)).then(function () {
-                    console.log('find', arguments);
-                });
             };
         })
+        .controller('IndexCtrl', function ($scope, $log) {
+            $log.debug('IndexCtrl');
+        })
+        .controller('DashboardCtrl', function ($scope, $window, feedFinder, Feed, Entry) {
+            var loadFeeds, init, getFeedById, loadEntries;
+            /**
+             * init controller
+             */
+            init = function () {
+                loadFeeds(loadEntries.bind(null, angular.noop));
+            };
+            /**
+             *
+             * @param id
+             * @returns {*}
+             */
+            getFeedById = function (id) {
+                if ($scope.feeds instanceof Array) {
+                    return $scope.feeds.filter(function (feed) {
+                        return feed.id.toString() === id.toString();
+                    })[0];
+                }
+                return undefined;
+
+            };
+            loadFeeds = function (callback) {
+                Feed.findAll(function (err, feeds) {
+                    $scope.feeds = feeds;
+                    $scope.$apply('feeds');
+                    callback(err, feeds);
+                });
+            };
+            loadEntries = function (callback) {
+                Entry.findAll(function (err, entries) {
+                    entries.forEach(function (entry) {
+                        entry.feed = getFeedById(entry.feedId);
+                    });
+                    $scope.entries = entries;
+                    $scope.$apply('entries');
+                    callback(err, entries);
+                });
+            };
+
+            $scope.categories = [];
+            $scope.unsubscribe = function (feed) {
+                var confirm = $window.confirm('Unsubscribe '.concat(feed.title).concat(' ?'));
+                if (confirm) {
+                    Feed.delete(feed, function () {
+                        init();
+                    });
+                }
+            };
+            $scope.subscribe = function () {
+                var url = $window.prompt('Enter the feed URL');
+                if (url) {
+                    feedFinder.open(function () {
+                        feedFinder.findFeedByUrl(url, function (err, feed) {
+                            Feed.insert(feed, function (err, result) {
+                                init();
+                            });
+                        });
+                    });
+                }
+            };
+            init();
+
+        })
         .controller('AccountCtrl', function ($scope, dropboxClient) {
-            dropboxClient.getAccountInfo().then(function (accountInfo) {
+            dropboxClient.getAccountInfo(function (err, accountInfo) {
                 $scope.accountInfo = accountInfo;
             });
         })
         .run(function (dropboxClient, $location, $route, $rootScope, $log) {
-            dropboxClient.init();//authenticate client
+            dropboxClient.authenticate(function (error, result) {
+                if (error) {
+                    $log.debug('authentication error', error);
+                } else {
+                    $log.debug('authenticated', arguments);
+                }
+            });
             /**
              * @note @angular authorization
              * on route change check if user is signed in with dropbox
@@ -80,7 +149,7 @@
              */
             $rootScope.$on('$routeChangeStart', function (event, next, current) {
                 $log.debug('$routeChangeStart', event, next, current);
-                if ($location.path() == '/') {
+                if ($location.path() === '/') {
                     return;
                 }
                 if (next.authenticated) {
@@ -88,6 +157,6 @@
                         $location.path('/');
                     }
                 }
-            })
+            });
         });
-}(this));
+}(window));

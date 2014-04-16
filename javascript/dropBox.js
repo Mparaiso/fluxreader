@@ -1,6 +1,6 @@
 /*jslint es5:true*/
 /*global angular,Dropbox*/
-(function() {
+(function () {
     "use strict";
     /**
      * angular dropBox module
@@ -8,47 +8,49 @@
      * @dependencies dropbox-datastores-1.0-latest.js
      */
     angular.module('dropbox', [])
-        .constant('KEY',"")
-        .factory('client',function(KEY){
-            return new Dropbox.Client({key:KEY});
+        .constant('DROPBOX_APIKEY', "override with your api key")
+        .factory('client', function (DROPBOX_APIKEY) {
+            return new Dropbox.Client({
+                key: DROPBOX_APIKEY
+            });
         })
-        .provider('dropboxClient', function() {
+        .provider('dropboxClient', function () {
             /**
              * DROPBOX API
              * service configuration
              */
             return {
-                authenticationCallback: function(error) {
-                    if (error) {
-                        console.log('authentication error', error);
-                    }
-                },
                 /* service */
-                $get: function(client) {
-                    client.authenticate({
-                        interactive: false
-                    }, this.authenticationCallback);
+                $get: function (client, $timeout) {
+
                     return {
+                        authenticate:function(callback){
+                            callback=callback||function(){};
+                            client.authenticate({
+                                interactive: false
+                            },callback);
+                        },
                         /* sign in */
-                        signIn: function() {
+                        signIn: function () {
                             client.authenticate();
                         },
                         /* sign out */
-                        signOut: function(callback) {
+                        signOut: function (callback) {
                             client.signOut(callback);
                         },
-                        isAuthenticated: function() {
+                        isAuthenticated: function () {
                             return client.isAuthenticated();
                         },
-                        getDatastoreManager: function() {
-                            client.getDatastoreManager();
+                        getDatastoreManager: function () {
+                            return client.getDatastoreManager();
                         },
                         /* get account info */
-                        getAccountInfo: function(callback) {
-                            /* @link https://www.dropbox.com/developers/datastore/docs/js#Dropbox.Client.getAccountInfo */
+                        getAccountInfo: function (callback) {
                             client.getAccountInfo({
                                 httpCache: true
                             }, callback);
+                            /* @link https://www.dropbox.com/developers/datastore/docs/js#Dropbox.Client.getAccountInfo */
+
                         }
                     };
                 }

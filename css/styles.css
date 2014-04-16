@@ -1,3 +1,6 @@
 body{
     font-family: 'Roboto', sans-serif;
 }
+.text-small{
+    font-size: 0.85em;
+}

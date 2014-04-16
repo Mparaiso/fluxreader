@@ -1,8 +1,4 @@
-angular.module('$window.mock',[])
+angular.module('$window.mock', [])
     .factory('$window', function () {
-        return {
-            prompt: function (value) {
-                return value
-            }
-        }
+        return jasmine.createSpyObj('$window', ['prompt', 'confirm']);
     });
