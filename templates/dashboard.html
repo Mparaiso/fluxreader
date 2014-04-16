@@ -1,46 +1,23 @@
 <!-- dashboard -->
 <section class="container">
-    <div class="row">
-        <aside class="col-xs-2">
-            <form>
-                <button class="btn btn-danger btn form-control" data-ng-click="subscribe()">Subscribe</button>
-            </form>
-        </aside>
-        <form name="search" class="col-xs-10">
-            <div class="input-group">
-                <label for="q"></label>
-                <input type="search" name="q" id="q" class="form-control"/>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default">Search</button>
-                        </span>
-            </div>
-        </form>
+    <div class="row" data-ng-include="baseUrl+'templates/top.html'">
     </div>
     <div class="row">
         <p>&nbsp;</p>
     </div>
     <div class="row">
-        <aside class="col-xs-2">
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <h5 class="list-group-item-heading text-muted"> SUBSCRIPTIONS</h5>
-                </li>
-                <li class="list-group-item text-muted text-small" data-ng-show="!feeds">Loading subscriptions</li>
-                <li class="list-group-item text-small" ng-repeat="feed in feeds" title="{{feed.description}}">
-                    <a ng-href="{{baseUrl}}feed/{{feed.id}}">{{feed.title|limitTo:18}}</a>
-                    <a data-ng-click="unsubscribe(feed)"  data-id="{{feed.id}}" href="javascript:void 0;"
-                       title="unsubscribe {{feed.title}}">
-                        <span class="text-muted pull-right Fglyphicon glyphicon-minus"></span>
-                    </a>
-                </li>
-            </ul>
+        <aside class="col-xs-2" data-ng-include="baseUrl+'templates/side.html'">
         </aside>
         <article class="col-xs-10">
             <div class="lead">Latest Articles</div>
-            <table class="table table-condensed table-hover">
-                <tr data-ng-repeat="entry in entries|orderBy:publishedDate:createdAt|limitTo:100">
-                    <td title="{{entry.contentSnippet||entry.title}}">{{entry.title|limitTo:50}}</td>
-                    <td data-id="{{entry.id}}" data-feedId="{{entry.feedId}}" class="text-muted text-small">{{entry.feed.title|limitTo:20}}</td>
+            <table class="table table-condensed table-hover" ng-controller="EntryListCtrl">
+                <tr data-ng-repeat="entry in EntryRepository.entries|orderBy:publishedDate|limitTo:100">
+                    <td title="{{entry.contentSnippet||entry.title}}">
+                        <a data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:50}}</a>
+                    </td>
+                    <td data-id="{{entry.id}}" data-feedId="{{entry.feedId}}" class="text-muted text-small">
+                        {{entry.feed.title|limitTo:20}}
+                    </td>
                     <td class="text-muted text-small">{{entry.publishedDate|date:'MM/dd/yyyy hh:mm'}}</td>
                 </tr>
             </table>

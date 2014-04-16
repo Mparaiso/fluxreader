@@ -8,7 +8,7 @@ Sprint1:
 - [X] the application can display the title of each entry in a feed
 
 Sprint2:
-- [] a user can click on the title of an entry to see its content
+- [X] a user can click on the title of an entry to see its content
 - [] a user can filter entries by feed
 - [] a user can search entries with a form
 - [] a user can mark an entry as favorite

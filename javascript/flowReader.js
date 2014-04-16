@@ -6,7 +6,7 @@
  */
 (function (window, undefined) {
     "use strict";
-    angular.module('flowReader', ['ngRoute', 'dropbox', 'dropboxDatabase', 'googleFeed'],
+    angular.module('flowReader', ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed'],
         function config(feedFinderProvider, $routeProvider, $locationProvider, dropboxClientProvider, baseUrl) {
             /**
              * @note @angular injecting constant in config
@@ -23,6 +23,24 @@
                     templateUrl: baseUrl.concat('templates/dashboard.html'),
                     authenticated: true
                 })
+                .when('/dashboard/entry/:id', {
+                    controller: 'EntryCtrl',
+                    templateUrl: baseUrl.concat('templates/entry.html'),
+                    authenticated: true,
+                    resolve: {
+                        entry: function ($route, $q, Entry) {
+                            var deferred = $q.defer();
+                            Entry.getById($route.current.params.id, function (err, entry) {
+                                if (entry) {
+                                    deferred.resolve(entry);
+                                } else {
+                                    deferred.reject(entry);
+                                }
+                            });
+                            return deferred.promise;
+                        }
+                    }
+                })
                 .when('/dashboard/account', {
                     controller: 'AccountCtrl',
                     templateUrl: baseUrl.concat('templates/account.html')
@@ -36,8 +54,52 @@
         })
         .constant('DROPBOX_APIKEY', 'gi42kr1ox74tyrb')
         .constant('baseUrl', window.location.pathname)
+        .service('FeedRepository', function (Feed) {
+            /* simple way to keep feeds in memory */
+            var self = this;
+            this.feeds = [];
+            this.load = function (callback) {
+                callback = callback || angular.noop;
+                Feed.findAll(function (err, feeds) {
+                    self.feeds = feeds;
+                    callback(null, feeds);
+                });
+            };
+        })
+        .service('EntryRepository', function (Entry, Feed) {
+            /* simple way to keep entries in memory */
+            var self = this;
+            this.entries = [];
+            this.load = function (callback) {
+                callback = callback || angular.noop;
+                Entry.findAll(function (err, entries) {
+                    entries.forEach(function (entry) {
+                        Feed.getById(entry.feedId, function (err, feed) {
+                            entry.feed = feed;
+                        });
+                    });
+                    self.entries = entries;
+                    callback(null, entries);
+                });
+            };
+        })
         .value('globals', {
             title: 'Flow Reader'
+        })
+        .controller('SubscribeCtrl', function ($scope, Feed, feedFinder, FeedRepository, EntryRepository, $window) {
+            $scope.subscribe = function () {
+                var url = $window.prompt('Enter the feed URL');
+                if (url) {
+                    feedFinder.open(function () {
+                        feedFinder.findFeedByUrl(url, function (err, feed) {
+                            Feed.insert(feed, function (err, result) {
+                                FeedRepository.load();
+                                EntryRepository.load();
+                            });
+                        });
+                    });
+                }
+            };
         })
         .controller('MainCtrl', function ($scope, globals, $location, dropboxClient, baseUrl) {
             $scope.accountInfo = {};
@@ -65,73 +127,42 @@
         .controller('IndexCtrl', function ($scope, $log) {
             $log.debug('IndexCtrl');
         })
-        .controller('DashboardCtrl', function ($scope, $window, feedFinder, Feed, Entry) {
-            var loadFeeds, init, getFeedById, loadEntries;
-            /**
-             * init controller
-             */
-            init = function () {
-                loadFeeds(loadEntries.bind(null, angular.noop));
-            };
-            /**
-             *
-             * @param id
-             * @returns {*}
-             */
-            getFeedById = function (id) {
-                if ($scope.feeds instanceof Array) {
-                    return $scope.feeds.filter(function (feed) {
-                        return feed.id.toString() === id.toString();
-                    })[0];
-                }
-                return undefined;
-
-            };
-            loadFeeds = function (callback) {
-                Feed.findAll(function (err, feeds) {
-                    $scope.feeds = feeds;
-                    $scope.$apply('feeds');
-                    callback(err, feeds);
-                });
-            };
-            loadEntries = function (callback) {
-                Entry.findAll(function (err, entries) {
-                    entries.forEach(function (entry) {
-                        entry.feed = getFeedById(entry.feedId);
-                    });
-                    $scope.entries = entries;
-                    $scope.$apply('entries');
-                    callback(err, entries);
-                });
-            };
-
-            $scope.categories = [];
-            $scope.unsubscribe = function (feed) {
-                var confirm = $window.confirm('Unsubscribe '.concat(feed.title).concat(' ?'));
-                if (confirm) {
-                    Feed.delete(feed, function () {
-                        init();
-                    });
-                }
-            };
-            $scope.subscribe = function () {
-                var url = $window.prompt('Enter the feed URL');
-                if (url) {
-                    feedFinder.open(function () {
-                        feedFinder.findFeedByUrl(url, function (err, feed) {
-                            Feed.insert(feed, function (err, result) {
-                                init();
-                            });
-                        });
-                    });
-                }
-            };
-            init();
-
+        .controller('DashboardCtrl', function ($scope, $log) {
+            $log.debug('dashboard');
         })
         .controller('AccountCtrl', function ($scope, dropboxClient) {
             dropboxClient.getAccountInfo(function (err, accountInfo) {
                 $scope.accountInfo = accountInfo;
+            });
+        })
+        .controller('EntryCtrl', function ($scope, entry, Feed) {
+            $scope.entry = entry;
+            Feed.getById(entry.feedId, function (err, feed) {
+                $scope.entry.feed = feed;
+                $scope.$apply('entry');
+            });
+        })
+        .controller('EntryListCtrl', function ($timeout, $scope, Entry, Feed, EntryRepository, FeedRepository) {
+            $scope.EntryRepository = EntryRepository;
+            $timeout(function () {
+                EntryRepository.load(function () {
+                    $scope.$apply('EntryRepository');
+                });
+            }, 100);
+        })
+        .controller('FeedListCtrl', function ($window, $scope, Feed, FeedRepository, EntryRepository) {
+            $scope.FeedRepository = FeedRepository;
+            $scope.unsubscribe = function (feed) {
+                var confirm = $window.confirm('Unsubscribe '.concat(feed.title).concat(' ?'));
+                if (confirm) {
+                    Feed.delete(feed, function () {
+                        FeedRepository.load();
+                        EntryRepository.load();
+                    });
+                }
+            };
+            FeedRepository.load(function () {
+                $scope.$apply('FeedRepository');
             });
         })
         .run(function (dropboxClient, $location, $route, $rootScope, $log) {

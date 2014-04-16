@@ -1,0 +1,13 @@
+<ul class="list-group" data-ng-controller="FeedListCtrl">
+    <li class="list-group-item">
+        <h5 class="list-group-item-heading text-muted"> SUBSCRIPTIONS</h5>
+    </li>
+    <li class="list-group-item text-muted text-small" data-ng-show="FeedRepository.feeds.length<=0">Loading subscriptions</li>
+    <li class="list-group-item text-small" ng-repeat="feed in FeedRepository.feeds" title="{{feed.description}}">
+        <a ng-href="{{baseUrl}}feed/{{feed.id}}">{{feed.title|limitTo:18}}</a>
+        <a data-ng-click="unsubscribe(feed)" data-id="{{feed.id}}" href="javascript:void 0;"
+           title="unsubscribe {{feed.title}}">
+            <span class="text-muted pull-right Fglyphicon glyphicon-minus"></span>
+        </a>
+    </li>
+</ul>

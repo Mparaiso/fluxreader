@@ -125,8 +125,10 @@
              */
             var entryTable = tableFactory.create('entry');
             return {
+                getById: function (id, callback) {
+                    entryTable.get(id, callback);
+                },
                 normalize: function (entry) {
-                    console.log(entry);
                     return {
                         //mediaGroup: typeof(entry.mediaGroup) !== 'string' ? entry.mediaGroup !== undefined ? JSON.stringify(entry.mediaGroup) : "{}" : entry.mediaGroup,
                         title: entry.title || "",
@@ -193,15 +195,8 @@
                  * @param id
                  * @param callback
                  */
-                getFeedById: function (id, callback) {
-                    feedTable.get(id, function (err, feed) {
-                        var _feed;
-                        if (feed) {
-                            _feed = feed.getFields();
-                            _feed.id = feed.getId();
-                        }
-                        callback(err, _feed);
-                    });
+                getById: function (id, callback) {
+                    feedTable.get(id, callback);
                 },
                 findAll: function (query, callback) {
                     feedTable.findAll(query, callback);
