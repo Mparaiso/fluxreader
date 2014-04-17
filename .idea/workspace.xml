@@ -37,19 +37,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".travis.yml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.travis.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="49" selection-start="114" selection-end="114" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="220">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="42" selection-start="617" selection-end="617" vertical-scroll-proportion="0.42402828" vertical-offset="180" max-vertical-offset="840">
+            <state line="21" column="23" selection-start="598" selection-end="598" vertical-scroll-proportion="0.42402828" vertical-offset="180" max-vertical-offset="840">
               <folding />
             </state>
           </provider>
@@ -127,8 +118,8 @@
         <option value="$PROJECT_DIR$/test/mocks/dropbox.mock.js" />
         <option value="$PROJECT_DIR$/javascript/dropboxDatabase.js" />
         <option value="$PROJECT_DIR$/test/unit/dropboxDatabase.test.js" />
-        <option value="$PROJECT_DIR$/.travis.yml" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/.travis.yml" />
       </list>
     </option>
   </component>
@@ -209,38 +200,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="flowreader" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="feedpress2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="flowreader" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="feedpress2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="flowreader" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mocks" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -707,22 +666,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/dropboxDatabase.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="47" selection-start="5027" selection-end="5027" vertical-scroll-proportion="0.0" vertical-offset="2469" max-vertical-offset="3100">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.travis.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="49" selection-start="114" selection-end="114" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="220">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/javascript/flowReader.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="196" column="31" selection-start="8701" selection-end="8701" vertical-scroll-proportion="0.5714286" vertical-offset="3580" max-vertical-offset="5080">
@@ -737,9 +680,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="49" selection-end="49" vertical-scroll-proportion="0.13157895" vertical-offset="0" max-vertical-offset="608">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/dropboxDatabase.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="136" column="47" selection-start="5027" selection-end="5027" vertical-scroll-proportion="0.0" vertical-offset="2469" max-vertical-offset="3100">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="42" selection-start="617" selection-end="617" vertical-scroll-proportion="0.42402828" vertical-offset="180" max-vertical-offset="840">
+        <state line="21" column="23" selection-start="598" selection-end="598" vertical-scroll-proportion="0.42402828" vertical-offset="180" max-vertical-offset="840">
           <folding />
         </state>
       </provider>
