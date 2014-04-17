@@ -56,7 +56,7 @@
         insert: function (record, callback) {
             this.getTable(function (err, table) {
                 var result = table.insert(record);
-                callback(null, result);
+                callback(undefined, result);
             });
         },
         /**
@@ -98,7 +98,7 @@
                     }
                 });
             } else {
-                callback(null, null);
+                callback(undefined, null);
             }
         },
         findAll: function (query, callback) {

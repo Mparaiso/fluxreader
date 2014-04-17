@@ -125,12 +125,22 @@ describe("dropboxDatabase", function () {
                 self.Entry = Entry;
             }));
         });
+        it('#setTable', function () {
+            var table = {};
+            this.Entry.setTable(table);
+            expect(this.Entry.getTable()).toEqual(table);
+        });
         describe('#toggleFavorite', function () {
             it('should toggle favorite field', function (done) {
                 var entry = {id: 'foo', favorite: false};
-                this.Entry.toggleFavorite(entry, function(err,entry){
-                    expect(err).toBeFalsy();
-                    expect(entry).toBeDefined();
+                var table = this.Entry.getTable();
+                spyOn(table, 'update').and.callFake(function (record, callback) {
+                    callback(undefined, record);
+                });
+
+                this.Entry.toggleFavorite(entry, function (err, entry) {
+                    expect(err).not.toBeDefined();
+                    expect(entry.favorite).toBe(true);
                     done();
                 });
             });
