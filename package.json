@@ -19,7 +19,7 @@
     "scripts": {
         "postinstall": "bower install",
         "start": "http-server -p 8000",
-        "test": "karma start test/karma.conf.js  --single-run --browsers PhantomJS",
+        "test": "./node_modules/.bin/karma start test/karma.conf.js  --single-run --browsers PhantomJS",
         "update-webdriver": "webdriver-manager update",
         "protractor": "protractor test/protractor-conf.js",
         "test-single-run": "karma start test/karma.conf.js  --single-run",
