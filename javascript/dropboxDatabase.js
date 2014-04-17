@@ -326,10 +326,19 @@
                 });
             };
         })
-        .service('EntryRepository', function (Entry, Feed) {
+        .service('EntryRepository', function (Entry, FeedRepository, $timeout) {
             /* simple way to keep entries in memory */
             var self = this;
             this.entries = [];
+            this.remove = function (entry) {
+                this.entries.some(function (e, i) {
+                    if (e.id === entry.id) {
+                        this.entries.splice(i, 1);
+                        return true;
+                    }
+                    return false;
+                }, this);
+            };
             this.load = function (query, callback) {
                 if (query instanceof Function) {
                     callback = query;
@@ -337,13 +346,16 @@
                 }
                 callback = callback || angular.noop;
                 Entry.findAll(query, function (err, entries) {
-                    entries.forEach(function (entry) {
-                        Feed.getById(entry.feedId, function (err, feed) {
-                            entry.feed = feed;
+                    $timeout(function () {
+                        entries.forEach(function (entry) {
+                            entry.feed = FeedRepository.feeds.filter(function (feed) {
+                                return feed.id === entry.feedId;
+                            })[0];
                         });
-                    });
-                    self.entries = entries;
-                    callback(null, entries);
+                        self.entries = entries;
+                        callback(err, entries);
+                    }, 10);
+
                 });
             };
         });

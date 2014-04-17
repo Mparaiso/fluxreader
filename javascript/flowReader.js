@@ -87,6 +87,9 @@
         })
         .constant('DROPBOX_APIKEY', 'gi42kr1ox74tyrb')
         .constant('baseUrl', window.location.pathname)
+        .constant('Events', {
+            FAVORITE_TOGGLED: 0
+        })
         .value('globals', {
             siteTitle: 'Flow Reader',
             title: 'Flow Reader'
@@ -159,9 +162,14 @@
                 $scope.$apply('EntryRepository');
             });
         })
-        .controller('FavoriteCtrl', function ($scope, EntryRepository) {
+        .controller('FavoriteCtrl', function ($scope, EntryRepository, Events) {
             $scope.pageTitle = "Favorite entries";
             $scope.EntryRepository = EntryRepository;
+            $scope.$on(Events.FAVORITE_TOGGLED, function (event,entry) {
+                if(!entry.favorite){
+                    EntryRepository.remove(entry);
+                }
+            });
             EntryRepository.load({favorite: true}, function (err, entries) {
                 EntryRepository.entries = entries;
                 $scope.$apply('EntryRepository');
@@ -190,6 +198,7 @@
             $scope.toggleFavorite = function () {
                 this.entry.favorite = this.entry.favorite;
                 Entry.toggleFavorite(this.entry, function (err, _entry) {
+
                 });
             };
             Feed.getById(entry.feedId, function (err, feed) {
@@ -197,7 +206,7 @@
                 $scope.$apply('entry');
             });
         })
-        .controller('EntryListCtrl', function ($timeout, $scope, Entry, Feed, EntryRepository, FeedRepository) {
+        .controller('EntryListCtrl', function (Events, $scope, Entry, Feed, EntryRepository, FeedRepository) {
             $scope.toggleFavorite = function (entry) {
                 entry = entry || {};
                 if (entry.id) {
@@ -205,7 +214,9 @@
                         Object.keys(_entry).forEach(function (key) {
                             entry[key] = _entry[key];
                         });
+                        $scope.$emit(Events.FAVORITE_TOGGLED, entry);
                     });
+
                 }
             };
         })
