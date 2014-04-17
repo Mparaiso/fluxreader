@@ -115,10 +115,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="makefile" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="makefile" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/makefile">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="42" selection-start="145" selection-end="145" vertical-scroll-proportion="0.3617571" vertical-offset="0" max-vertical-offset="700">
+            <state line="7" column="42" selection-start="145" selection-end="145" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="700">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="5" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="81" selection-start="547" selection-end="547" vertical-scroll-proportion="0.28985506" vertical-offset="240" max-vertical-offset="800">
               <folding />
             </state>
           </provider>
@@ -196,8 +214,8 @@
         <option value="$PROJECT_DIR$/javascript/flowReader.js" />
         <option value="$PROJECT_DIR$/javascript/dropboxDatabase.js" />
         <option value="$PROJECT_DIR$/templates/side.html" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/makefile" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -538,11 +556,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="366" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="5" selection-start="28" selection-end="28" vertical-scroll-proportion="0.14754099" vertical-offset="0" max-vertical-offset="366" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/mocks/jsapi.mock.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="13" selection-start="169" selection-end="169" vertical-scroll-proportion="0.39344263" vertical-offset="0" max-vertical-offset="366" />
@@ -824,13 +837,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="171" selection-end="171" vertical-scroll-proportion="0.3478261" vertical-offset="0" max-vertical-offset="800">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/javascript/flowReader.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="30" selection-start="198" selection-end="198" vertical-scroll-proportion="0.0" vertical-offset="146" max-vertical-offset="580">
@@ -918,9 +924,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="5" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/makefile">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="42" selection-start="145" selection-end="145" vertical-scroll-proportion="0.3617571" vertical-offset="0" max-vertical-offset="700">
+        <state line="7" column="42" selection-start="145" selection-end="145" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="700">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="81" selection-start="547" selection-end="547" vertical-scroll-proportion="0.28985506" vertical-offset="240" max-vertical-offset="800">
           <folding />
         </state>
       </provider>
