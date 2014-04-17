@@ -20,6 +20,7 @@
     "angular-route": "~1.2.16",
     "es5-shim": "~2.3.0",
     "async": "~0.7.0",
-    "angular-sanitize": "~1.2.16"
+    "angular-sanitize": "~1.2.16",
+    "jasmine": "~2.0.0"
   }
 }

@@ -7,8 +7,15 @@
     <div class="lead">{{pageTitle}}</div>
     <h2 class="text-muted" data-ng-show="EntryRepository.entries.length<=0">No entry
         yet, subscribe to a feed by clicking on the red button</h2>
-    <table class="table table-condensed table-hover">
-        <tr data-ng-repeat="entry in EntryRepository.entries|filter:search|orderBy:publishedDate|limitTo:100">
+    <table class="table table-condensed table-hover table-responsive">
+        <tr data-ng-repeat="entry in EntryRepository.entries|filter:{content:query}|orderBy:publishedDate|limitTo:100">
+            <td>
+                <button class="btn btn-link btn-xs">
+                  <span ng-click="toggleFavorite()"
+                        ng-class="{'glyphicon-star-empty':!entry.favorite,'glyphicon-star':entry.favorite}"
+                        class="glyphicon"></span>
+                </button>
+            </td>
             <td title="{{entry.contentSnippet||entry.title}}">
                 <a data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:50}}</a>
             </td>

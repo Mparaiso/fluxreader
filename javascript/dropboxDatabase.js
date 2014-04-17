@@ -6,6 +6,13 @@
  */
 (function () {
     "use strict";
+    /**
+     * @type {Table}
+     * @param tableName
+     * @param database
+     * @param timeout
+     * @constructor
+     */
     function Table(tableName, database, timeout) {
         this._tableName = tableName;
         this._database = database;
@@ -13,6 +20,14 @@
     }
 
     Table.prototype = {
+        hashToRecordFields: function (hash) {
+            var record = Object.keys(hash).reduce(function (result, key) {
+                result[key] = hash[key];
+                return result;
+            }, {});
+            delete record.id;
+            return record;
+        },
         recordToHash: function (record) {
             var fields;
             if (record.getFields instanceof Function) {
@@ -23,6 +38,10 @@
             }
             return fields;
         },
+        setTable: function (value) {
+            this._table = value;
+            return this;
+        },
         getTable: function (callback) {
             var self = this;
             if (!this._table) {
@@ -31,13 +50,30 @@
                     callback(err, self._table);
                 });
             } else {
-                self._timeout(callback.bind(null, null, self._table), 1);
+                this._timeout(callback.bind(this, null, this._table), 10);
             }
         },
         insert: function (record, callback) {
             this.getTable(function (err, table) {
                 var result = table.insert(record);
                 callback(null, result);
+            });
+        },
+        /**
+         * update a record
+         * @param record
+         * @param {Function} callback
+         */
+        update: function (record, callback) {
+            var self = this;
+            this.getTable(function (err, table) {
+                var _record = table.get(record.id);
+                if (_record) {
+                    _record.update(_record.getFields());
+                    callback(err, self.recordToHash(_record));
+                } else {
+                    callback(new Error(['Record with id ', record.id, ' not found'].join('')));
+                }
             });
         },
         /**
@@ -99,7 +135,7 @@
                  * @return {void}
                  */
                 open: function (callback) {
-                    if (!datastore) {
+                    if (datastore === undefined) {
                         var datastoreManager = dropboxClient.getDatastoreManager();
                         datastoreManager.openDefaultDatastore(function (err, _datastore) {
                             datastore = _datastore;
@@ -117,18 +153,30 @@
                 /**
                  * create a new table object
                  * @param tableName
+                 * @return {Table}
                  */
                 create: function (tableName) {
                     return new this.Table(tableName, database, $timeout);
                 }
             };
         })
-        .factory('Entry', function (tableFactory) {
+        .factory('Entry', function (tableFactory, $injector) {
             /**
              * Manage entry persistance
              */
-            var entryTable = tableFactory.create('entry');
+            var feedTable,
+                /**
+                 * @type {Table}
+                 */
+                    entryTable = tableFactory.create('entry');
             return {
+                getFeedTable: function () {
+                    if (feedTable === undefined) {
+                        /*@link http://docs.angularjs.org/api/auto/service/$injector */
+                        feedTable = $injector.get('Feed');
+                    }
+                    return feedTable;
+                },
                 getById: function (id, callback) {
                     entryTable.get(id, callback);
                 },
@@ -169,6 +217,13 @@
                             entryTable.insert(entry, callback);
                         }
                     });
+                },
+                update: function (entry, callback) {
+                    entryTable.update(entry, callback);
+                },
+                toggleFavorite: function (entry, callback) {
+                    entry.favorite = !entry.favorite;
+                    this.update(entry, callback);
                 }
             };
         })

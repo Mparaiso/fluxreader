@@ -63,6 +63,10 @@
                     controller: 'AccountCtrl',
                     templateUrl: baseUrl.concat('templates/account.html')
                 })
+                .when('/dashboard/search/:q', {
+                    templateUrl: baseUrl.concat('templates/dashboard.html'),
+                    controller: 'SearchCtrl'
+                })
                 .otherwise({
                     redirectTo: '/'
                 });
@@ -88,9 +92,13 @@
             /* simple way to keep entries in memory */
             var self = this;
             this.entries = [];
-            this.load = function (callback) {
+            this.load = function (query, callback) {
+                if (query instanceof Function) {
+                    callback = query;
+                    query = {};
+                }
                 callback = callback || angular.noop;
-                Entry.findAll(function (err, entries) {
+                Entry.findAll(query, function (err, entries) {
                     entries.forEach(function (entry) {
                         Feed.getById(entry.feedId, function (err, feed) {
                             entry.feed = feed;
@@ -102,6 +110,7 @@
             };
         })
         .value('globals', {
+            siteTitle: 'Flow Reader',
             title: 'Flow Reader'
         })
         .controller('SubscribeCtrl', function ($scope, Feed, feedFinder, FeedRepository, EntryRepository, $window) {
@@ -146,8 +155,8 @@
             $log.debug('IndexCtrl');
         })
         .controller('SearchCtrl', function ($scope, $route, EntryRepository) {
-            $scope.search = $route.current.params.q;
-            $scope.pageTitle = ['Results for "', $scope.search, '" '].join("");
+            $scope.query = $route.current.params.q;
+            $scope.pageTitle = ['Results for "', $scope.query, '" '].join("");
             $scope.EntryRepository = EntryRepository;
             EntryRepository.load(function () {
                 $scope.$apply('EntryRepository');
@@ -164,10 +173,8 @@
             $scope.pageTitle = ['Latest Entries for "', feed.title, '"'].join('');
             $scope.feed = feed;
             $scope.EntryRepository = EntryRepository;
-            EntryRepository.load(function (err, entries) {
-                EntryRepository.entries = entries.filter(function (e) {
-                    return e.feedId === feed.id;
-                });
+            EntryRepository.load({feedId: feed.id}, function (err, entries) {
+                EntryRepository.entries = entries;
                 $scope.$apply('EntryRepository');
             });
         })
@@ -184,7 +191,13 @@
             });
         })
         .controller('EntryListCtrl', function ($timeout, $scope, Entry, Feed, EntryRepository, FeedRepository) {
-
+            $scope.toggleFavorite = function (entry) {
+                entry = entry || {};
+                if (entry.id) {
+                    Entry.toggleFavorite(entry, function (err, entry) {
+                    });
+                }
+            };
         })
         .controller('FeedListCtrl', function ($window, $scope, Feed, FeedRepository, EntryRepository) {
             $scope.FeedRepository = FeedRepository;
@@ -201,9 +214,11 @@
                 $scope.$apply('FeedRepository');
             });
         })
-        .controller('SearchFormCtrl', function ($scope, $route) {
+        .controller('SearchFormCtrl', function ($scope, $route, $location) {
             $scope.search = function () {
-                console.log(this);
+                if (this.q && this.q.length >= 3) {
+                    $location.path('/dashboard/search/'.concat(this.q));
+                }
             };
         })
         .run(function (dropboxClient, $location, $route, $rootScope, $log) {
