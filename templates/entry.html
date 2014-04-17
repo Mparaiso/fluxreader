@@ -13,10 +13,13 @@
         <aside class="col-xs-2" data-ng-include="baseUrl+'templates/side.html'">
         </aside>
         <article class="col-xs-10">
-            <a data-ng-href="{{entry.link}}" target="_blank" class="lead">{{entry.title}}
-
+            <a data-ng-href="{{entry.link}}" target="_blank" class="lead">
+                {{entry.title}}
             </a>
-
+            <button class="btn btn-link" ng-click="toggleFavorite(entry)" title="mark as favorite">
+                <span class="glyphicon"
+                      ng-class="{'glyphicon-star':entry.favorite,'glyphicon-star-empty':!entry.favorite}">
+                </span></button>
             <p><a data-ng-href="#/dashboard/feed/{{entry.feed.id}}">{{entry.feed.title}}</a></p>
 
             <p class="text-muted">{{entry.contentSnippet}}</p>

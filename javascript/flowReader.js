@@ -6,8 +6,9 @@
  */
 (function (window, undefined) {
     "use strict";
-    angular.module('flowReader', ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed'],
-        function (feedFinderProvider, $routeProvider, $locationProvider, dropboxClientProvider, baseUrl) {
+    angular.module('flowReader',
+        ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed'],
+        function (feedFinderProvider, $routeProvider, dropboxClientProvider, baseUrl) {
             /**
              * @note @angular injecting constant in config
              * @link http://stackoverflow.com/questions/16339595/angular-js-configuration-for-different-enviroments
@@ -59,6 +60,16 @@
                         }
                     }
                 })
+                .when('/dashboard/favorite', {
+                    controller: 'FavoriteCtrl',
+                    authenticated: true,
+                    templateUrl: baseUrl.concat('templates/dashboard.html')
+                })
+                .when('/dashboard/unread', {
+                    controller: 'UnreadCtrl',
+                    authenticated: true,
+                    templateUrl: baseUrl.concat('templates/dashboard.html')
+                })
                 .when('/dashboard/account', {
                     controller: 'AccountCtrl',
                     templateUrl: baseUrl.concat('templates/account.html')
@@ -76,39 +87,6 @@
         })
         .constant('DROPBOX_APIKEY', 'gi42kr1ox74tyrb')
         .constant('baseUrl', window.location.pathname)
-        .service('FeedRepository', function (Feed) {
-            /* simple way to keep feeds in memory */
-            var self = this;
-            this.feeds = [];
-            this.load = function (callback) {
-                callback = callback || angular.noop;
-                Feed.findAll(function (err, feeds) {
-                    self.feeds = feeds;
-                    callback(null, feeds);
-                });
-            };
-        })
-        .service('EntryRepository', function (Entry, Feed) {
-            /* simple way to keep entries in memory */
-            var self = this;
-            this.entries = [];
-            this.load = function (query, callback) {
-                if (query instanceof Function) {
-                    callback = query;
-                    query = {};
-                }
-                callback = callback || angular.noop;
-                Entry.findAll(query, function (err, entries) {
-                    entries.forEach(function (entry) {
-                        Feed.getById(entry.feedId, function (err, feed) {
-                            entry.feed = feed;
-                        });
-                    });
-                    self.entries = entries;
-                    callback(null, entries);
-                });
-            };
-        })
         .value('globals', {
             siteTitle: 'Flow Reader',
             title: 'Flow Reader'
@@ -129,7 +107,10 @@
             };
         })
         .controller('MainCtrl', function ($scope, globals, $location, dropboxClient, baseUrl) {
-            $scope.accountInfo = {};
+            $scope.utils = {
+                round: Math.round.bind(Math),
+                pow: Math.pow.bind(Math)
+            };
             $scope.globals = globals;
             $scope.baseUrl = baseUrl;
             $scope.isAuthenticated = function () {
@@ -178,13 +159,39 @@
                 $scope.$apply('EntryRepository');
             });
         })
+        .controller('FavoriteCtrl', function ($scope, EntryRepository) {
+            $scope.pageTitle = "Favorite entries";
+            $scope.EntryRepository = EntryRepository;
+            EntryRepository.load({favorite: true}, function (err, entries) {
+                EntryRepository.entries = entries;
+                $scope.$apply('EntryRepository');
+            });
+        })
+        .controller('UnreadCtrl', function ($scope, EntryRepository) {
+            $scope.pageTitle = "Unread entries";
+            $scope.EntryRepository = EntryRepository;
+            EntryRepository.load({read: false}, function (err, entries) {
+                EntryRepository.entries = entries;
+                $scope.$apply('EntryRepository');
+            });
+        })
         .controller('AccountCtrl', function ($scope, dropboxClient) {
             dropboxClient.getAccountInfo(function (err, accountInfo) {
                 $scope.accountInfo = accountInfo;
             });
         })
-        .controller('EntryCtrl', function ($scope, entry, Feed) {
+        .controller('EntryCtrl', function ($scope, entry, Feed, Entry) {
+            if (!entry.read) {
+                entry.read = true;
+                Entry.markAsRead(entry, function () {
+                });
+            }
             $scope.entry = entry;
+            $scope.toggleFavorite = function () {
+                this.entry.favorite = this.entry.favorite;
+                Entry.toggleFavorite(this.entry, function (err, _entry) {
+                });
+            };
             Feed.getById(entry.feedId, function (err, feed) {
                 $scope.entry.feed = feed;
                 $scope.$apply('entry');
@@ -193,10 +200,8 @@
         .controller('EntryListCtrl', function ($timeout, $scope, Entry, Feed, EntryRepository, FeedRepository) {
             $scope.toggleFavorite = function (entry) {
                 entry = entry || {};
-                console.log(entry);
                 if (entry.id) {
                     Entry.toggleFavorite(entry, function (err, _entry) {
-                        console.log('favorite toggled');
                         Object.keys(_entry).forEach(function (key) {
                             entry[key] = _entry[key];
                         });

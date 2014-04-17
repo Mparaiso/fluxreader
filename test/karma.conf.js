@@ -9,6 +9,7 @@ module.exports = function(config) {
             'bower_components/es5-shim/es5-shim.js',
             'bower_components/async/lib/async.js',
             'https://www.google.com/jsapi',
+            'https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js',
             'bower_components/angular/angular.js',
             'bower_components/angular-route/angular-route.js',
             'bower_components/angular-sanitize/angular-sanitize.js',

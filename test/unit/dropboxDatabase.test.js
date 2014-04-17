@@ -121,6 +121,7 @@ describe("dropboxDatabase", function () {
     describe('Entry', function () {
         beforeEach(function () {
             var self = this;
+            this.table = jasmine.createSpyObj('table', ['update']);
             inject((function (Entry) {
                 self.Entry = Entry;
             }));
@@ -145,6 +146,19 @@ describe("dropboxDatabase", function () {
                 });
             });
 
+        });
+        describe('#markAsRead', function () {
+            it('should mark an entry as read', function (done) {
+                var entry = {id: 'foo', read: false};
+                this.Entry.setTable(this.table);
+                this.table.update.and.callFake(function (entry, callback) {
+                    callback(undefined, entry);
+                });
+                this.Entry.markAsRead(entry, (function (err, entry) {
+                    expect(this.table.update).toHaveBeenCalled();
+                    done(err);
+                }).bind(this));
+            });
         });
     });
 });

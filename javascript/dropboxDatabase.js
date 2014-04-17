@@ -204,10 +204,11 @@
                         categories: entry.categories || [],
                         createdAt: (new Date()).getTime(),
                         feedId: entry.feedId || "",
-                        favorite: entry.favorite || false
+                        favorite: entry.favorite || false,
+                        read: entry.read || false
                     };
                 },
-                'delete': function (entry, callback) {
+                delete: function (entry, callback) {
                     entryTable.delete(entry, callback);
                 },
                 findAll: function () {
@@ -239,6 +240,10 @@
                 toggleFavorite: function (entry, callback) {
                     entry.favorite = !entry.favorite;
                     this.update(entry, callback);
+                },
+                markAsRead: function (entry, callback) {
+                    entry.read = true;
+                    this.getTable().update(entry, callback);
                 }
             };
         })
@@ -307,6 +312,39 @@
                         }
                     });
                 }
+            };
+        })
+        .service('FeedRepository', function (Feed) {
+            /* simple way to keep feeds in memory */
+            var self = this;
+            this.feeds = [];
+            this.load = function (callback) {
+                callback = callback || angular.noop;
+                Feed.findAll(function (err, feeds) {
+                    self.feeds = feeds;
+                    callback(null, feeds);
+                });
+            };
+        })
+        .service('EntryRepository', function (Entry, Feed) {
+            /* simple way to keep entries in memory */
+            var self = this;
+            this.entries = [];
+            this.load = function (query, callback) {
+                if (query instanceof Function) {
+                    callback = query;
+                    query = {};
+                }
+                callback = callback || angular.noop;
+                Entry.findAll(query, function (err, entries) {
+                    entries.forEach(function (entry) {
+                        Feed.getById(entry.feedId, function (err, feed) {
+                            entry.feed = feed;
+                        });
+                    });
+                    self.entries = entries;
+                    callback(null, entries);
+                });
             };
         });
 }());

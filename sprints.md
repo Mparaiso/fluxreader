@@ -11,5 +11,18 @@ Sprint2:
 - [X] a user can click on the title of an entry to see its content
 - [X] a user can filter entries by feed
 - [X] a user can search entries with a form
-- [] a user can mark an entry as favorite
-- [] a user can filter entries by favorites
+- [X] a user can mark an entry as favorite
+- [X] a user can filter entries by favorites
+
+Sprint3:
+- [X] the application keeps tracks of read/unread entries,read entries are greyed out.
+- [X] the user can filter entries by unread.
+
+Sprint4:
+
+- [] an homepage present the product briefly and its features
+- [] during page changes, user is notified that some data are being loaded
+- [] unfavoriting on the favorites page remove the entry from the entry list
+- [] pages show copyright and contact informations
+- [] entries are sorted by date descending
+- [] replace default browser popups by custom modals
