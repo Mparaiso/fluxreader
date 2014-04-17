@@ -2,10 +2,10 @@ src="src/."
 destination="build/"
 bin="bin/"
 test:
-	@npm test &
+	@karma start test/karma.conf.js  &
 commit:
 	@git add .
-	@git commit -am"$(message) `date`"
+	@git commit -am"$(message) `date`" | :
 push: commit
 	@git push origin master --tags
 push-pages: commit

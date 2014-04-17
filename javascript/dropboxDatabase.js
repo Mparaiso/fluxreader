@@ -33,6 +33,12 @@
             if (record.getFields instanceof Function) {
                 fields = record.getFields();
                 fields.id = record.getId();
+                Object.keys(fields).forEach(function (key) {
+                    if (fields[key] && (fields[key].toArray instanceof Function)) {
+                        var val = fields[key].toArray();
+                        fields[key] = val;
+                    }
+                });
             } else {
                 fields = record;
             }
@@ -69,7 +75,7 @@
             this.getTable(function (err, table) {
                 var _record = table.get(record.id);
                 if (_record) {
-                    _record.update(_record.getFields());
+                    _record.update(record);
                     callback(err, self.recordToHash(_record));
                 } else {
                     callback(new Error(['Record with id ', record.id, ' not found'].join('')));
@@ -226,7 +232,9 @@
                     });
                 },
                 update: function (entry, callback) {
-                    entryTable.update(entry, callback);
+                    var _entry = angular.copy(entry);
+                    delete _entry.feed;
+                    entryTable.update(_entry, callback);
                 },
                 toggleFavorite: function (entry, callback) {
                     entry.favorite = !entry.favorite;

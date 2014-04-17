@@ -193,8 +193,13 @@
         .controller('EntryListCtrl', function ($timeout, $scope, Entry, Feed, EntryRepository, FeedRepository) {
             $scope.toggleFavorite = function (entry) {
                 entry = entry || {};
+                console.log(entry);
                 if (entry.id) {
-                    Entry.toggleFavorite(entry, function (err, entry) {
+                    Entry.toggleFavorite(entry, function (err, _entry) {
+                        console.log('favorite toggled');
+                        Object.keys(_entry).forEach(function (key) {
+                            entry[key] = _entry[key];
+                        });
                     });
                 }
             };

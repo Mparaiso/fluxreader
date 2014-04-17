@@ -10,8 +10,8 @@
     <table class="table table-condensed table-hover table-responsive">
         <tr data-ng-repeat="entry in EntryRepository.entries|filter:{content:query}|orderBy:publishedDate|limitTo:100">
             <td>
-                <button class="btn btn-link btn-xs">
-                  <span ng-click="toggleFavorite()"
+                <button ng-click="toggleFavorite(entry)" class="btn btn-link btn-xs">
+                  <span
                         ng-class="{'glyphicon-star-empty':!entry.favorite,'glyphicon-star':entry.favorite}"
                         class="glyphicon"></span>
                 </button>
