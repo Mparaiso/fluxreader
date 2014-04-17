@@ -317,7 +317,6 @@
         .service('FeedRepository', function (Feed) {
             /* simple way to keep feeds in memory */
             var self = this;
-            this.feeds = [];
             this.load = function (callback) {
                 callback = callback || angular.noop;
                 Feed.findAll(function (err, feeds) {

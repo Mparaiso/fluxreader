@@ -6,6 +6,8 @@ FLOW READER
 A pure client-side rss reader written in javascript
 ---------------------------------------------------
 
+https://mparaiso.github.io/flowreader/
+
 author mparaiso <mparaiso@online.fr>
 
 copyrights mparaiso

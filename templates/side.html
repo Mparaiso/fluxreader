@@ -7,12 +7,14 @@
     <li class="list-group-item">
         <h5 class="list-group-item-heading text-muted"> SUBSCRIPTIONS</h5>
     </li>
-    <li class="list-group-item text-muted text-small" data-ng-show="FeedRepository.feeds.length<=0">Loading
+    <li class="list-group-item text-muted text-small" data-ng-show="!FeedRepository.feeds">Loading
         subscriptions
     </li>
-    <li class="list-group-item text-small text-muted"><a ng-href="#/dashboard">ALL</a></li>
-    <li class="list-group-item text-small text-muted"><a ng-href="#/dashboard/unread">UNREAD</a></li>
-    <li class="list-group-item text-small text-muted"><a ng-href="#/dashboard/favorite">FAVORITES</a></li>
+    <li class="list-group-item text-small text-muted"
+        ng-show="FeedRepository.feeds"
+        ng-repeat="link in links">
+        <a ng-href="{{link.href}}">{{link.name}}</a>
+    </li>
     <li class="list-group-item text-small" ng-repeat="feed in FeedRepository.feeds" title="{{feed.description}}">
         <a ng-href="#/dashboard/feed/{{feed.id}}">{{feed.title|limitTo:18}}</a>
         <a data-ng-click="unsubscribe(feed)" data-id="{{feed.id}}" href="javascript:void 0;"

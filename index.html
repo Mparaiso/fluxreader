@@ -34,10 +34,57 @@
         <h1 class="alert alert-warning">This Website makes heavy use of javascript,please enable javascript</h1>
     </section>
 </noscript>
-<span ng-include="'templates/nav.html'"></span>
+<header ng-include="'templates/nav.html'"></header>
 <main data-ng-view>
     <h1 class="center-block">Loading</h1>
 </main>
+<footer class="bg-misc text-gray">
+    <section class="container">
+        <section class="row">
+            <div class="col-md-10">
+                <p>&nbsp;</p>
+
+                <p>
+                    &copy; {{globals.year}} mparaiso {{globals.email}}
+                </p>
+
+                <p>
+                    {{globals.title}} is an opensource project under GPL license
+                    </a>
+                </p>
+            </div>
+            <div class="col-md-2">
+                <p>&nbsp;</p>
+                <ul class="list-inline">
+                    <li>
+                        <a href="{{globals.projectUrl}}">
+                            <span class='glyphicon glyphicon-social glyphicon-facebook'></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{globals.projectUrl}}">
+                            <span class='glyphicon glyphicon-social glyphicon-twitter'></span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="{{globals.projectUrl}}">
+                            <span class='glyphicon glyphicon-social glyphicon-github'></span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a href="mailto:{{globals.email}}">
+                            <span class='glyphicon glyphicon-social glyphicon-email'></span>
+                        </a>
+
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+    </section>
+</footer>
 </body>
 
 </html>

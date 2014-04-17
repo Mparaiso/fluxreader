@@ -1,8 +1,53 @@
+div,p,nav {
+    border-radius: 0 !important;
+}
+html{
+    height:100%;
+}
 body{
     font-family: 'Roboto', sans-serif;
 }
 .text-small{
     font-size: 0.85em;
+}
+main{
+    min-height:700px;
+    padding-bottom:100px;
+}
+footer{
+    padding-bottom: 50px;
+}
+.text-gray{
+    color: #696665;
+}
+.bg-misc{
+    background-color: #eeeeee;
+}
+.glyphicon-social{
+    width:2em;
+    height:2em;
+    opacity: 0.3;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 2px 2px;
+}
+.glyphicon-social:hover{
+    opacity: 0.5;
+}
+.glyphicon-github{
+    background-image: url('../images/glyphicons_social_21_github.png') ;
+}
+.glyphicon-twitter{
+    background-image: url('../images/glyphicons_social_31_twitter.png')  ;
+}
+.glyphicon-facebook{
+    background-image: url('../images/glyphicons_social_30_facebook.png') ;
+}
+.glyphicon-rss{
+    background-image: url('../images/glyphicons_social_37_rss.png') ;
+}
+.glyphicon-email{
+    background-image: url('../images/glyphicons_social_39_e-mail.png')  ;
 }
 /*
 .ng-scope  {

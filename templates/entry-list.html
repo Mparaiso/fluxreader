@@ -7,8 +7,9 @@
     <div class="lead">{{pageTitle}}</div>
     <h2 class="text-muted" data-ng-show="EntryRepository.entries.length<=0">Loading Entries...</h2>
     <table class="table table-striped table-condensed table-hover">
+        <!-- @note @angular orderBy http://docs.angularjs.org/api/ng/filter/orderBy http://jsfiddle.net/camus/Fp4nL/ -->
         <tr
-                data-ng-repeat="entry in EntryRepository.entries|filter:{content:query}|orderBy:publishedDate|limitTo:100">
+                data-ng-repeat="entry in EntryRepository.entries|filter:{content:query}|orderBy:predicate:true|limitTo:100">
             <td>
                 <button ng-click="toggleFavorite(entry)" class="btn btn-link btn-xs">
                   <span

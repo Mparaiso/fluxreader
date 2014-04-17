@@ -92,7 +92,10 @@
         })
         .value('globals', {
             siteTitle: 'Flow Reader',
-            title: 'Flow Reader'
+            title: 'Flow Reader',
+            email:'mparaiso@online.fr',
+            url:window.location.origin,
+            year:(new Date()).getFullYear()
         })
         .controller('SubscribeCtrl', function ($scope, Feed, feedFinder, FeedRepository, EntryRepository, $window) {
             $scope.subscribe = function () {
@@ -165,8 +168,8 @@
         .controller('FavoriteCtrl', function ($scope, EntryRepository, Events) {
             $scope.pageTitle = "Favorite entries";
             $scope.EntryRepository = EntryRepository;
-            $scope.$on(Events.FAVORITE_TOGGLED, function (event,entry) {
-                if(!entry.favorite){
+            $scope.$on(Events.FAVORITE_TOGGLED, function (event, entry) {
+                if (!entry.favorite) {
                     EntryRepository.remove(entry);
                 }
             });
@@ -207,6 +210,11 @@
             });
         })
         .controller('EntryListCtrl', function (Events, $scope, Entry, Feed, EntryRepository, FeedRepository) {
+            $scope.predicate = function (item) {
+                if (item.publishedDate) {
+                    return new Date(item.publishedDate);
+                }
+            };
             $scope.toggleFavorite = function (entry) {
                 entry = entry || {};
                 if (entry.id) {
@@ -221,6 +229,11 @@
             };
         })
         .controller('FeedListCtrl', function ($window, $scope, Feed, FeedRepository, EntryRepository) {
+            $scope.links = [
+                {name: 'ALL', href: '#/dashboard'},
+                {name: 'UNREAD', href: '#/dashboard/unread'},
+                {name: 'FAVORITES', href: '#/dashboard/favorite'}
+            ];
             $scope.FeedRepository = FeedRepository;
             $scope.unsubscribe = function (feed) {
                 var confirm = $window.confirm('Unsubscribe '.concat(feed.title).concat(' ?'));

@@ -22,7 +22,7 @@ Sprint4:
 
 - [] an homepage present the product briefly and its features
 - [] during page changes, user is notified that some data are being loaded
-- [] unfavoriting on the favorites page remove the entry from the entry list
-- [] pages show copyright and contact informations
+- [X] unfavoriting on the favorites page remove the entry from the entry list
+- [X] pages show copyright and contact informations
 - [X] entries are sorted by date descending
 - [] replace default browser popups by custom modals
