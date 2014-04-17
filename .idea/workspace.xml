@@ -29,66 +29,18 @@
       <file leaf-file-name="dropboxDatabase.test.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/unit/dropboxDatabase.test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="123" column="27" selection-start="4508" selection-end="4508" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="400">
+            <state line="132" column="48" selection-start="4916" selection-end="4916" vertical-scroll-proportion="0.0" vertical-offset="2348" max-vertical-offset="2900">
               <folding>
-                <element signature="e#171#379#0" expanded="false" />
-                <element signature="e#285#371#0" expanded="false" />
-                <element signature="e#419#687#0" expanded="false" />
-                <element signature="e#452#591#0" expanded="false" />
-                <element signature="e#522#579#0" expanded="false" />
-                <element signature="e#630#679#0" expanded="false" />
-                <element signature="e#724#3548#0" expanded="false" />
-                <element signature="e#757#985#0" expanded="false" />
-                <element signature="e#844#973#0" expanded="false" />
-                <element signature="e#1028#1636#0" expanded="false" />
-                <element signature="e#1685#1943#0" expanded="false" />
-                <element signature="e#1986#2040#0" expanded="false" />
-                <element signature="e#2083#2272#0" expanded="false" />
-                <element signature="e#2179#2260#0" expanded="false" />
-                <element signature="e#2313#2369#0" expanded="false" />
-                <element signature="e#2410#3211#0" expanded="false" />
-                <element signature="e#2424#2437#0" expanded="false" />
-                <element signature="e#2919#3199#0" expanded="false" />
-                <element signature="e#2983#3032#0" expanded="false" />
-                <element signature="e#3250#3344#0" expanded="false" />
-                <element signature="e#3284#3326#0" expanded="false" />
-                <element signature="e#3386#3443#0" expanded="false" />
-                <element signature="e#3484#3540#0" expanded="false" />
-                <element signature="e#3592#3962#0" expanded="false" />
-                <element signature="e#3625#3819#0" expanded="false" />
-                <element signature="e#3706#3807#0" expanded="false" />
-                <element signature="e#3856#3954#0" expanded="false" />
-                <element signature="e#3998#4375#0" expanded="false" />
-                <element signature="e#4031#4367#0" expanded="false" />
-                <element signature="e#4113#4205#0" expanded="false" />
-                <element signature="e#4250#4355#0" expanded="false" />
+                <element signature="n#!!doc" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".travis.yml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <file leaf-file-name="dropbox.mock.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test/mocks/dropbox.mock.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="10" selection-start="48" selection-end="48" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="6" selection-start="477" selection-end="477" vertical-scroll-proportion="0.6666667" vertical-offset="120" max-vertical-offset="840">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dropboxDatabase.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/javascript/dropboxDatabase.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="225" column="49" selection-start="8323" selection-end="8323" vertical-scroll-proportion="0.0" vertical-offset="4125" max-vertical-offset="6040">
+            <state line="8" column="30" selection-start="298" selection-end="298" vertical-scroll-proportion="0.43010753" vertical-offset="0" max-vertical-offset="1500">
               <folding />
             </state>
           </provider>
@@ -133,7 +85,6 @@
         <option value="$PROJECT_DIR$/javascript/dropBox.js" />
         <option value="$PROJECT_DIR$/javascript/dropBoxDatabase.js" />
         <option value="$PROJECT_DIR$/test/karma.config.js" />
-        <option value="$PROJECT_DIR$/bower.json" />
         <option value="C:/Bin/phantomjs.cmd" />
         <option value="C:/Bin/phantomjs.sh" />
         <option value="$PROJECT_DIR$/makefile" />
@@ -145,7 +96,6 @@
         <option value="$PROJECT_DIR$/css/styles.css" />
         <option value="$PROJECT_DIR$/test/mocks/dropboxDatabase.mock.js" />
         <option value="$PROJECT_DIR$/test/mocks/$window.mock.js" />
-        <option value="$PROJECT_DIR$/test/mocks/dropbox.mock.js" />
         <option value="$PROJECT_DIR$/test/unit/flowReader.test.js" />
         <option value="$PROJECT_DIR$/templates/feed.html" />
         <option value="$PROJECT_DIR$/javascript/dropbox.js" />
@@ -164,10 +114,12 @@
         <option value="$PROJECT_DIR$/sprints.md" />
         <option value="$PROJECT_DIR$/templates/entry-list.html" />
         <option value="$PROJECT_DIR$/javascript/flowReader.js" />
-        <option value="$PROJECT_DIR$/javascript/dropboxDatabase.js" />
-        <option value="$PROJECT_DIR$/test/unit/dropboxDatabase.test.js" />
         <option value="$PROJECT_DIR$/.travis.yml" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/bower.json" />
+        <option value="$PROJECT_DIR$/test/mocks/dropbox.mock.js" />
+        <option value="$PROJECT_DIR$/test/unit/dropboxDatabase.test.js" />
+        <option value="$PROJECT_DIR$/javascript/dropboxDatabase.js" />
       </list>
     </option>
   </component>
@@ -264,13 +216,31 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="feedpress2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="flowreader" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mocks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="options.lastSelected" value="Settings.JavaScript" />
+    <property name="options.lastSelected" value="editing.templates" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.3757503" />
     <property name="options.searchVisible" value="true" />
@@ -360,7 +330,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32982457" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24029127" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16750419" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16750419" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39879155" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20534459" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -498,11 +468,6 @@
         <state line="0" column="12" selection-start="17" selection-end="40" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="108" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bower.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="34" selection-start="104" selection-end="104" vertical-scroll-proportion="-2.6666667" vertical-offset="0" max-vertical-offset="504" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/makefile">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="8" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="630" />
@@ -556,11 +521,6 @@
     <entry file="file://$PROJECT_DIR$/test/mocks/$window.mock.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="70" selection-start="143" selection-end="143" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="162" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/mocks/dropbox.mock.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="42" selection-start="771" selection-end="771" vertical-scroll-proportion="0.76808906" vertical-offset="0" max-vertical-offset="1026" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/mocks/dropboxDatabase.mock.js">
@@ -657,62 +617,130 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/dropboxDatabase.js">
+    <entry file="file://$PROJECT_DIR$/bower.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="225" column="49" selection-start="8323" selection-end="8323" vertical-scroll-proportion="0.0" vertical-offset="4125" max-vertical-offset="6040">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/dropboxDatabase.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="123" column="27" selection-start="4508" selection-end="4508" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="400">
-          <folding>
-            <element signature="e#171#379#0" expanded="false" />
-            <element signature="e#285#371#0" expanded="false" />
-            <element signature="e#419#687#0" expanded="false" />
-            <element signature="e#452#591#0" expanded="false" />
-            <element signature="e#522#579#0" expanded="false" />
-            <element signature="e#630#679#0" expanded="false" />
-            <element signature="e#724#3548#0" expanded="false" />
-            <element signature="e#757#985#0" expanded="false" />
-            <element signature="e#844#973#0" expanded="false" />
-            <element signature="e#1028#1636#0" expanded="false" />
-            <element signature="e#1685#1943#0" expanded="false" />
-            <element signature="e#1986#2040#0" expanded="false" />
-            <element signature="e#2083#2272#0" expanded="false" />
-            <element signature="e#2179#2260#0" expanded="false" />
-            <element signature="e#2313#2369#0" expanded="false" />
-            <element signature="e#2410#3211#0" expanded="false" />
-            <element signature="e#2424#2437#0" expanded="false" />
-            <element signature="e#2919#3199#0" expanded="false" />
-            <element signature="e#2983#3032#0" expanded="false" />
-            <element signature="e#3250#3344#0" expanded="false" />
-            <element signature="e#3284#3326#0" expanded="false" />
-            <element signature="e#3386#3443#0" expanded="false" />
-            <element signature="e#3484#3540#0" expanded="false" />
-            <element signature="e#3592#3962#0" expanded="false" />
-            <element signature="e#3625#3819#0" expanded="false" />
-            <element signature="e#3706#3807#0" expanded="false" />
-            <element signature="e#3856#3954#0" expanded="false" />
-            <element signature="e#3998#4375#0" expanded="false" />
-            <element signature="e#4031#4367#0" expanded="false" />
-            <element signature="e#4113#4205#0" expanded="false" />
-            <element signature="e#4250#4355#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.travis.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="10" selection-start="48" selection-end="48" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+        <state line="22" column="33" selection-start="457" selection-end="457" vertical-scroll-proportion="0.58309036" vertical-offset="240" max-vertical-offset="620">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="6" selection-start="477" selection-end="477" vertical-scroll-proportion="0.6666667" vertical-offset="120" max-vertical-offset="840">
+        <state line="20" column="39" selection-start="574" selection-end="574" vertical-scroll-proportion="0.8484849" vertical-offset="120" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/dropboxDatabase.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="132" column="48" selection-start="4916" selection-end="4916" vertical-scroll-proportion="0.0" vertical-offset="2348" max-vertical-offset="2900">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/dropboxDatabase.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="177" column="32" selection-start="5922" selection-end="5922" vertical-scroll-proportion="0.6462396" vertical-offset="288" max-vertical-offset="1040">
+          <folding>
+            <element signature="e#44#68#0" expanded="false" />
+            <element signature="e#69#141#0" expanded="false" />
+            <element signature="e#179#300#0" expanded="false" />
+            <element signature="e#350#462#0" expanded="false" />
+            <element signature="e#486#4018#0" expanded="false" />
+            <element signature="e#532#767#0" expanded="false" />
+            <element signature="e#607#694#0" expanded="false" />
+            <element signature="e#809#1084#0" expanded="false" />
+            <element signature="e#889#993#0" expanded="false" />
+            <element signature="e#999#1047#0" expanded="false" />
+            <element signature="e#1121#1190#0" expanded="false" />
+            <element signature="e#1230#1615#0" expanded="false" />
+            <element signature="e#1291#1509#0" expanded="false" />
+            <element signature="e#1355#1493#0" expanded="false" />
+            <element signature="e#1515#1605#0" expanded="false" />
+            <element signature="e#1661#1829#0" expanded="false" />
+            <element signature="e#1711#1817#0" expanded="false" />
+            <element signature="e#1839#1944#0" expanded="false" />
+            <element signature="e#1989#2437#0" expanded="false" />
+            <element signature="e#2068#2425#0" expanded="false" />
+            <element signature="e#2151#2290#0" expanded="false" />
+            <element signature="e#2296#2411#0" expanded="false" />
+            <element signature="e#2447#2558#0" expanded="false" />
+            <element signature="e#2596#2804#0" expanded="false" />
+            <element signature="e#2675#2792#0" expanded="false" />
+            <element signature="e#2852#3267#0" expanded="false" />
+            <element signature="e#2919#3198#0" expanded="false" />
+            <element signature="e#2973#3182#0" expanded="false" />
+            <element signature="e#3052#3164#0" expanded="false" />
+            <element signature="e#3204#3257#0" expanded="false" />
+            <element signature="e#3313#3727#0" expanded="false" />
+            <element signature="e#3387#3464#0" expanded="false" />
+            <element signature="e#3513#3715#0" expanded="false" />
+            <element signature="e#3625#3698#0" expanded="false" />
+            <element signature="e#3770#4012#0" expanded="false" />
+            <element signature="e#3828#4000#0" expanded="false" />
+            <element signature="e#3887#3947#0" expanded="false" />
+            <element signature="e#4160#4945#0" expanded="false" />
+            <element signature="e#4208#4934#0" expanded="false" />
+            <element signature="e#4226#4372#0" expanded="false" />
+            <element signature="e#4415#4920#0" expanded="false" />
+            <element signature="e#4466#4798#0" expanded="false" />
+            <element signature="e#4641#4774#0" expanded="false" />
+            <element signature="e#4804#4902#0" expanded="false" />
+            <element signature="e#5014#5386#0" expanded="false" />
+            <element signature="e#5035#5375#0" expanded="false" />
+            <element signature="e#5083#5222#0" expanded="false" />
+            <element signature="e#5268#5361#0" expanded="false" />
+            <element signature="e#5463#5522#0" expanded="false" />
+            <element signature="e#6312#6381#0" expanded="false" />
+            <element signature="e#6427#7200#0" expanded="false" />
+            <element signature="e#6456#7181#0" expanded="false" />
+            <element signature="e#7255#7330#0" expanded="false" />
+            <element signature="e#7369#7472#0" expanded="false" />
+            <element signature="e#7490#7736#0" expanded="false" />
+            <element signature="e#7788#8264#0" expanded="false" />
+            <element signature="e#7933#8244#0" expanded="false" />
+            <element signature="e#7983#8066#0" expanded="false" />
+            <element signature="e#8072#8222#0" expanded="false" />
+            <element signature="e#8317#8392#0" expanded="false" />
+            <element signature="e#8453#8576#0" expanded="false" />
+            <element signature="e#8659#11544#0" expanded="false" />
+            <element signature="e#8673#8731#0" expanded="false" />
+            <element signature="e#8808#11533#0" expanded="false" />
+            <element signature="e#8826#8989#0" expanded="false" />
+            <element signature="e#9042#9532#0" expanded="false" />
+            <element signature="e#9108#9512#0" expanded="false" />
+            <element signature="e#9155#9490#0" expanded="false" />
+            <element signature="e#9242#9462#0" expanded="false" />
+            <element signature="e#9322#9420#0" expanded="false" />
+            <element signature="e#9550#9675#0" expanded="false" />
+            <element signature="e#9725#9793#0" expanded="false" />
+            <element signature="e#9847#9922#0" expanded="false" />
+            <element signature="e#9940#10083#0" expanded="false" />
+            <element signature="e#10134#11519#0" expanded="false" />
+            <element signature="e#10325#11499#0" expanded="false" />
+            <element signature="e#10374#10825#0" expanded="false" />
+            <element signature="e#10507#10659#0" expanded="false" />
+            <element signature="e#10676#10797#0" expanded="false" />
+            <element signature="e#10831#11477#0" expanded="false" />
+            <element signature="e#11024#11449#0" expanded="false" />
+            <element signature="e#11102#11271#0" expanded="false" />
+            <element signature="e#11288#11417#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="372">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/mocks/dropbox.mock.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="30" selection-start="298" selection-end="298" vertical-scroll-proportion="0.43010753" vertical-offset="0" max-vertical-offset="1500">
           <folding />
         </state>
       </provider>

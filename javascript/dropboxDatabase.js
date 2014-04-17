@@ -170,6 +170,13 @@
                  */
                     entryTable = tableFactory.create('entry');
             return {
+                getTable: function () {
+                    return entryTable;
+                },
+                setTable: function (value) {
+                    entryTable = value;
+                    return this;
+                },
                 getFeedTable: function () {
                     if (feedTable === undefined) {
                         /*@link http://docs.angularjs.org/api/auto/service/$injector */

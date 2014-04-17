@@ -120,8 +120,21 @@ describe("dropboxDatabase", function () {
     });
     describe('Entry', function () {
         beforeEach(function () {
-            inject((function () {
-            }).bind(this));
+            var self = this;
+            inject((function (Entry) {
+                self.Entry = Entry;
+            }));
+        });
+        describe('#toggleFavorite', function () {
+            it('should toggle favorite field', function (done) {
+                var entry = {id: 'foo', favorite: false};
+                this.Entry.toggleFavorite(entry, function(err,entry){
+                    expect(err).toBeFalsy();
+                    expect(entry).toBeDefined();
+                    done();
+                });
+            });
+
         });
     });
 });
