@@ -86,16 +86,16 @@
             feedFinderProvider.setGoogle(google);
         })
         .constant('DROPBOX_APIKEY', 'gi42kr1ox74tyrb')
-        .constant('baseUrl', window.location.pathname)
+        .constant('baseUrl', window.location.pathname.match(/(.*?\/)/)[1])
         .constant('Events', {
             FAVORITE_TOGGLED: 0
         })
         .value('globals', {
             siteTitle: 'Flow Reader',
             title: 'Flow Reader',
-            email:'mparaiso@online.fr',
-            url:window.location.origin,
-            year:(new Date()).getFullYear()
+            email: 'mparaiso@online.fr',
+            url: window.location.origin,
+            year: (new Date()).getFullYear()
         })
         .controller('SubscribeCtrl', function ($scope, Feed, feedFinder, FeedRepository, EntryRepository, $window) {
             $scope.subscribe = function () {
@@ -154,6 +154,18 @@
             $scope.EntryRepository = EntryRepository;
             EntryRepository.load(function () {
                 $scope.$apply('EntryRepository');
+                EntryRepository.categories = EntryRepository.entries.reduce(function (list, entry) {
+                    if (entry.categories instanceof Array) {
+                        list.push.apply(list, entry.categories.filter(function (category) {
+                            return !list.some(function (item) {
+                                return item.name === category;
+                            });
+                        }).map(function (category) {
+                            return {name: category};
+                        }));
+                    }
+                    return list;
+                }, []);
             });
         })
         .controller('FeedCtrl', function ($scope, feed, EntryRepository) {
@@ -186,7 +198,10 @@
                 $scope.$apply('EntryRepository');
             });
         })
-        .controller('AccountCtrl', function ($scope, dropboxClient) {
+        .controller('AccountCtrl', function ($scope, dropboxClient,Feed,FeedRepository) {
+            $scope.refresh=function(){
+
+            };
             dropboxClient.getAccountInfo(function (err, accountInfo) {
                 $scope.accountInfo = accountInfo;
             });
@@ -248,7 +263,8 @@
                 $scope.$apply('FeedRepository');
             });
         })
-        .controller('SearchFormCtrl', function ($scope, $route, $location) {
+        .controller('SearchFormCtrl', function ($scope, $route, $location, EntryRepository) {
+            $scope.EntryRepository = EntryRepository;
             $scope.search = function () {
                 if (this.q && this.q.length >= 3) {
                     $location.path('/dashboard/search/'.concat(this.q));

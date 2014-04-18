@@ -3,16 +3,16 @@
  @copyright 2014 mparaiso <mparaiso@online.fr>
  @license GPL
 -->
-<section class="container">
+<section class="container-fluid">
     <div class="row" data-ng-include="baseUrl+'templates/top.html'">
     </div>
     <div class="row">
         <p>&nbsp;</p>
     </div>
     <div class="row">
-        <aside class="col-xs-2" data-ng-include="baseUrl+'templates/side.html'">
+        <aside class="col-md-2" data-ng-include="baseUrl+'templates/side.html'">
         </aside>
-        <article class="col-xs-10">
+        <article class="col-md-10">
             <a data-ng-href="{{entry.link}}" target="_blank" class="lead">
                 {{entry.title}}
             </a>
@@ -27,7 +27,7 @@
             <p class="text-small text-muted">{{entry.publishedDate|date:'medium'}}</p>
 
             <p>
-                <span data-ng-repeat="category in entry.categories.toArray()">
+                <span data-ng-repeat="category in entry.categories">
                      <a class="label label-default"
                         data-ng-href="#/dashboard/search/{{category}}">{{category}}</a>
                 </span>

@@ -247,7 +247,7 @@
                 }
             };
         })
-        .factory('Feed', function (tableFactory, Entry) {
+        .factory('Feed', function (tableFactory, Entry,feedFinder,$timeout) {
             /**
              * Manage feed persistance
              */
@@ -286,7 +286,7 @@
                  * @param callback
                  */
                 insert: function (feed, callback) {
-                    var self = this, entries = feed.entries;
+                    var  entries = feed.entries;
                     delete feed.entries;
                     feedTable.find({feedUrl: feed.feedUrl}, function (err, feedRecord) {
                         if (err || feedRecord) {
@@ -311,6 +311,18 @@
                             });
                         }
                     });
+                },
+                subscribe:function(url,callback){
+                    var self=this;
+                    if (url) {
+                        feedFinder.open(function () {
+                            feedFinder.findFeedByUrl(url, function (err, feed) {
+                                self.insert(feed, callback);
+                            });
+                        });
+                    }else{
+                        $timeout(callback.bind(null,new Error('no url provided')),1);
+                    }
                 }
             };
         })

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-ng-app="flowReader" data-ng-controller="MainCtrl">
+<html lang="en" data-ng-app="index" data-ng-controller="MainCtrl">
 <!-- index.html-->
 <!--
  @copyright 2014 mparaiso <mparaiso@online.fr>
@@ -9,8 +9,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/flowreader_favicon_export.png" />
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
     <link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lobster+Two' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/styles.css"/>
     <script src="bower_components/async/lib/async.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -21,6 +23,7 @@
     <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
     <script src="javascript/flowReader.js"></script>
+    <script src="javascript/index.js"></script>
     <script src="javascript/dropbox.js"></script>
     <script src="javascript/dropboxDatabase.js"></script>
     <script src="javascript/googleFeed.js"></script>
@@ -28,18 +31,49 @@
     <title>{{globals.title}}</title>
 </head>
 
-<body>
-<noscript>
-    <section class="container">
-        <h1 class="alert alert-warning">This Website makes heavy use of javascript,please enable javascript</h1>
+<body class="bg-dark">
+    <noscript>
+        <section class="container-fluid">
+            <h1 class="alert alert-warning">This Website makes heavy use of javascript,please enable javascript</h1>
+        </section>
+    </noscript>
+    <nav class="navbar navbar-inverse" data-role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header ">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand brand" ng-href="{{baseUrl}}">Flow<strong>reader</strong></a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"   
+        ng-include="'templates/home-nav.html'">
+    </div>
+</div>
+</nav>
+<div class="cover">
+   <main class="container-fluid container-narrow">
+    <article class="outer-jumbotron">
+        <section class="jumbotron text-centered centered text-center">
+            <header>
+             <h1>Your Free News Aggregator!</h1>
+             <p class="lead">All your favorite websites right here in one place! <br>
+                A free, easy to use open source feed reader powered by Dropbox&trade;.</p>
+                <p>&nbsp;</p>
+             <p>
+                <button class="btn btn-success btn-lg">Sign in with Dropbox</button>
+            </p>
+        </header>
     </section>
-</noscript>
-<header ng-include="'templates/nav.html'"></header>
-<main data-ng-view>
-    <h1 class="center-block">Loading</h1>
-</main>
+</article>
+</main> 
+</div>
 <footer class="bg-misc text-gray">
-    <section class="container">
+    <section class="container-fluid">
         <section class="row">
             <div class="col-md-10">
                 <p>&nbsp;</p>
@@ -50,40 +84,40 @@
 
                 <p>
                     {{globals.title}} is an opensource project under GPL license
+                </a>
+            </p>
+        </div>
+        <div class="col-md-2">
+            <p>&nbsp;</p>
+            <ul class="list-inline">
+                <li>
+                    <a href="{{globals.projectUrl}}">
+                        <span class='glyphicon glyphicon-social glyphicon-facebook'></span>
                     </a>
-                </p>
-            </div>
-            <div class="col-md-2">
-                <p>&nbsp;</p>
-                <ul class="list-inline">
-                    <li>
-                        <a href="{{globals.projectUrl}}">
-                            <span class='glyphicon glyphicon-social glyphicon-facebook'></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{globals.projectUrl}}">
-                            <span class='glyphicon glyphicon-social glyphicon-twitter'></span>
-                        </a>
+                </li>
+                <li>
+                    <a href="{{globals.projectUrl}}">
+                        <span class='glyphicon glyphicon-social glyphicon-twitter'></span>
+                    </a>
 
-                    </li>
-                    <li>
-                        <a href="{{globals.projectUrl}}">
-                            <span class='glyphicon glyphicon-social glyphicon-github'></span>
-                        </a>
+                </li>
+                <li>
+                    <a href="{{globals.projectUrl}}">
+                        <span class='glyphicon glyphicon-social glyphicon-github'></span>
+                    </a>
 
-                    </li>
-                    <li>
-                        <a href="mailto:{{globals.email}}">
-                            <span class='glyphicon glyphicon-social glyphicon-email'></span>
-                        </a>
+                </li>
+                <li>
+                    <a href="mailto:{{globals.email}}">
+                        <span class='glyphicon glyphicon-social glyphicon-email'></span>
+                    </a>
 
-                    </li>
-                </ul>
-            </div>
-        </section>
-
+                </li>
+            </ul>
+        </div>
     </section>
+
+</section>
 </footer>
 </body>
 

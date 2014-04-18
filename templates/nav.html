@@ -3,33 +3,16 @@
  @copyright 2014 mparaiso <mparaiso@online.fr>
  @license GPL
 -->
-<nav class="navbar navbar-inverse" data-role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" data-ng-cloak href="{{baseUrl}}">{{globals.title}}</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right" data-ng-cloak>
                 <li data-ng-hide="isAuthenticated()">
-                <a class="btn btn-link" data-ng-click="signIn()">
-                    <span class="glyphicon glyphicon-cloud-upload"></span> Sign in with dropbox</a>
+                    <a class="btn btn-link" data-ng-click="signIn()">
+                        <span class="glyphicon glyphicon-cloud-upload"></span> Sign in with dropbox</a>
                 </li>
-                <li data-ng-show="isAuthenticated() && accountInfo.name" class="navbar-text">
-                <span>Welcome back <a href="#/dashboard/account">{{accountInfo.name}}</a>.</span>
+                <li data-ng-show="isAuthenticated() && accountInfo.name">
+                    <a href="#/dashboard/account">Welcome back {{accountInfo.name}}</a>
                 </li>
-                <li data-ng-show="isAuthenticated()"><a data-ng-href="#/dashboard">Dashboard</a>
+                <li data-ng-show="isAuthenticated()"><a data-ng-href="#/dashboard">Your Subscriptions</a>
                 </li>
                 <li data-ng-show="isAuthenticated()"><a class="btn btn-link" data-ng-click="signOut()">Sign out</a>
                 </li>
             </ul>
-        </div>
-    </div>
-</nav>
-

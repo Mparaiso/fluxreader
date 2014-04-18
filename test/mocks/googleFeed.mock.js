@@ -2,6 +2,7 @@
 angular.module('googleFeed.mock', [])
     /* feed service */
     .provider('feed', function () {
+        "use strict";
         var _google;
         return {
             setGoogle: function (google) {
