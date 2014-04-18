@@ -30,6 +30,6 @@ Sprint4:
 
 
 Sprint5:
-
+- [X] the application can discover a syndication url from a website address
 - [] replace default browser popups by custom modals
 - [] during page changes, user is notified that some data are being loaded

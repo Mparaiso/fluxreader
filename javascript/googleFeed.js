@@ -26,13 +26,23 @@
                 },
                 $get: function ($q, $timeout) {
                     return {
-                        /* load a feed according to its url */
+                        /* load a feed according to its syndication url */
                         findFeedByUrl: function (feedUrl, callback) {
-                            var feed = new _google.feeds.Feed(feedUrl);
+                            var self=this,feed = new _google.feeds.Feed(feedUrl);
                             feed.includeHistoricalEntries();
                             feed.setNumEntries(numEntries);
-                            feed.load(function (result) {
-                                callback(result.error, result.feed);
+                            return feed.load(function (result) {
+                                if(!result.error){
+                                    return callback(result.error, result.feed);
+                                }
+                                /*try a search strategy if no feed*/
+                                return _google.feeds.findFeeds("site:".concat(feedUrl),function(result){
+                                    if(!result.error && result.entries.length>0){
+                                        console.log(result.entries);
+                                        return self.findFeedByUrl(result.entries[0].url,callback);
+                                    }
+                                    callback(result.error);
+                                });
                             });
                         },
                         /* create a feed loader if undefined */

@@ -3,19 +3,19 @@
  @copyright 2014 mparaiso <mparaiso@online.fr>
  @license GPL
 -->
-<ul class="list-group" data-ng-controller="FeedListCtrl">
+<ul class="list-group list-group-narrow" data-ng-controller="FeedListCtrl">
     <li class="list-group-item">
         <h5 class="list-group-item-heading text-muted"> SUBSCRIPTIONS</h5>
     </li>
-    <li class="list-group-item text-muted text-small" data-ng-show="!FeedRepository.feeds">Loading
+    <li class="list-group-item text-muted text-small" data-ng-show="!FeedCache.feeds">Loading
         subscriptions
     </li>
     <li class="list-group-item text-small text-muted"
-        ng-show="FeedRepository.feeds"
+        ng-show="FeedCache.feeds"
         ng-repeat="link in links">
         <a ng-href="{{link.href}}">{{link.name}}</a>
     </li>
-    <li class="list-group-item text-small" ng-repeat="feed in FeedRepository.feeds" title="{{feed.description}}">
+    <li class="list-group-item text-small" ng-repeat="feed in FeedCache.feeds" title="{{feed.description}}">
         <a ng-href="#/dashboard/feed/{{feed.id}}">{{feed.title|limitTo:18}}</a>
         <a data-ng-click="unsubscribe(feed)" data-id="{{feed.id}}" href="javascript:void 0;"
            title="unsubscribe {{feed.title}}">

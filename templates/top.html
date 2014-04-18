@@ -26,6 +26,6 @@
     </div>
     <datalist id="categories">
         <option value="{{category.name}}"
-                ng-repeat="category in EntryRepository.categories|filter:{name:q}|limitTo:15">
+                ng-repeat="category in EntryCache.getCategories()|filter:{name:q}|limitTo:15">
     </datalist>
 </form>

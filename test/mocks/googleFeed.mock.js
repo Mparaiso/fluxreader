@@ -1,7 +1,7 @@
 /* globals angular,google */
 angular.module('googleFeed.mock', [])
     /* feed service */
-    .provider('feed', function () {
+    .provider('feedFinder', function () {
         "use strict";
         var _google;
         return {

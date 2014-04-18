@@ -38,15 +38,7 @@
 </noscript>
 <nav class="navbar navbar-inverse" data-role="navigation">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand brand" data-ng-cloak ng-href="{{baseUrl}}">Flow<strong>reader</strong></a>
+        <div class="navbar-header" ng-include="'templates/navbar-header.html'">
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"   
@@ -54,9 +46,10 @@
         </div>
     </div>
 </nav>
-
-<main data-ng-view>
-    <h1 class="center-block text-muted">Loading</h1>
+<main>
+    <article data-ng-view>
+        <h1 class="center-block text-muted">Loading Application...</h1>
+    </article>
 </main>
 <footer class="bg-misc text-gray">
     <section class="container-fluid">

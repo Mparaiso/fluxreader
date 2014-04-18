@@ -28,7 +28,7 @@
     <script src="javascript/dropboxDatabase.js"></script>
     <script src="javascript/googleFeed.js"></script>
     <script src="javascript/modal.js"></script>
-    <title>{{globals.title}}</title>
+    <title ng-bind="globals.title">Flowreader - news aggregator</title>
 </head>
 
 <body class="bg-dark">
@@ -39,16 +39,8 @@
     </noscript>
     <nav class="navbar navbar-inverse" data-role="navigation">
         <div class="container-fluid">
-            <div class="navbar-header ">
-                <button type="button" class="navbar-toggle" data-toggle="collapse"
-                data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand brand" ng-href="{{baseUrl}}">Flow<strong>reader</strong></a>
-        </div>
+            <div class="navbar-header " ng-include='"templates/navbar-header.html"'>
+            </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"   
         ng-include="'templates/home-nav.html'">
@@ -58,14 +50,20 @@
 <div class="cover">
    <main class="container-fluid container-narrow">
     <article class="outer-jumbotron">
-        <section class="jumbotron text-centered centered text-center">
+        <section class="jumbotron text-center">
             <header>
-             <h1>Your Free News Aggregator!</h1>
+                <h1 class="brand">Flowreader</h1>
+             <h2> Your Free News Aggregator.</h2>
              <p class="lead">All your favorite websites right here in one place! <br>
                 A free, easy to use open source feed reader powered by Dropbox&trade;.</p>
                 <p>&nbsp;</p>
              <p>
-                <button class="btn btn-success btn-lg">Sign in with Dropbox</button>
+                <a class="btn btn-success btn-lg" ng-href="app.html#/dashboard">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
+                    <span ng-bind="isAuthenticated()?'Go to your subscriptions':'Sign in with Dropbox'">
+                        Sign in with Dropbox
+                    </span>
+                </a>
             </p>
         </header>
     </section>

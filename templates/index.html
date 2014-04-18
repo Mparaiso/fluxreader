@@ -3,6 +3,34 @@
  @copyright 2014 mparaiso <mparaiso@online.fr>
  @license GPL
 -->
-<section class="container-fluid">
-    <h1>Index</h1>
+<section class="container-fluid container-narrow">
+		<div class="jumbotron text-center">
+			<h2><span class="brand">Flowreader</span> is a 100% client side news aggregator.</h2>
+			<p>&nbsp;</p>
+			<p><a ng-href="#/signin" 
+				ng-class="{'btn-primary':isAuthenticated(),'btn-success':!isAuthenticated()}"
+				class="btn btn-lg">
+				<span class="glyphicon glyphicon-cloud-upload"></span>
+				<span>{{isAuthenticated()?'Goto your subscriptions':'Signin with Dropbox'}}</span>
+			</a></p>
+		</div>
+	<section class="row">
+	</section>
+	<div class="row">
+		<div class="col-md-4">
+			<h1 class="text-center"><span class="glyphicon glyphicon-cloud-upload"></span></h1>
+			<h4>Datas are stored in the cloud thanks to Dropbox.</h4>
+			<p>You own your datas and keep and exploit them the way you want.</p>
+		</div>
+		<div class="col-md-4">
+			<h1 class="text-center"><span class="glyphicon glyphicon-pencil"></span></h1>
+			<h4>If you dont have a Dropbox account yet,the signup process will help you create one.</h4>
+			<p>It's free and takes less than a minute</p>
+		</div>
+		<div class="col-md-4">
+			<h1 class="text-center"><span class=" glyphicon glyphicon-th-large"></span></h1>
+			<h4>Next you can subscribe news feed by entering urls of websites that maintain an RSS feed.</h4>
+			<p>You can also unsubscribe feeds, mark feed entries as favorite,filter by feed,search entries...</p>
+		</div>
+	</div>
 </section>

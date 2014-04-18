@@ -105,22 +105,19 @@ a{
 }
 
 .container-narrow{
+    max-width:768px;
     display: table;
 }
 .outer-jumbotron{
-    width:768px;
     vertical-align: middle;
     display: table-cell;
 }
 .cover .jumbotron{
     background-color: inherit;
     color: #ECF0F1;
-    text-shadow: 1px 1px #34495E;
+    /*text-shadow: 1px 1px #34495E;*/
 }
-
-/*
-.ng-scope  {
-    border: 1px solid red;
-    margin: 3px;
+.list-group-narrow .list-group-item{
+  padding-top:3px;
+  padding-bottom:3px;
 }
-*/

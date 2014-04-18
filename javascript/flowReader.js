@@ -1,4 +1,5 @@
-/*global angular,google*/
+/*jslint browser:true,plusplus:true*/
+/*global angular,async,google*/
 /**
  * @copyright 2014 mparaiso <mparaiso@online.fr>
  * @license GPL
@@ -6,6 +7,7 @@
  */
 (function (window, undefined) {
     "use strict";
+    var _enum=0;
     angular.module('flowReader',
         ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed'],
         function (feedFinderProvider, $routeProvider, dropboxClientProvider, baseUrl) {
@@ -18,6 +20,10 @@
                 .when('/', {
                     controller: 'IndexCtrl',
                     templateUrl: baseUrl.concat('templates/index.html')
+                })
+                .when('/signin',{
+                    controller:'SignInCtrl',
+                    authenticated:false
                 })
                 .when('/dashboard', {
                     controller: 'DashboardCtrl',
@@ -88,7 +94,8 @@
         .constant('DROPBOX_APIKEY', 'gi42kr1ox74tyrb')
         .constant('baseUrl', window.location.pathname.match(/(.*?\/)/)[1])
         .constant('Events', {
-            FAVORITE_TOGGLED: 0
+            FAVORITE_TOGGLED: _enum++,
+            REFRESH_DONE:_enum++
         })
         .value('globals', {
             siteTitle: 'Flow Reader',
@@ -97,15 +104,19 @@
             url: window.location.origin,
             year: (new Date()).getFullYear()
         })
-        .controller('SubscribeCtrl', function ($scope, Feed, feedFinder, FeedRepository, EntryRepository, $window) {
+        .controller('SubscribeCtrl', function ($scope, Feed, feedFinder, FeedCache, $location,$window) {
             $scope.subscribe = function () {
                 var url = $window.prompt('Enter the feed URL');
                 if (url) {
                     feedFinder.open(function () {
                         feedFinder.findFeedByUrl(url, function (err, feed) {
-                            Feed.insert(feed, function (err, result) {
-                                FeedRepository.load();
-                                EntryRepository.load();
+                            Feed.insert(feed, function (err, feed) {
+                                if(err){
+                                    console.log(err);
+                                    /* @todo deal with errors */
+                                }else{
+                                    $location.path("/dashboard/feed/".concat(feed.id));
+                                }
                             });
                         });
                     });
@@ -141,90 +152,75 @@
         .controller('IndexCtrl', function ($scope, $log) {
             $log.debug('IndexCtrl');
         })
-        .controller('SearchCtrl', function ($scope, $route, EntryRepository) {
+        .controller('SignInCtrl', function ($scope, $log,dropboxClient) {
+            $log.debug('SignIn');
+            dropboxClient.signIn();
+        })
+        .controller('SearchCtrl', function ($scope, $route, EntryCache) {
             $scope.query = $route.current.params.q;
             $scope.pageTitle = ['Results for "', $scope.query, '" '].join("");
-            $scope.EntryRepository = EntryRepository;
-            EntryRepository.load(function () {
-                $scope.$apply('EntryRepository');
-            });
+            $scope.EntryCache = EntryCache;
+            EntryCache.load();
         })
-        .controller('DashboardCtrl', function ($scope, EntryRepository) {
+        .controller('DashboardCtrl', function ($scope, EntryCache) {
             $scope.pageTitle = "Latest Entries";
-            $scope.EntryRepository = EntryRepository;
-            EntryRepository.load(function () {
-                $scope.$apply('EntryRepository');
-                EntryRepository.categories = EntryRepository.entries.reduce(function (list, entry) {
-                    if (entry.categories instanceof Array) {
-                        list.push.apply(list, entry.categories.filter(function (category) {
-                            return !list.some(function (item) {
-                                return item.name === category;
-                            });
-                        }).map(function (category) {
-                            return {name: category};
-                        }));
-                    }
-                    return list;
-                }, []);
-            });
+            $scope.EntryCache = EntryCache;
+            EntryCache.load();
         })
-        .controller('FeedCtrl', function ($scope, feed, EntryRepository) {
+        .controller('FeedCtrl', function ($scope, feed, EntryCache) {
             $scope.pageTitle = ['Latest Entries for "', feed.title, '"'].join('');
             $scope.feed = feed;
-            $scope.EntryRepository = EntryRepository;
-            EntryRepository.load({feedId: feed.id}, function (err, entries) {
-                EntryRepository.entries = entries;
-                $scope.$apply('EntryRepository');
-            });
+            $scope.EntryCache = EntryCache;
+            EntryCache.load({feedId: feed.id});
         })
-        .controller('FavoriteCtrl', function ($scope, EntryRepository, Events) {
+        .controller('FavoriteCtrl', function ($scope, EntryCache, Events) {
             $scope.pageTitle = "Favorite entries";
-            $scope.EntryRepository = EntryRepository;
+            $scope.EntryCache = EntryCache;
             $scope.$on(Events.FAVORITE_TOGGLED, function (event, entry) {
                 if (!entry.favorite) {
-                    EntryRepository.remove(entry);
+                    EntryCache.remove(entry);
                 }
             });
-            EntryRepository.load({favorite: true}, function (err, entries) {
-                EntryRepository.entries = entries;
-                $scope.$apply('EntryRepository');
-            });
+            EntryCache.load({favorite: true});
         })
-        .controller('UnreadCtrl', function ($scope, EntryRepository) {
+        .controller('UnreadCtrl', function ($scope, EntryCache) {
             $scope.pageTitle = "Unread entries";
-            $scope.EntryRepository = EntryRepository;
-            EntryRepository.load({read: false}, function (err, entries) {
-                EntryRepository.entries = entries;
-                $scope.$apply('EntryRepository');
-            });
+            $scope.EntryCache = EntryCache;
+            EntryCache.load({read: false});
         })
-        .controller('AccountCtrl', function ($scope, dropboxClient,Feed,FeedRepository) {
+        .controller('AccountCtrl', function ($timeout,Events,$scope, dropboxClient,Feed,FeedCache) {
             $scope.refresh=function(){
-
+                Feed.findAll(function(err,feeds){
+                    async.each(feeds,function(feed,next){
+                        $timeout(Feed.subscribe.bind(Feed,feed.feedUrl,next),10);
+                    },function(err,res){
+                        console.log('refresh done',arguments);
+                        if(!err){
+                            $scope.$emit(Events.REFRESH_DONE,arguments,feeds);
+                        }
+                    });
+                });
             };
             dropboxClient.getAccountInfo(function (err, accountInfo) {
                 $scope.accountInfo = accountInfo;
             });
         })
-        .controller('EntryCtrl', function ($scope, entry, Feed, Entry) {
+        .controller('EntryCtrl', function ($scope, entry, FeedCache, Entry) {
             if (!entry.read) {
                 entry.read = true;
-                Entry.markAsRead(entry, function () {
-                });
+                Entry.markAsRead(entry, angular.noop);
             }
             $scope.entry = entry;
             $scope.toggleFavorite = function () {
-                this.entry.favorite = this.entry.favorite;
                 Entry.toggleFavorite(this.entry, function (err, _entry) {
-
+                    this.entry.favorite = !_entry.favorite;
                 });
             };
-            Feed.getById(entry.feedId, function (err, feed) {
+            FeedCache.getById(entry.feedId).then(function (feed) {
                 $scope.entry.feed = feed;
-                $scope.$apply('entry');
             });
         })
-        .controller('EntryListCtrl', function (Events, $scope, Entry, Feed, EntryRepository, FeedRepository) {
+        .controller('EntryListCtrl', function (Events, $scope, Entry, Feed, EntryCache, FeedCache) {
             $scope.predicate = function (item) {
                 if (item.publishedDate) {
                     return new Date(item.publishedDate);
@@ -243,28 +239,26 @@
                 }
             };
         })
-        .controller('FeedListCtrl', function ($window, $scope, Feed, FeedRepository, EntryRepository) {
+        .controller('FeedListCtrl', function ($window, $scope, Feed, FeedCache, EntryCache) {
             $scope.links = [
                 {name: 'ALL', href: '#/dashboard'},
                 {name: 'UNREAD', href: '#/dashboard/unread'},
                 {name: 'FAVORITES', href: '#/dashboard/favorite'}
             ];
-            $scope.FeedRepository = FeedRepository;
+            $scope.FeedCache = FeedCache;
             $scope.unsubscribe = function (feed) {
                 var confirm = $window.confirm('Unsubscribe '.concat(feed.title).concat(' ?'));
                 if (confirm) {
                     Feed.delete(feed, function () {
-                        FeedRepository.load();
-                        EntryRepository.load();
+                        FeedCache.load(true).then(function(){
+                            $scope.$apply('FeedCache');
+                            EntryCache.load();
+                        });
                     });
                 }
             };
-            FeedRepository.load(function () {
-                $scope.$apply('FeedRepository');
-            });
         })
-        .controller('SearchFormCtrl', function ($scope, $route, $location, EntryRepository) {
-            $scope.EntryRepository = EntryRepository;
+        .controller('SearchFormCtrl', function ($scope, $route, $location) {
             $scope.search = function () {
                 if (this.q && this.q.length >= 3) {
                     $location.path('/dashboard/search/'.concat(this.q));
@@ -286,14 +280,18 @@
              */
             $rootScope.$on('$routeChangeStart', function (event, next, current) {
                 $log.debug('$routeChangeStart', event, next, current);
-                if ($location.path() === '/') {
-                    return;
-                }
                 if (next.authenticated) {
                     if (!dropboxClient.isAuthenticated()) {
-                        $location.path('/');
+                        $location.path('/signin');
                     }
+                }else if(next.authenticated===false && dropboxClient.isAuthenticated()){
+                    /**
+                     * if user requires signin page but already authenticated,
+                     * redirect to dashboard
+                     */
+                    $location.path('/dashboard');
                 }
+
             });
         });
 }(window));

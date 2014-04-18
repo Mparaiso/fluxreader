@@ -7,7 +7,22 @@
 (function () {
     "use strict";
     /**
+     * @typedef {Object} Table
+     * @param {function(record:object,callback:Function)} insert insert a record;
+     * @param {function(record:object,callback:Function)} update insert a record;
+     * @param {function(record:object,callback:Function)} delete delete a record;
+     * @param {function(id:(number|string),callback:Function)} find find a record by id;
+     * @param {function(query?:object,callback:Function)} findAll find a collection of records;
+     * @param {function(record:object,callback:Function)} findOne find one record;
+     */
+    /**
+     * A database table with CRUD methods,implementing the 
+     * datamapper design patter
+     * a record is a javascript object that has an id.
+     * This implementation relies on dropbox datastore table model
+     * 
      * @type {Table}
+     * @constructor
      * @param tableName
      * @param database
      * @param timeout
@@ -56,7 +71,7 @@
                     callback(err, self._table);
                 });
             } else {
-                this._timeout(callback.bind(this, null, this._table), 10);
+                this._timeout(callback.bind(this, null, this._table));
             }
         },
         insert: function (record, callback) {
@@ -148,7 +163,7 @@
                             callback(err, datastore);
                         });
                     } else {
-                        $timeout(callback.bind(null, null, datastore), 1);
+                        $timeout(callback.bind(null, null, datastore));
                     }
                 }
             };
@@ -166,7 +181,7 @@
                 }
             };
         })
-        .factory('Entry', function (tableFactory, $injector) {
+        .factory('Entry', function (tableFactory) {
             /**
              * Manage entry persistance
              */
@@ -237,10 +252,12 @@
                     delete _entry.feed;
                     entryTable.update(_entry, callback);
                 },
+                /* favorite on unfavorite an entry */
                 toggleFavorite: function (entry, callback) {
                     entry.favorite = !entry.favorite;
                     this.update(entry, callback);
                 },
+                /* mark an entry as read */
                 markAsRead: function (entry, callback) {
                     entry.read = true;
                     this.getTable().update(entry, callback);
@@ -326,21 +343,34 @@
                 }
             };
         })
-        .service('FeedRepository', function (Feed) {
+        .service('FeedCache', function (Feed,$timeout,$q) {
             /* simple way to keep feeds in memory */
             var self = this;
-            this.load = function (callback) {
-                callback = callback || angular.noop;
-                Feed.findAll(function (err, feeds) {
-                    self.feeds = feeds;
-                    callback(null, feeds);
+            this.getById=function(id){
+                return this.load().then(function(feeds){
+                    return $timeout(function(){
+                          return feeds.filter(function(feed){
+                        return id===feed.id;
+                        })[0];
+                    });
                 });
             };
+            this.load = function (forceReload) {
+                var deferred=$q.defer();
+                if(this.feeds && !forceReload){
+                    $timeout(deferred.resolve.bind(deferred,this.feeds));
+                }else{
+                    Feed.findAll(function (err, feeds) {
+                        self.feeds = feeds||[];
+                        deferred.resolve(feeds);
+                    });
+                }
+                return deferred.promise;
+            };
         })
-        .service('EntryRepository', function (Entry, FeedRepository, $timeout) {
-            /* simple way to keep entries in memory */
+        .service('EntryCache', function (Entry,FeedCache,$q,$timeout) {
+            /* simple way to keep entries in memory to speed things up */
             var self = this;
-            this.entries = [];
             this.remove = function (entry) {
                 this.entries.some(function (e, i) {
                     if (e.id === entry.id) {
@@ -350,23 +380,33 @@
                     return false;
                 }, this);
             };
-            this.load = function (query, callback) {
-                if (query instanceof Function) {
-                    callback = query;
-                    query = {};
+            this.getCategories=function(){
+                if(this.entries instanceof Array){
+                    return this.entries.reduce(function(categories,entry){
+                        entry.categories.forEach(function(category){
+                            if(categories.indexOf(category)<0){
+                                categories.push(category);
+                            }
+                        });
+                        return categories;
+                    },[]);
                 }
-                callback = callback || angular.noop;
-                Entry.findAll(query, function (err, entries) {
-                    $timeout(function () {
-                        entries.forEach(function (entry) {
-                            entry.feed = FeedRepository.feeds.filter(function (feed) {
-                                return feed.id === entry.feedId;
+            };
+            this.load = function (query) {
+                query=query||{};
+                return FeedCache.load().then(function(){
+                    var deferred=$q.defer();
+                    Entry.findAll(query,function(err,entries){
+                        console.log(err);
+                        self.entries=entries||[];
+                        entries.forEach(function(entry){
+                            entry.feed=FeedCache.feeds.filter(function(feed){
+                                return feed.id===entry.feedId;
                             })[0];
                         });
-                        self.entries = entries;
-                        callback(err, entries);
-                    }, 10);
-
+                        deferred.resolve(self.entries);
+                    });
+                    return deferred.promise;
                 });
             };
         });

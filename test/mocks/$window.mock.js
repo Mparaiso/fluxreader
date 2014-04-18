@@ -1,4 +1,3 @@
+/*global jasmine,angular*/
 angular.module('$window.mock', [])
-    .factory('$window', function () {
-        return jasmine.createSpyObj('$window', ['prompt', 'confirm']);
-    });
+.constant('$window', jasmine.createSpyObj('$window', ['prompt', 'confirm']));
