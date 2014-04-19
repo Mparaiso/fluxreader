@@ -23,6 +23,7 @@
                 })
                 .when('/signin',{
                     controller:'SignInCtrl',
+                    templateUrl: baseUrl.concat('templates/index.html'),
                     authenticated:false
                 })
                 .when('/dashboard', {
