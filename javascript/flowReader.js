@@ -92,7 +92,7 @@
             feedFinderProvider.setGoogle(google);
         })
         .constant('DROPBOX_APIKEY', 'gi42kr1ox74tyrb')
-        .constant('baseUrl', window.location.pathname.match(/(.*?\/)/)[1])
+        .constant('baseUrl', window.location.pathname.match(/(.*\/)/)[1])
         .constant('Events', {
             FAVORITE_TOGGLED: _enum++,
             REFRESH_DONE:_enum++
