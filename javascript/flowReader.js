@@ -191,9 +191,10 @@
         })
         .controller('AccountCtrl', function ($timeout,Events,$scope, dropboxClient,Feed,FeedCache) {
             $scope.refresh=function(){
-                Feed.findAll(function(err,feeds){
-                    async.each(feeds,function(feed,next){
-                        $timeout(Feed.subscribe.bind(Feed,feed.feedUrl,next),10);
+                return Feed.findAll(function(err,feeds){
+                    return async.eachSeries(feeds,function(feed,next){
+                        console.log('updating '.concat(feed.feedUrl));
+                        return $timeout(Feed.subscribe.bind(Feed,feed.feedUrl,next),3000);
                     },function(err,res){
                         console.log('refresh done',arguments);
                         if(!err){
