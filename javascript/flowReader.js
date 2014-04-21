@@ -199,7 +199,7 @@
                 return Feed.findAll(function (err, feeds) {
                     return async.eachSeries(feeds, function (feed, next) {
                         $log.log('updating '.concat(feed.feedUrl));
-                        return $timeout(Feed.subscribe.bind(Feed, feed.feedUrl, next), 3000);
+                        return $timeout(Feed.subscribe.bind(Feed, feed.feedUrl, next), 1000);
                     }, function (err, res) {
                         $log.log('refresh done', arguments);
                         if (!err) {
