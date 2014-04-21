@@ -5,13 +5,13 @@
 -->
 <section ng-controller="EntryListCtrl">
     <div class="lead">{{pageTitle}}</div>
-    <script ng-include="extra"></script>
     <h2 class="text-muted" data-ng-hide="EntryCache.entries">Loading Entries...</h2>
+    <div ng-include="extra" class="text-muted text-small"></div>
     <h2 class="text-muted" data-ng-show="EntryCache.entries.length<1">No Entry found, please subscribe a new feed.</h2>
     <table class="table table-striped table-condensed table-hover">
         <!-- @note @angular orderBy http://docs.angularjs.org/api/ng/filter/orderBy http://jsfiddle.net/camus/Fp4nL/ -->
-        <tr
-                data-ng-repeat="entry in EntryCache.entries|filter:{content:query}|orderBy:predicate:true|limitTo:100">
+        <tr data-ng-repeat="entry in EntryCache.entries |filter:{content:query}|orderBy:predicate:true|limitTo:100  track by $index">
+            <td class="text-muted text-small">{{$index+1}}</td>
             <td>
                 <button ng-click="toggleFavorite(entry)" class="btn btn-link btn-xs">
                   <span
@@ -20,12 +20,20 @@
                 </button>
             </td>
             <td title="{{entry.contentSnippet||entry.title}}">
-                <a ng-class="{'text-muted':entry.read}" data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:110}}</a>
+                <a ng-class="{'text-muted':entry.read}"
+                   data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:110}}</a>
             </td>
             <td data-id="{{entry.id}}" data-feedId="{{entry.feedId}}" class="text-muted text-small">
                 {{entry.feed.title|limitTo:20}}
             </td>
             <td class="text-muted text-small">{{entry.publishedDate|date:'MM/dd/yyyy hh:mm'}}</td>
+            <td class="text-small">
+                <button ng-click="removeEntry()"
+                        title="remove entry : {{entry.title}}"
+                        class="btn btn-link btn-xs hover hide">
+                    <i class="glyphicon glyphicon-remove text-muted"></i>
+                </button>
+            </td>
         </tr>
     </table>
 </section>

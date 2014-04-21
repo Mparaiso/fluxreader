@@ -121,16 +121,25 @@ a{
   padding-top:3px;
   padding-bottom:3px;
 }
-
+tr:hover .hover{
+    visibility:visible;
+    display:block !important;
+}
+.hover{
+    visibility:hidden;
+    display:block!important;
+}
 /**
  *@link http://css-tricks.com/almanac/properties/a/appearance/
  */
-input[type="search"] {
+/*
+input.search {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
     -webkit-appearance: searchfield;
 }
-input[type="search"]::-webkit-search-cancel-button {
+*/
+input.search::-webkit-search-cancel-button {
     -webkit-appearance: searchfield-cancel-button;
 }

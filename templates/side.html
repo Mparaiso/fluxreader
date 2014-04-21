@@ -16,11 +16,11 @@
         <a ng-href="{{link.href}}">{{link.name}}</a>
     </li>
     <li class="list-group-item text-small" ng-show="FeedCache.feeds">
-        <input type="search"
+        <input type="search" class="form-control input-sm search"
                placeholder="filter subscriptions" ng-model="feed_filter"/>
     </li>
     <li class="list-group-item text-small"
-        ng-repeat="feed in FeedCache.feeds|filter:{title:feed_filter}"
+        ng-repeat="feed in FeedCache.feeds|filter:{title:feed_filter} track by $index"
         title="{{feed.description}}">
         <a ng-href="#/dashboard/feed/{{feed.id}}">{{feed.title|limitTo:18}}</a>
         <a data-ng-click="unsubscribe(feed)" data-id="{{feed.id}}" href="javascript:void 0;"

@@ -53,19 +53,19 @@
                     controller: 'FeedCtrl',
                     authenticated: true,
                     templateUrl: baseUrl.concat('templates/dashboard.html'),
-                    resolve: {
-                        feed: function ($route, $q, Feed) {
-                            var deferred = $q.defer();
-                            Feed.getById($route.current.params.id, function (err, feed) {
-                                if (feed) {
-                                    deferred.resolve(feed);
-                                } else {
-                                    deferred.reject(err);
-                                }
-                            });
-                            return deferred.promise;
-                        }
-                    }
+                    /*resolve: {
+                     feed: function ($route, $q, Feed) {
+                     var deferred = $q.defer();
+                     Feed.getById($route.current.params.id, function (err, feed) {
+                     if (feed) {
+                     deferred.resolve(feed);
+                     } else {
+                     deferred.reject(err);
+                     }
+                     });
+                     return deferred.promise;
+                     }
+                     }*/
                 })
                 .when('/dashboard/favorite', {
                     controller: 'FavoriteCtrl',
@@ -169,12 +169,16 @@
             $scope.EntryCache = EntryCache;
             EntryCache.load();
         })
-        .controller('FeedCtrl', function ($scope, feed, EntryCache, baseUrl) {
+        .controller('FeedCtrl', function ($scope, $route, FeedCache, EntryCache, baseUrl) {
+            var feedId = $route.current.params.id;
             $scope.extra = baseUrl + 'templates/feed-extra.html';
-            $scope.pageTitle = ['Latest Entries for "', feed.title, '"'].join('');
-            $scope.feed = feed;
             $scope.EntryCache = EntryCache;
-            EntryCache.load({feedId: feed.id});
+            EntryCache.load({feedId: feedId })
+                .then(FeedCache.getById.bind(FeedCache, feedId))
+                .then(function (feed) {
+                    $scope.feed = feed;
+                    $scope.pageTitle = ['Latest Entries for "', $scope.feed.title, '"'].join('');
+                });
         })
         .controller('FavoriteCtrl', function ($scope, EntryCache, Events) {
             $scope.pageTitle = "Favorite entries";
@@ -217,7 +221,7 @@
             $scope.entry = entry;
             $scope.toggleFavorite = function () {
                 Entry.toggleFavorite(this.entry, function (err, _entry) {
-                    this.entry.favorite = !_entry.favorite;
+                    $scope.entry.favorite = _entry.favorite;
                 });
             };
             FeedCache.getById(entry.feedId).then(function (feed) {
@@ -242,6 +246,13 @@
 
                 }
             };
+            $scope.removeEntry=function(){
+                if(this.entry){
+                    EntryCache.delete(this.entry).then(function(err,res){
+                        console.log('entry removed');
+                    });
+                }
+            }
         })
         .controller('FeedListCtrl', function ($window, $scope, Feed, FeedCache, EntryCache) {
             $scope.links = [
@@ -255,7 +266,6 @@
                 if (confirm) {
                     Feed.delete(feed, function () {
                         FeedCache.load(true).then(function () {
-                            $scope.$apply('FeedCache');
                             EntryCache.load();
                         });
                     });

@@ -219,6 +219,13 @@
              * @TODO complete
              */
         })
+        .service('EntryBlacklist', function (tableFactory) {
+            var entryBlacklistTable = tableFactory.create('entry_blacklist');
+            this.findAll = function () {
+                entryBlacklistTable.findAll.apply(entryBlacklistTable, [].slice.call(arguments));
+            }
+            //this.insert = function(blacklisted)
+        })
         .service('Entry', function (tableFactory) {
             /**
              * Manage entry persistance
@@ -474,6 +481,16 @@
                     return deferred.promise;
                 });
             };
+            this.delete = function (entry) {
+                var self=this,deferred = $q.defer();
+                Entry.delete(entry, function (err, res) {
+                    console.warn(err);
+                    var index=self.entries.indexOf(self.entries.filter(function(e){return e.id==entry.id;})[0]);
+                    self.entries.splice(index,1);
+                    deferred.resolve(res);
+                });
+                return deferred.promise;
+            }
             /*this.load().then(function (entries) {
              async.each(entries.filter(function (entry) {
              return !entry.link
