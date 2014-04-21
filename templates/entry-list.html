@@ -19,7 +19,7 @@
                 </button>
             </td>
             <td title="{{entry.contentSnippet||entry.title}}">
-                <a ng-class="{'text-muted':entry.read}" data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:90}}</a>
+                <a ng-class="{'text-muted':entry.read}" data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:110}}</a>
             </td>
             <td data-id="{{entry.id}}" data-feedId="{{entry.feedId}}" class="text-muted text-small">
                 {{entry.feed.title|limitTo:20}}

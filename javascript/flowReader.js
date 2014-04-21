@@ -7,7 +7,7 @@
  */
 (function (window, undefined) {
     "use strict";
-    var _enum=0;
+    var _enum = 0;
     angular.module('flowReader',
         ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed'],
         function (feedFinderProvider, $routeProvider, dropboxClientProvider, baseUrl) {
@@ -21,10 +21,10 @@
                     controller: 'IndexCtrl',
                     templateUrl: baseUrl.concat('templates/index.html')
                 })
-                .when('/signin',{
-                    controller:'SignInCtrl',
+                .when('/signin', {
+                    controller: 'SignInCtrl',
                     templateUrl: baseUrl.concat('templates/index.html'),
-                    authenticated:false
+                    authenticated: false
                 })
                 .when('/dashboard', {
                     controller: 'DashboardCtrl',
@@ -96,7 +96,8 @@
         .constant('baseUrl', window.location.pathname.match(/(.*\/)/)[1])
         .constant('Events', {
             FAVORITE_TOGGLED: _enum++,
-            REFRESH_DONE:_enum++
+            REFRESH_DONE: _enum++,
+            NOTIFIY_ERROR: _enum++
         })
         .value('globals', {
             siteTitle: 'Flow Reader',
@@ -105,17 +106,18 @@
             url: window.location.origin,
             year: (new Date()).getFullYear()
         })
-        .controller('SubscribeCtrl', function ($scope, Feed, feedFinder, FeedCache, $location,$window) {
+        .controller('SubscribeCtrl', function ($scope, Events, Feed, feedFinder, FeedCache, $location, $window) {
             $scope.subscribe = function () {
                 var url = $window.prompt('Enter the feed URL');
                 if (url) {
                     feedFinder.open(function () {
                         feedFinder.findFeedByUrl(url, function (err, feed) {
                             Feed.insert(feed, function (err, feed) {
-                                if(err){
-                                    console.log(err);
+                                if (err) {
+                                    $scope.$emit(Events.NOTIFIY_ERROR, err);
                                     /* @todo deal with errors */
-                                }else{
+                                } else {
+                                    FeedCache.feeds.push(feed);
                                     $location.path("/dashboard/feed/".concat(feed.id));
                                 }
                             });
@@ -124,7 +126,7 @@
                 }
             };
         })
-        .controller('MainCtrl', function ($scope, globals, $location, dropboxClient, baseUrl) {
+        .controller('MainCtrl', function ($scope, Events, $log, globals, $location, dropboxClient, baseUrl) {
             $scope.utils = {
                 round: Math.round.bind(Math),
                 pow: Math.pow.bind(Math)
@@ -149,11 +151,14 @@
             $scope.signIn = function () {
                 dropboxClient.signIn();
             };
+            $scope.$on(Events.NOTIFIY_ERROR, function (event, err) {
+                $log.warn(err);
+            });
         })
         .controller('IndexCtrl', function ($scope, $log) {
             $log.debug('IndexCtrl');
         })
-        .controller('SignInCtrl', function ($scope, $log,dropboxClient) {
+        .controller('SignInCtrl', function ($scope, $log, dropboxClient) {
             $log.debug('SignIn');
             dropboxClient.signIn();
         })
@@ -189,16 +194,16 @@
             $scope.EntryCache = EntryCache;
             EntryCache.load({read: false});
         })
-        .controller('AccountCtrl', function ($timeout,Events,$scope, dropboxClient,Feed,FeedCache) {
-            $scope.refresh=function(){
-                return Feed.findAll(function(err,feeds){
-                    return async.eachSeries(feeds,function(feed,next){
-                        console.log('updating '.concat(feed.feedUrl));
-                        return $timeout(Feed.subscribe.bind(Feed,feed.feedUrl,next),3000);
-                    },function(err,res){
-                        console.log('refresh done',arguments);
-                        if(!err){
-                            $scope.$emit(Events.REFRESH_DONE,arguments,feeds);
+        .controller('AccountCtrl', function ($timeout, $log, Events, $scope, dropboxClient, Feed, FeedCache) {
+            $scope.refresh = function () {
+                return Feed.findAll(function (err, feeds) {
+                    return async.eachSeries(feeds, function (feed, next) {
+                        $log.log('updating '.concat(feed.feedUrl));
+                        return $timeout(Feed.subscribe.bind(Feed, feed.feedUrl, next), 3000);
+                    }, function (err, res) {
+                        $log.log('refresh done', arguments);
+                        if (!err) {
+                            $scope.$emit(Events.REFRESH_DONE, arguments, feeds);
                         }
                     });
                 });
@@ -252,7 +257,7 @@
                 var confirm = $window.confirm('Unsubscribe '.concat(feed.title).concat(' ?'));
                 if (confirm) {
                     Feed.delete(feed, function () {
-                        FeedCache.load(true).then(function(){
+                        FeedCache.load(true).then(function () {
                             $scope.$apply('FeedCache');
                             EntryCache.load();
                         });
@@ -286,7 +291,7 @@
                     if (!dropboxClient.isAuthenticated()) {
                         $location.path('/signin');
                     }
-                }else if(next.authenticated===false && dropboxClient.isAuthenticated()){
+                } else if (next.authenticated === false && dropboxClient.isAuthenticated()) {
                     /**
                      * if user requires signin page but already authenticated,
                      * redirect to dashboard

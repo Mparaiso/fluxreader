@@ -4,23 +4,59 @@
  * @copyright 2014 mparaiso <mparaiso@online.fr>
  * @license GPL
  */
+/**
+ * @typedef {Object} model.Configuration
+ * @a configuration
+ * @param {string} key
+ * @param {*} value
+ */
+/**
+ * @typedef {Object} model.Feed
+ * @description A Feed
+ * @param {string} id id
+ * @param {string} feedUrl feedUrl
+ * @param {string} description description
+ * @param {string} author author
+ * @param {string} title title
+ * @param {string} link link
+ * @param {string} type type
+ * @param {Date} createdAt createdAt
+ * @param {Date} updatedAt updatedAt
+ */
+/**
+ * @typedef {Object} model.Entry
+ * @description An entry
+ * @param {string} id
+ * @param {string} title title
+ * @param {string} read read
+ * @param {Date} publishedDate publishedDate
+ * @param {string} favorite favorite
+ * @param {string} feedId feedId
+ * @param {string} content content
+ * @param {string} contentSnippet contentSnippet
+ * @param {Date} createdAt createdAt
+ * @param {string} link link
+ * @param {string} id id
+ * @param {string} categories categories
+ */
+/**
+ * @typedef {Object} database.Table
+ * @param {function(record:object,callback:Function)} insert insert a record;
+ * @param {function(record:object,callback:Function)} update insert a record;
+ * @param {function(record:object,callback:Function)} delete delete a record;
+ * @param {function(id:(number|string),callback:Function)} find find a record by id;
+ * @param {function(query?:object,callback:Function)} findAll find a collection of records;
+ * @param {function(record:object,callback:Function)} findOne find one record;
+ */
 (function () {
     "use strict";
+
     /**
-     * @typedef {Object} Table
-     * @param {function(record:object,callback:Function)} insert insert a record;
-     * @param {function(record:object,callback:Function)} update insert a record;
-     * @param {function(record:object,callback:Function)} delete delete a record;
-     * @param {function(id:(number|string),callback:Function)} find find a record by id;
-     * @param {function(query?:object,callback:Function)} findAll find a collection of records;
-     * @param {function(record:object,callback:Function)} findOne find one record;
-     */
-    /**
-     * A database table with CRUD methods,implementing the 
+     * A database table with CRUD methods,implementing the
      * datamapper design patter
      * a record is a javascript object that has an id.
      * This implementation relies on dropbox datastore table model
-     * 
+     *
      * @type {Table}
      * @constructor
      * @param tableName
@@ -109,7 +145,7 @@
                 callback(err, self.recordToHash(record));
             });
         },
-        'delete': function (record, callback) {
+        delete: function (record, callback) {
             if (record !== undefined && record.id !== undefined) {
                 this.getTable(function (err, table) {
                     var r = table.get(record.id);
@@ -147,228 +183,246 @@
     };
     angular.module('dropboxDatabase', [])
         .constant('Table', Table)
-        .factory('database', function (dropboxClient, $timeout) {
+        .service('database', function (dropboxClient, $timeout) {
             var datastore;
-            return {
-                /**
-                 * open default datastore
-                 * @param  {Function} callback
-                 * @return {void}
-                 */
-                open: function (callback) {
-                    if (datastore === undefined) {
-                        var datastoreManager = dropboxClient.getDatastoreManager();
-                        datastoreManager.openDefaultDatastore(function (err, _datastore) {
-                            datastore = _datastore;
-                            callback(err, datastore);
-                        });
-                    } else {
-                        $timeout(callback.bind(null, null, datastore));
-                    }
+            /**
+             * open default datastore
+             * @param  {Function} callback
+             * @return {void}
+             */
+            this.open = function (callback) {
+                if (datastore === undefined) {
+                    var datastoreManager = dropboxClient.getDatastoreManager();
+                    datastoreManager.openDefaultDatastore(function (err, _datastore) {
+                        datastore = _datastore;
+                        callback(err, datastore);
+                    });
+                } else {
+                    $timeout(callback.bind(null, null, datastore));
                 }
             };
         })
-        .factory('tableFactory', function (database, $q, $timeout) {
-            return {
-                Table: Table,
-                /**
-                 * create a new table object
-                 * @param tableName
-                 * @return {Table}
-                 */
-                create: function (tableName) {
+        .service('tableFactory', function (database, $q, $timeout) {
+            this.Table = Table,
+            /**
+             * create a new table object
+             * @param tableName
+             * @return {Table}
+             */
+                this.create = function (tableName) {
                     return new this.Table(tableName, database, $timeout);
-                }
-            };
+                };
         })
-        .factory('Entry', function (tableFactory) {
+        .service('Configuration', function (tableFactory) {
+            var configurationTable = tableFactory.create('configuration');
+            /**
+             * @TODO complete
+             */
+        })
+        .service('Entry', function (tableFactory) {
             /**
              * Manage entry persistance
              */
-            var feedTable,
-                /**
-                 * @type {Table}
-                 */
-                    entryTable = tableFactory.create('entry');
-            return {
-                getTable: function () {
-                    return entryTable;
-                },
-                setTable: function (value) {
-                    entryTable = value;
-                    return this;
-                },
-                getFeedTable: function () {
-                    if (feedTable === undefined) {
-                        /*@link http://docs.angularjs.org/api/auto/service/$injector */
-                        feedTable = $injector.get('Feed');
-                    }
-                    return feedTable;
-                },
-                getById: function (id, callback) {
-                    entryTable.get(id, callback);
-                },
-                normalize: function (entry) {
-                    return {
-                        //mediaGroup: typeof(entry.mediaGroup) !== 'string' ? entry.mediaGroup !== undefined ? JSON.stringify(entry.mediaGroup) : "{}" : entry.mediaGroup,
-                        title: entry.title || "",
-                        link: entry.link || "",
-                        content: entry.content || "",
-                        contentSnippet: entry.contentSnippet || "",
-                        publishedDate: (new Date(entry.publishedDate)).getTime(),
-                        categories: entry.categories || [],
-                        createdAt: (new Date()).getTime(),
-                        feedId: entry.feedId || "",
-                        favorite: entry.favorite || false,
-                        read: entry.read || false
-                    };
-                },
-                delete: function (entry, callback) {
-                    entryTable.delete(entry, callback);
-                },
-                findAll: function () {
-                    entryTable.findAll.apply(entryTable, [].slice.call(arguments));
-                },
-                /**
-                 * insert a new entry
-                 * if link already found in Entry table,no insert is necessary
-                 * entries are unique.
-                 * @param entry
-                 * @param callback
-                 */
-                insert: function (entry, callback) {
-                    var self = this;
-                    entryTable.find({link: entry.link, feedId: entry.feedId}, function (err, entryRecord) {
-                        if (entryRecord || err) {
-                            callback(err, entryRecord);
-                        } else {
-                            entry = self.normalize(entry);
-                            entryTable.insert(entry, callback);
-                        }
-                    });
-                },
-                update: function (entry, callback) {
-                    var _entry = angular.copy(entry);
-                    delete _entry.feed;
-                    entryTable.update(_entry, callback);
-                },
-                /* favorite on unfavorite an entry */
-                toggleFavorite: function (entry, callback) {
-                    entry.favorite = !entry.favorite;
-                    this.update(entry, callback);
-                },
-                /* mark an entry as read */
-                markAsRead: function (entry, callback) {
-                    entry.read = true;
-                    this.getTable().update(entry, callback);
-                }
+            var feedTable;
+            /**
+             * @type {database.Table}
+             */
+            var entryTable = tableFactory.create('entry');
+            this.getTable = function () {
+                return entryTable;
             };
+            this.setTable = function (value) {
+                entryTable = value;
+                return this;
+            };
+            this.getById = function (id, callback) {
+                entryTable.get(id, callback);
+            };
+            this.getCorrectDate = function (date) {
+                var potentialDate = (new Date(date)).getTime();
+                if (isNaN(potentialDate) || potentialDate == null) {
+                    potentialDate = (new Date()).getTime();
+                }
+                return potentialDate;
+            };
+            this.normalize = function (entry) {
+                return {
+                    //mediaGroup: typeof(entry.mediaGroup) !== 'string' ? entry.mediaGroup !== undefined ? JSON.stringify(entry.mediaGroup) : "{}" : entry.mediaGroup,
+                    title: entry.title || "",
+                    link: entry.link || "",
+                    content: entry.content || "",
+                    contentSnippet: entry.contentSnippet || "",
+                    publishedDate: this.getCorrectDate(entry.publishedDate),
+                    categories: entry.categories || [],
+                    createdAt: (new Date()).getTime(),
+                    feedId: entry.feedId || "",
+                    favorite: entry.favorite || false,
+                    read: entry.read || false,
+                    deleted: entry.deleted || false
+                };
+            };
+            this.delete = function (entry, callback) {
+                entryTable.delete(entry, callback);
+            };
+            this.findAll = function () {
+                entryTable.findAll.apply(entryTable, [].slice.call(arguments));
+            };
+            /**
+             * insert a new entry
+             * if link already found in Entry table,no insert is necessary
+             * entries are unique.
+             * @param entry
+             * @param callback
+             */
+            this.insert = function (entry, callback) {
+                var self = this;
+                entryTable.find({link: entry.link, feedId: entry.feedId}, function (err, entryRecord) {
+                    console.log('checking entry if exists', arguments);
+                    if (err) {
+                        callback(err);
+                    } else if (entryRecord) {
+                        console.log('entry exists');
+                        callback(err, entryRecord);
+                    } else {
+                        console.log('inserting', entry);
+                        entryTable.insert(self.normalize(entry), callback);
+                    }
+                });
+            };
+            this.update = function (entry, callback) {
+                var _entry = angular.copy(entry);
+                delete _entry.feed;
+                entryTable.update(_entry, callback);
+            };
+            /* favorite on unfavorite an entry */
+            this.toggleFavorite = function (entry, callback) {
+                entry.favorite = !entry.favorite;
+                this.update(entry, callback);
+            };
+            /* mark an entry as read */
+            this.markAsRead = function (entry, callback) {
+                entry.read = true;
+                this.getTable().update(entry, callback);
+            }
         })
-        .factory('Feed', function (tableFactory, Entry,feedFinder,$timeout) {
+        .service('Feed', function (tableFactory, Entry, feedFinder, $timeout) {
             /**
              * Manage feed persistance
              */
             var feedTable = tableFactory.create('feed');
-            return {
-                /**
-                 * remove feed and remove any associated entry
-                 * @param feed
-                 * @param {Function} callback
-                 */
-                'delete': function (feed, callback) {
-                    feedTable.delete(feed, function (err, feed) {
-                        if (feed && feed.id) {
-                            Entry.findAll({feedId: feed.id}, function (err, entries) {
-                                async.forEach(entries, function (entry, next) {
-                                    Entry.delete(entry, next);
-                                }, callback);
-                            });
-                        }
-                    });
-                },
-                /**
-                 * get one feed by id
-                 * @param id
-                 * @param callback
-                 */
-                getById: function (id, callback) {
-                    feedTable.get(id, callback);
-                },
-                findAll: function (query, callback) {
-                    feedTable.findAll(query, callback);
-                },
-                /**
-                 * insert a new feed,feeds are unique
-                 * @param feed
-                 * @param callback
-                 */
-                insert: function (feed, callback) {
-                    var  entries = feed.entries;
-                    delete feed.entries;
-                    feedTable.find({feedUrl: feed.feedUrl}, function (err, feedRecord) {
-                        if (err || feedRecord) {
-                            //dont insert feed since exists
-                            async.each(entries, function (entry, next) {
+            /**
+             * remove feed and remove any associated entry
+             * @param feed
+             * @param {Function} callback
+             */
+            this.delete = function (feed, callback) {
+                feedTable.delete(feed, function (err, feed) {
+                    if (feed && feed.id) {
+                        Entry.findAll({feedId: feed.id}, function (err, entries) {
+                            async.forEach(entries, function (entry, next) {
+                                Entry.delete(entry, next);
+                            }, callback);
+                        });
+                    }
+                });
+            };
+            /**
+             * get one feed by id
+             * @param id
+             * @param callback
+             */
+            this.getById = function (id, callback) {
+                feedTable.get(id, callback);
+            };
+            this.findAll = function (query, callback) {
+                feedTable.findAll(query, callback);
+            };
+            /**
+             * insert a new feed,feeds are unique
+             * @param feed
+             * @param callback
+             */
+            this.insert = function (feed, callback) {
+                var entries = feed.entries;
+                delete feed.entries;
+                feedTable.find({feedUrl: feed.feedUrl}, function (err, feedRecord) {
+                    console.log('checking if feed exists', arguments);
+                    if (err) {
+                        console.log('err', err);
+                        callback(err);
+                    } else if (feedRecord) {
+                        console.log('it does,dont insert,but insert new records');
+                        //dont insert feed since exists
+                        async.each(entries, function (entry, next) {
+                            //dont insert feeds that dont have an entry
+                            if (entry && entry.link) {
                                 entry.feedId = feedRecord.id;
                                 Entry.insert(entry, next);
+                            } else {
+                                next();
+                            }
+                        }, function (err) {
+                            return callback(err, feedTable.recordToHash(feedRecord));
+                        });
+                    } else {
+                        //insert since doesnt exist
+                        console.log('it doesnt insert feed and new records');
+                        feed.createdAt = Date.now();
+                        feedTable.insert(feed, function (err, feedRecord) {
+
+                            async.eachSeries(entries, function (entry, next) {
+                                if (entry && entry.link) {
+                                    entry.feedId = feedRecord.getId();
+                                    Entry.insert(entry, next);
+                                } else {
+                                    next();
+                                }
                             }, function (err) {
                                 return callback(err, feedTable.recordToHash(feedRecord));
                             });
-                        } else {
-                            //insert since doesnt exist
-                            feed.createdAt = Date.now();
-                            feedTable.insert(feed, function (err, feedRecord) {
-
-                                async.each(entries, function (entry, next) {
-                                    entry.feedId = feedRecord.getId();
-                                    Entry.insert(entry, next);
-                                }, function (err) {
-                                    return callback(err, feedTable.recordToHash(feedRecord));
-                                });
-                            });
-                        }
-                    });
-                },
-                subscribe:function(url,callback){
-                    var self=this;
-                    if (url) {
-                        feedFinder.open(function () {
-                            feedFinder.findFeedByUrl(url, function (err, feed) {
-                                self.insert(feed, callback);
-                            });
                         });
-                    }else{
-                        $timeout(callback.bind(null,new Error('no url provided')),1);
                     }
-                }
+                });
             };
+            this.subscribe = function (url, callback) {
+                var self = this;
+                if (url) {
+                    feedFinder.open(function () {
+                        feedFinder.findFeedByUrl(url, function (err, feed) {
+                            self.insert(feed, callback);
+                        });
+                    });
+                } else {
+                    $timeout(callback.bind(null, new Error('no url provided')), 1);
+                }
+            }
         })
-        .service('FeedCache', function (Feed,$timeout,$q) {
+        .service('FeedCache', function (Feed, $timeout, $q) {
             /* simple way to keep feeds in memory */
             var self = this;
-            this.getById=function(id){
-                return this.load().then(function(feeds){
-                    return $timeout(function(){
-                          return feeds.filter(function(feed){
-                        return id===feed.id;
+            this.getById = function (id) {
+                return this.load().then(function (feeds) {
+                    return $timeout(function () {
+                        return feeds.filter(function (feed) {
+                            return id === feed.id;
                         })[0];
                     });
                 });
             };
             this.load = function (forceReload) {
-                var deferred=$q.defer();
-                if(this.feeds && !forceReload){
-                    $timeout(deferred.resolve.bind(deferred,this.feeds));
-                }else{
+                var deferred = $q.defer();
+                if (this.feeds && !forceReload) {
+                    $timeout(deferred.resolve.bind(deferred, this.feeds));
+                } else {
                     Feed.findAll(function (err, feeds) {
-                        self.feeds = feeds||[];
+                        self.feeds = feeds || [];
                         deferred.resolve(feeds);
                     });
                 }
                 return deferred.promise;
             };
         })
-        .service('EntryCache', function (Entry,FeedCache,$q,$timeout) {
+        .service('EntryCache', function (Entry, FeedCache, $q, $timeout) {
             /* simple way to keep entries in memory to speed things up */
             var self = this;
             this.remove = function (entry) {
@@ -380,28 +434,33 @@
                     return false;
                 }, this);
             };
-            this.getCategories=function(){
-                if(this.entries instanceof Array){
-                    return this.entries.reduce(function(categories,entry){
-                        entry.categories.forEach(function(category){
-                            if(categories.indexOf(category)<0){
+            this.getCategories = function () {
+                if (this.entries instanceof Array) {
+                    return this.entries.reduce(function (categories, entry) {
+                        entry.categories.forEach(function (category) {
+                            if (categories.indexOf(category) < 0) {
                                 categories.push(category);
                             }
                         });
                         return categories;
-                    },[]);
+                    }, []);
                 }
             };
+            /**
+             *
+             * @param query
+             * @returns {Promise}
+             */
             this.load = function (query) {
-                query=query||{};
-                return FeedCache.load().then(function(){
-                    var deferred=$q.defer();
-                    Entry.findAll(query,function(err,entries){
+                query = query || {};
+                return FeedCache.load().then(function () {
+                    var deferred = $q.defer();
+                    Entry.findAll(query, function (err, entries) {
                         console.log(err);
-                        self.entries=entries||[];
-                        entries.forEach(function(entry){
-                            entry.feed=FeedCache.feeds.filter(function(feed){
-                                return feed.id===entry.feedId;
+                        self.entries = entries || [];
+                        entries.forEach(function (entry) {
+                            entry.feed = FeedCache.feeds.filter(function (feed) {
+                                return feed.id === entry.feedId;
                             })[0];
                         });
                         deferred.resolve(self.entries);
@@ -409,5 +468,12 @@
                     return deferred.promise;
                 });
             };
+            /*this.load().then(function (entries) {
+             async.each(entries.filter(function (entry) {
+             return !entry.link
+             }), function (entry, next) {
+             Entry.delete(entry,next);
+             }, angular.noop);
+             });*/
         });
 }());

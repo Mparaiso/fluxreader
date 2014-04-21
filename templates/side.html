@@ -15,7 +15,13 @@
         ng-repeat="link in links">
         <a ng-href="{{link.href}}">{{link.name}}</a>
     </li>
-    <li class="list-group-item text-small" ng-repeat="feed in FeedCache.feeds" title="{{feed.description}}">
+    <li class="list-group-item text-small" ng-show="FeedCache.feeds">
+        <input type="search"
+               placeholder="filter subscriptions" ng-model="feed_filter"/>
+    </li>
+    <li class="list-group-item text-small"
+        ng-repeat="feed in FeedCache.feeds|filter:{title:feed_filter}"
+        title="{{feed.description}}">
         <a ng-href="#/dashboard/feed/{{feed.id}}">{{feed.title|limitTo:18}}</a>
         <a data-ng-click="unsubscribe(feed)" data-id="{{feed.id}}" href="javascript:void 0;"
            title="unsubscribe {{feed.title}}">
