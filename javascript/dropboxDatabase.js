@@ -343,6 +343,7 @@
              * @param callback
              */
             this.insert = function (feed, callback) {
+                console.log(feed);
                 var entries = feed.entries;
                 delete feed.entries;
                 feedTable.find({feedUrl: feed.feedUrl}, function (err, feedRecord) {
@@ -387,13 +388,18 @@
             this.subscribe = function (url, callback) {
                 var self = this;
                 if (url) {
-                    feedFinder.open(function () {
-                        feedFinder.findFeedByUrl(url, function (err, feed) {
-                            self.insert(feed, callback);
+                    return feedFinder.open(function () {
+                        return feedFinder.findFeedByUrl(url, function (err, feed) {
+                            console.log(feed);
+                            if (feed) {
+                                self.insert(feed, callback);
+                            } else {
+                                return callback(new Error(['Feed not found at ', url].join('')));
+                            }
                         });
                     });
                 } else {
-                    $timeout(callback.bind(null, new Error('no url provided')), 1);
+                    return $timeout(callback.bind(null, new Error('no url provided')), 1);
                 }
             }
         })

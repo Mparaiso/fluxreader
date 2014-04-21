@@ -110,18 +110,14 @@
             $scope.subscribe = function () {
                 var url = $window.prompt('Enter the feed URL');
                 if (url) {
-                    feedFinder.open(function () {
-                        feedFinder.findFeedByUrl(url, function (err, feed) {
-                            Feed.insert(feed, function (err, feed) {
-                                if (err) {
-                                    $scope.$emit(Events.NOTIFIY_ERROR, err);
-                                    /* @todo deal with errors */
-                                } else {
-                                    FeedCache.feeds.push(feed);
-                                    $location.path("/dashboard/feed/".concat(feed.id));
-                                }
-                            });
-                        });
+                    Feed.subscribe(url, function (err, feed) {
+                        if (err) {
+                            $scope.$emit(Events.NOTIFIY_ERROR, err);
+                            /* @todo deal with errors */
+                        } else {
+                            FeedCache.feeds.push(feed);
+                            $location.path("/dashboard/feed/".concat(feed.id));
+                        }
                     });
                 }
             };
@@ -173,7 +169,8 @@
             $scope.EntryCache = EntryCache;
             EntryCache.load();
         })
-        .controller('FeedCtrl', function ($scope, feed, EntryCache) {
+        .controller('FeedCtrl', function ($scope, feed, EntryCache, baseUrl) {
+            $scope.extra = baseUrl + 'templates/feed-extra.html';
             $scope.pageTitle = ['Latest Entries for "', feed.title, '"'].join('');
             $scope.feed = feed;
             $scope.EntryCache = EntryCache;
