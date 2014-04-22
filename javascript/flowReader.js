@@ -115,7 +115,7 @@
                 round: Math.round.bind(Math),
                 pow: Math.pow.bind(Math),
                 getFavicon:function(linkUrl){
-                    return ["//g.etfv.co/",linkUrl,"?defaulticon=lightpng"].join('');
+                    return ["//getfavicon.appspot.com/",linkUrl,"?defaulticon=lightpng"].join('');
                 }
             };
             $scope.globals = globals;
