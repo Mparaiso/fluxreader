@@ -289,10 +289,11 @@
                     if (err) {
                         callback(err);
                     } else if (entryRecord) {
-                        console.log('entry exists');
+                        //entry exists
                         callback(err, entryRecord);
                     } else {
                         console.log('inserting', entry);
+                        //Compress content
                         entry.compressed=true;
                         entry.content=compressor.compress(entry.content);
                         entryTable.insert(self.normalize(entry), callback);
@@ -353,16 +354,13 @@
              * @param callback
              */
             this.insert = function (feed, callback) {
-                console.log(feed);
                 var entries = feed.entries;
                 delete feed.entries;
                 feedTable.find({feedUrl: feed.feedUrl}, function (err, feedRecord) {
-                    console.log('checking if feed exists', arguments);
                     if (err) {
                         console.log('err', err);
                         callback(err);
                     } else if (feedRecord) {
-                        console.log('it does,dont insert,but insert new records');
                         //dont insert feed since exists
                         async.each(entries, function (entry, next) {
                             //dont insert feeds that dont have an entry
@@ -377,7 +375,6 @@
                         });
                     } else {
                         //insert since doesnt exist
-                        console.log('it doesnt insert feed and new records');
                         feed.createdAt = Date.now();
                         feedTable.insert(feed, function (err, feedRecord) {
 
@@ -400,7 +397,6 @@
                 if (url) {
                     return feedFinder.open(function () {
                         return feedFinder.findFeedByUrl(url, function (err, feed) {
-                            console.log(feed);
                             if (feed) {
                                 self.insert(feed, callback);
                             } else {
@@ -487,7 +483,7 @@
             this.delete = function (entry) {
                 var self=this,deferred = $q.defer();
                 Entry.delete(entry, function (err, res) {
-                    console.warn(err);
+                    console.warn('entry deletion failed',err);
                     var index=self.entries.indexOf(self.entries.filter(function(e){return e.id==entry.id;})[0]);
                     self.entries.splice(index,1);
                     deferred.resolve(res);
@@ -496,13 +492,11 @@
             }
             /*
             this.load().then(function (entries) {
-                async.each(entries, function (entry, next) {
-                    entry.compressed=true;
-                    entry.content=LZString.compressToBase64(entry.content);
-                    console.log("compressed string",entry.content);
-                    Entry.update(entry,next);
+                async.eachSeries(entries.filter(function(e){return !e.compressed}), function (entry, next) {
+                        console.log('cleaning ',entry.id);
+                        Entry.delete(entry,next);
                 }, function(){
-                    console.log('compression done');
+                    console.log('clean up done');
                 });
              });
              */
