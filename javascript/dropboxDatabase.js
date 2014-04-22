@@ -252,6 +252,9 @@
                 }
                 return potentialDate;
             };
+            this.extractMediaGroup=function(entry){
+               /*@todo write the function*/
+            },
             this.normalize = function (entry) {
                 return {
                     //mediaGroup: typeof(entry.mediaGroup) !== 'string' ? entry.mediaGroup !== undefined ? JSON.stringify(entry.mediaGroup) : "{}" : entry.mediaGroup,
@@ -446,6 +449,9 @@
                     return false;
                 }, this);
             };
+            this.getCount=function(){/*@todo*/}
+            this.getFavoriteCount=function(){/*@todo*/}
+            this.getUnreadCount=function(){/*@todo*/}
             this.getCategories = function () {
                 if (this.entries instanceof Array) {
                     return this.entries.reduce(function (categories, entry) {

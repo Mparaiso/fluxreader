@@ -3,7 +3,7 @@ describe("dropboxDatabase", function() {
     "use strict";
     beforeEach(function() {
         var self = this;
-        angular.module('test', ['$window.mock', 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock']);
+        angular.module('test', ['$window.mock', 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock','lzCompressor']);
         module('test');
         inject(function($timeout) {
             self.$timeout = $timeout;

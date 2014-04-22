@@ -24,6 +24,7 @@ help:
 	@echo "start: start test server"
 	@echo "install: install npm modules and bower components"
 	@echo "test: start karma js test runner"
+	@echo "push-pages : push to github pages"
 start:
 	@node $(bin)/server.js ./ &
 .PHONY: build start help push commit test
