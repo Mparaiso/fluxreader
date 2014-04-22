@@ -7,7 +7,7 @@
     <li class="list-group-item">
         <h5 class="list-group-item-heading text-muted"> SUBSCRIPTIONS</h5>
     </li>
-    <li class="list-group-item text-muted text-small" data-ng-show="!FeedCache.feeds">Loading
+    <li class="list-group-item text-muted text-small blink" data-ng-show="!FeedCache.feeds">Loading
         subscriptions
     </li>
     <li class="list-group-item text-small text-muted"
@@ -21,11 +21,13 @@
     </li>
     <li class="list-group-item text-small"
         ng-repeat="feed in FeedCache.feeds|filter:{title:feed_filter} track by $index"
-        title="{{feed.description}}">
-        <a ng-href="#/dashboard/feed/{{feed.id}}">{{feed.title|limitTo:18}}</a>
+        title="{{feed.title+'\n'+feed.description}}">
+        <img ng-src="{{utils.getFavicon(feed.link)}}" alt="{{feed.link}}" width="16px" height="16px">
+        <a ng-href="#/dashboard/feed/{{feed.id}}">{{feed.title|limitTo:16}} </a>
+        <span class="text-small" ng-show="feed.entryCount>0">{{feed.entryCount}}</span>
         <a data-ng-click="unsubscribe(feed)" data-id="{{feed.id}}" href="javascript:void 0;"
-           title="unsubscribe {{feed.title}}">
-            <span class="text-muted pull-right Fglyphicon glyphicon-minus"></span>
+           title="unsubscribe {{feed.title}}" class="pull-right ">
+            <span class="text-muted Fglyphicon glyphicon-minus"></span>
         </a>
     </li>
 </ul>

@@ -113,7 +113,10 @@
         .controller('MainCtrl', function ($scope, Events, $log, globals, $location, dropboxClient, baseUrl) {
             $scope.utils = {
                 round: Math.round.bind(Math),
-                pow: Math.pow.bind(Math)
+                pow: Math.pow.bind(Math),
+                getFavicon:function(linkUrl){
+                    return ["//g.etfv.co/",linkUrl,"?defaulticon=lightpng"].join('');
+                }
             };
             $scope.globals = globals;
             $scope.baseUrl = baseUrl;
@@ -155,10 +158,16 @@
             $scope.EntryCache = EntryCache;
             EntryCache.load();
         })
-        .controller('DashboardCtrl', function ($scope, EntryCache) {
+        .controller('DashboardCtrl', function ($scope, EntryCache,FeedCache) {
             $scope.pageTitle = "Latest Entries";
             $scope.EntryCache = EntryCache;
-            EntryCache.load();
+            EntryCache.load().then(function(){
+                FeedCache.feeds.forEach(function(feed){
+                    feed.entryCount = EntryCache.entries.filter(function(entry){
+                        return entry.feedId===feed.id && !entry.read;
+                    }).length;
+                });
+            });
         })
         .controller('FeedCtrl', function ($scope, $route, FeedCache, EntryCache, baseUrl) {
             var feedId = $route.current.params.id;

@@ -143,3 +143,47 @@ input.search {
 input.search::-webkit-search-cancel-button {
     -webkit-appearance: searchfield-cancel-button;
 }
+
+/**
+ * #NIMATION
+ */
+.blink{
+  -webkit-animation-name: blink;
+  -moz-animation-name: blink;
+  -o-animation-name: blink;
+  animation-name: blink;
+  -webkit-animation-duration: 0.5s;
+  -moz-animation-duration: 0.5s;
+  -o-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -o-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  -moz-animation-direction: alternate;
+  -o-animation-direction: alternate;
+  animation-direction: alternate;
+  -webkit-animation-timing-function: ease-in-out;
+  -moz-animation-timing-function: ease-in-out;
+  -o-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+}
+
+@-webkit-keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity:1;
+  }
+}
