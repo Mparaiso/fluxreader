@@ -16,6 +16,9 @@
 
         <h3>Used Quota: <span class="text-primary">
         {{utils.round((+accountInfo.usedQuota)/utils.pow(1024,2))}} Mb</span></h3>
+        <h3>Datastore Quota: 
+            <span class="text-primary">{{utils.round((+accountInfo._json.quota_info.datastores)/utils.pow(1024,2))}} Mb</span>
+        </h3>
 		<h1>&nbsp;</h1>
          <p>
     	<button ng-click="refresh()" class="btn btn-md btn-primary">Refresh subscriptions manualy</button>

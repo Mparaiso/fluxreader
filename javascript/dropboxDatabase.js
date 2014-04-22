@@ -226,7 +226,7 @@
             }
             //this.insert = function(blacklisted)
         })
-        .service('Entry', function (tableFactory) {
+        .service('Entry', function (tableFactory,compressor) {
             /**
              * Manage entry persistance
              */
@@ -263,9 +263,10 @@
                     categories: entry.categories || [],
                     createdAt: (new Date()).getTime(),
                     feedId: entry.feedId || "",
-                    favorite: entry.favorite || false,
-                    read: entry.read || false,
-                    deleted: entry.deleted || false
+                    favorite: !!entry.favorite,
+                    read: !!entry.read,
+                    deleted: !!entry.deleted,
+                    compressed:!!entry.compressed
                 };
             };
             this.delete = function (entry, callback) {
@@ -292,6 +293,8 @@
                         callback(err, entryRecord);
                     } else {
                         console.log('inserting', entry);
+                        entry.compressed=true;
+                        entry.content=compressor.compress(entry.content);
                         entryTable.insert(self.normalize(entry), callback);
                     }
                 });
@@ -491,12 +494,17 @@
                 });
                 return deferred.promise;
             }
-            /*this.load().then(function (entries) {
-             async.each(entries.filter(function (entry) {
-             return !entry.link
-             }), function (entry, next) {
-             Entry.delete(entry,next);
-             }, angular.noop);
-             });*/
+            /*
+            this.load().then(function (entries) {
+                async.each(entries, function (entry, next) {
+                    entry.compressed=true;
+                    entry.content=LZString.compressToBase64(entry.content);
+                    console.log("compressed string",entry.content);
+                    Entry.update(entry,next);
+                }, function(){
+                    console.log('compression done');
+                });
+             });
+             */
         });
 }());

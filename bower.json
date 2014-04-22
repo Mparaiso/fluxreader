@@ -20,6 +20,8 @@
     "angular-route": "~1.2.16",
     "es5-shim": "~2.3.0",
     "async": "~0.7.0",
-    "angular-sanitize": "~1.2.16"
+    "angular-sanitize": "~1.2.16",
+    "lz-string": "*",
+    "underscore": "~1.6.0"
   }
 }

@@ -124,10 +124,10 @@ describe("dropboxDatabase", function() {
             expect(this.tableFactory.create('test') instanceof this.Table).toBe(true);
         });
     });
-    xdescribe('Feed', function() {
+    describe('Feed', function() {
         beforeEach(function() {
             var self = this;
-            inject(function(Feed, Table, $window) {
+            inject(function(Feed, Table, $window,$timeout) {
                 self.record = {
                     id: 'foo'
                 };
@@ -194,12 +194,26 @@ describe("dropboxDatabase", function() {
     describe("EntryCache", function() {
         beforeEach(function() {
             var self = this;
-            inject(function(EntryCache, FeedCache) {
+            inject(function(EntryCache, FeedCache,Entry) {
                 self.FeedCache = FeedCache;
                 self.EntryCache = EntryCache;
+                self.Entry=Entry;
             });
         });
-        xdescribe("#load", function() {
+        describe('#delete',function(){
+            it('should return a promise',function(done){
+                var entry={id:'foo'};
+                spyOn(this.Entry,'delete').and.callThrough();
+                this.EntryCache.entries=[entry];
+                this.EntryCache.delete({}).then((function(){
+                    expect(this.EntryCache.entries.length).toBe(0);
+                    done();
+                }).bind(this));
+                expect(this.Entry.delete).toHaveBeenCalled();
+                this.$timeout.flush();
+            });
+        });
+        describe("#load", function() {
             it('should return a promise', function(done) {
                 spyOn(this.FeedCache,'load').and.callThrough();
                 this.EntryCache.load().then(done);

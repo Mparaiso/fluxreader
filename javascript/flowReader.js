@@ -9,7 +9,7 @@
     "use strict";
     var _enum = 0;
     angular.module('flowReader',
-        ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed'],
+        ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed','lZcompressor'],
         function (feedFinderProvider, $routeProvider, dropboxClientProvider, baseUrl) {
             /**
              * @note @angular injecting constant in config
@@ -52,20 +52,7 @@
                 .when('/dashboard/feed/:id', {
                     controller: 'FeedCtrl',
                     authenticated: true,
-                    templateUrl: baseUrl.concat('templates/dashboard.html'),
-                    /*resolve: {
-                     feed: function ($route, $q, Feed) {
-                     var deferred = $q.defer();
-                     Feed.getById($route.current.params.id, function (err, feed) {
-                     if (feed) {
-                     deferred.resolve(feed);
-                     } else {
-                     deferred.reject(err);
-                     }
-                     });
-                     return deferred.promise;
-                     }
-                     }*/
+                    templateUrl: baseUrl.concat('templates/dashboard.html')
                 })
                 .when('/dashboard/favorite', {
                     controller: 'FavoriteCtrl',
@@ -93,6 +80,7 @@
             feedFinderProvider.setGoogle(google);
         })
         .constant('DROPBOX_APIKEY', 'gi42kr1ox74tyrb')
+        .constant('forceHTTPS', true)
         .constant('baseUrl', window.location.pathname.match(/(.*\/)/)[1])
         .constant('Events', {
             FAVORITE_TOGGLED: _enum++,
@@ -149,6 +137,9 @@
             };
             $scope.$on(Events.NOTIFIY_ERROR, function (event, err) {
                 $log.warn(err);
+            });
+            $scope.$on(Events.NOTIFIY_SUCCESS, function (event, result) {
+                $log.debug(result);
             });
         })
         .controller('IndexCtrl', function ($scope, $log) {
@@ -213,10 +204,13 @@
                 $scope.accountInfo = accountInfo;
             });
         })
-        .controller('EntryCtrl', function ($scope, entry, FeedCache, Entry) {
+        .controller('EntryCtrl', function ($scope, entry, FeedCache, Entry,compressor) {
             if (!entry.read) {
                 entry.read = true;
                 Entry.markAsRead(entry, angular.noop);
+            }
+            if(entry.compressed){
+                entry.content=compressor.decompress(entry.content);
             }
             $scope.entry = entry;
             $scope.toggleFavorite = function () {
@@ -246,13 +240,13 @@
 
                 }
             };
-            $scope.removeEntry=function(){
-                if(this.entry){
-                    EntryCache.delete(this.entry).then(function(err,res){
-                        console.log('entry removed');
+            $scope.removeEntry = function () {
+                if (this.entry) {
+                    EntryCache.delete(this.entry).then(function (err, res) {
+                        $scope.$emit(Events.NOTIFIY_SUCCESS, 'entry removed');
                     });
                 }
-            }
+            };
         })
         .controller('FeedListCtrl', function ($window, $scope, Feed, FeedCache, EntryCache) {
             $scope.links = [
@@ -279,7 +273,13 @@
                 }
             };
         })
-        .run(function (dropboxClient, $location, $route, $rootScope, $log) {
+        .run(function (dropboxClient, $location, $route, $rootScope, $log, forceHTTPS, $window) {
+            if (forceHTTPS === true) {
+                //if not https redirect
+                if (($window.location.protocol !== 'https:') && (['127.0.0.1', 'localhost'].indexOf($window.location.hostname) < 0)) {
+                    $window.location = $window.location.href.replace(/^http/, 'https');
+                }
+            }
             dropboxClient.authenticate(function (error, result) {
                 if (error) {
                     $log.debug('authentication error', error);
