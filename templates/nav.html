@@ -3,16 +3,22 @@
  @copyright 2014 mparaiso <mparaiso@online.fr>
  @license GPL
 -->
-            <ul class="nav navbar-nav navbar-right" data-ng-cloak>
-                <li data-ng-hide="isAuthenticated()">
-                    <a class="btn btn-link" data-ng-click="signIn()">
-                        <span class="glyphicon glyphicon-cloud-upload"></span> Sign in with dropbox</a>
-                </li>
-                <li data-ng-show="isAuthenticated() && accountInfo.name">
-                    <a href="#/dashboard/account">Welcome back {{accountInfo.name}}</a>
-                </li>
-                <li data-ng-show="isAuthenticated()"><a data-ng-href="#/dashboard">Your Subscriptions</a>
-                </li>
-                <li data-ng-show="isAuthenticated()"><a class="btn btn-link" data-ng-click="signOut()">Sign out</a>
-                </li>
-            </ul>
+<ul class="nav navbar-nav navbar-right" data-ng-cloak>
+    <li class="navbar-text">
+        <span ng-class="Notification.current.type" >
+            {{Notification.current.text}}&nbsp;
+            <span class="badge">{{Notification.notifications.length||""}}</span>
+        </span>
+    </li>
+    <li data-ng-hide="isAuthenticated()">
+        <a class="btn btn-link" data-ng-click="signIn()">
+            <span class="glyphicon glyphicon-cloud-upload"></span> Sign in with dropbox</a>
+    </li>
+    <li data-ng-show="isAuthenticated() && accountInfo.name">
+        <a href="#/dashboard/account">Welcome back {{accountInfo.name}}</a>
+    </li>
+    <li data-ng-show="isAuthenticated()"><a data-ng-href="#/dashboard">Your Subscriptions</a>
+    </li>
+    <li data-ng-show="isAuthenticated()"><a class="btn btn-link" data-ng-click="signOut()">Sign out</a>
+    </li>
+</ul>

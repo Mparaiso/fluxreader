@@ -1,4 +1,4 @@
-src="src/."
+besrc="src/."
 destination="build/"
 bin="bin/"
 test:

@@ -3,7 +3,16 @@
  @copyright 2014 mparaiso <mparaiso@online.fr>
  @license GPL
 -->
+<ul class="nav navbar-nav" ng-cloak ng-show="isAuthenticated()">
+   
+</ul>
 <ul class="nav navbar-nav navbar-right" data-ng-cloak>
+     <li 
+        ng-class="Notification.current.type"
+        class="navbar-text alert alert-info alert-dismissable notification">
+        <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{Notification.current.text}}
+    </li>
     <li data-ng-hide="isAuthenticated()">
         <a class="btn btn-link" data-ng-click="signIn()">
             <span class="glyphicon glyphicon-cloud-upload"></span> Sign in with dropbox</a>

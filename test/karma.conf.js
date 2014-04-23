@@ -17,11 +17,12 @@ module.exports = function(config) {
  //            'bower_components/angular-animate/angular-animate.js',
             'bower_components/angular-mocks/angular-mocks.js',
  //            'app/js/**/*.js',
-            'javascript/lzCompressor.js'
+            'javascript/lzCompressor.js',
             'javascript/googleFeed.js',
             'javascript/dropboxDatabase.js',
             'javascript/dropbox.js',
             'javascript/flowReader.js',
+            'javascript/myNotification.js',
             'test/mocks/**/*.js',
             'test/unit/**/*.js'
         ],

@@ -36,6 +36,6 @@ Sprint5:
 - [X] Each feed is displayed with its favicon
 
 Sprint6:
-- [] a notification system alerts user of successfull or unsuccessfull events in the app
+- [X] a notification system alerts user of successfull or unsuccessfull events in the app
 - [] replace default browser popups by custom modals
 - [] during page changes, user is notified that some data are being loaded

@@ -1,5 +1,5 @@
 /*global spyOn,describe,jasmine,beforeEach,it,expect,angular,module,inject*/
-xdescribe('flowReader', function () {
+describe('flowReader', function () {
     "use strict";
     beforeEach(function () {
         var self = this;
@@ -10,7 +10,7 @@ xdescribe('flowReader', function () {
                         return;
                     }
                 });
-            });
+            }).constant('forceHTTPS',false)
         module('test');
         inject(function ($window) {
             self.$window = $window;
@@ -68,5 +68,27 @@ xdescribe('flowReader', function () {
             expect(this.scope.pageTitle).toBeDefined();
         });
 
+    });
+    describe('EntryCtrl',function(){
+        beforeEach(function(){
+            var self=this;
+            this.entry={};
+            inject(function($controller,Entry,FeedCache,Notification){
+                self.scope={};
+                self.entry={title:'foo'};
+                self.Entry=Entry;
+                self.route = {current:{params:{id:'foo'}}};
+                spyOn(self.Entry,'getById').and.callFake(function(id,cb){
+                    return cb(undefined,self.entry);
+                });
+                self.EntryCtrl=$controller('EntryCtrl',{$scope:self.scope,$route:self.route});
+            });
+        });
+        it('#entry',function(){
+            expect(this.scope.entry.title).toEqual('foo');
+        });
+        it('#entry',function(){
+            expect(this.Entry.getById).toHaveBeenCalled();
+        });
     });
 });

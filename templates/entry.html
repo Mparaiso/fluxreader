@@ -10,10 +10,12 @@
         <p>&nbsp;</p>
     </div>
     <div class="row">
-        <aside class="col-md-2" data-ng-include="baseUrl+'templates/side.html'">
+        <aside class="col-md-2" data-ng-include="baseUrl+'templates/feed-list.html'">
         </aside>
         <article class="col-md-10">
+            <button class="btn btn-default" onclick="history.back();">&crarr; Back</button>
             <h2 class="text-muted" ng-hide="entry">Loading Entry...</h2>
+            <div ng-show="entry">
             <h2>
                 <a data-ng-href="{{entry.link}}" target="_blank">
                 {{entry.title}}
@@ -37,6 +39,7 @@
             </p>
             <p>&nbsp;</p>
             <section data-ng-bind-html="entry.content"></section>
+            </div>
         </article>
     </div>
 </section>
