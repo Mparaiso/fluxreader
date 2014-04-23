@@ -25,7 +25,6 @@ describe('dropbox', function() {
         it('#signOut', function() {
             this.dropboxClient.signOut();
         });
-
         it('#isAuthenticated', function() {
             this.dropboxClient.isAuthenticated();
         });

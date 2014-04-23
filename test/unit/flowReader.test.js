@@ -10,7 +10,7 @@ describe('flowReader', function () {
                         return;
                     }
                 });
-            }).constant('forceHTTPS',false)
+            }).constant('forceHTTPS',false);
         module('test');
         inject(function ($window) {
             self.$window = $window;
