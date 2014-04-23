@@ -123,12 +123,6 @@
             $scope.signIn = function () {
                 dropboxClient.signIn();
             };
-            $scope.$on(Events.NOTIFIY_ERROR, function (event, err) {
-
-            });
-            $scope.$on(Events.NOTIFIY_SUCCESS, function (event, result) {
-                $log.debug(result);
-            });
         })
         .controller('IndexCtrl', angular.noop)
         .controller('SubscribeCtrl', function ($scope, Notification, Events, Feed, feedFinder, FeedCache, $location, $window) {
