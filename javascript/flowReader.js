@@ -169,19 +169,28 @@
                 });
             });
         })
-        .controller('FeedCtrl', function ($scope, $route, FeedCache,$location, EntryCache, baseUrl) {
+        .controller('FeedCtrl', function ($scope, $route,Notification, FeedCache,$location, EntryCache, baseUrl) {
             var feedId = $route.current.params.id;
             $scope.extra = baseUrl + 'templates/feed-extra.html';
             $scope.EntryCache = EntryCache;
-            EntryCache.load({feedId: feedId })
-                .then(FeedCache.getById.bind(FeedCache, feedId))
-                .then(function (feed) {
-                    if(!feed){
-                        return $location.path('/dashboard');
-                    }
-                    $scope.feed = feed;
-                    $scope.pageTitle = ['Latest Entries for "', $scope.feed.title, '"'].join('');
+            $scope.refresh = function(url){
+                FeedCache.subscribe(url).then(function(res){
+                   return init();
+                }).then(function(){
+                    Notification.notify({text:$scope.feed.title+" has been refreshed.",type:Notification.type.SUCCESS});
                 });
+            };
+            (function init(){
+                return EntryCache.load({feedId: feedId })
+                    .then(FeedCache.getById.bind(FeedCache, feedId))
+                    .then(function (feed) {
+                        if(!feed){
+                            return $location.path('/dashboard');
+                        }
+                        $scope.feed = feed;
+                        $scope.pageTitle = ['Latest Entries for "', $scope.feed.title, '"'].join('');
+                    });
+            }());
         })
         .controller('FavoriteCtrl', function ($scope, EntryCache, Events) {
             $scope.pageTitle = "Favorite entries";
