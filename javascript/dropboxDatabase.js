@@ -436,6 +436,16 @@
                 }
                 return deferred.promise;
             };
+            this.subscribe=function(url){
+                var deferred= $q.defer();
+                Feed.subscribe(url,function(err,res){
+                    if(err){
+                        return deferred.reject(err);
+                    }
+                    deferred.resolve(res);
+                });
+                return deferred.promise;
+            }
         })
         .service('EntryCache', function (Entry, FeedCache, $q, $timeout) {
             /* simple way to keep entries in memory to speed things up */
