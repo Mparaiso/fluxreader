@@ -15,7 +15,7 @@
         "shelljs": "^0.2.6"
     },
     "scripts": {
-        "test":"./node_modules/.bin/karma start --single-run --browsers PhantomJS",
+        "test":"./node_modules/.bin/karma start test/karma.conf.js --single-run --browsers PhantomJS",
         "postinstall": "bower install",
         "start": "http-server -p 8000",
         "update-webdriver": "webdriver-manager update",
