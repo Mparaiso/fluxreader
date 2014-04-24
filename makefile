@@ -7,9 +7,9 @@ commit:
 	@git add .
 	@git commit -am"$(message) `date`" | :
 push: commit
-	@git push origin --tags
+	@git push origin master
 push-pages: commit
-	@git push origin gh-pages --tags
+	@git push origin gh-pages
 build:
 	@cp -Rvu $(src) $(destination)
 install:
