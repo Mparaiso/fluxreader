@@ -25,9 +25,11 @@
                 <a ng-class="{'text-muted':entry.read}"
                    data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:100}}</a>
             </td>
+            <!-- FEED TITLE -->
             <td data-id="{{entry.id}}" data-feedId="{{entry.feedId}}" class="text-muted text-small">
-                <a ng-href="#/dashboard/feed/{{entry.feed.id}}">{{entry.feed.title|limitTo:20}}</a>
+                <a class='text-muted' ng-href="#/dashboard/feed/{{entry.feed.id}}">{{entry.feed.title|limitTo:20}}</a>
             </td>
+            <!-- PUBLISHED DATE -->
             <td class="text-muted text-small">{{entry.publishedDate|date:'MM/dd/yyyy hh:mm'}}</td>
             <td class="text-small">
                 <button ng-click="removeEntry()"

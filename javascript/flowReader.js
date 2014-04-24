@@ -35,19 +35,6 @@
                     controller: 'EntryCtrl',
                     templateUrl: baseUrl.concat('templates/entry.html'),
                     authenticated: true,
-                    // resolve: {
-                    //     entry: function ($route, $q, Entry) {
-                    //         var deferred = $q.defer();
-                    //         Entry.getById($route.current.params.id, function (err, entry) {
-                    //             if (entry) {
-                    //                 deferred.resolve(entry);
-                    //             } else {
-                    //                 deferred.reject(entry);
-                    //             }
-                    //         });
-                    //         return deferred.promise;
-                    //     }
-                    // }
                 })
                 .when('/dashboard/feed/:id', {
                     controller: 'FeedCtrl',
@@ -170,17 +157,18 @@
             });
         })
         .controller('FeedCtrl', function ($scope, $route,Notification, FeedCache,$location, EntryCache, baseUrl) {
-            var feedId = $route.current.params.id;
+            var init,feedId = $route.current.params.id;
             $scope.extra = baseUrl + 'templates/feed-extra.html';
             $scope.EntryCache = EntryCache;
             $scope.refresh = function(url){
                 FeedCache.subscribe(url).then(function(res){
+                   Notification.notify({text:'Refreshing '+$scope.feed.title,type:Notification.type.INFO}); 
                    return init();
                 }).then(function(){
-                    Notification.notify({text:$scope.feed.title+" has been refreshed.",type:Notification.type.SUCCESS});
+                    Notification.notify({text:"Feed "+$scope.feed.title+" has been refreshed.",type:Notification.type.SUCCESS});
                 });
             };
-            (function init(){
+            init=function(){
                 return EntryCache.load({feedId: feedId })
                     .then(FeedCache.getById.bind(FeedCache, feedId))
                     .then(function (feed) {
@@ -190,7 +178,8 @@
                         $scope.feed = feed;
                         $scope.pageTitle = ['Latest Entries for "', $scope.feed.title, '"'].join('');
                     });
-            }());
+            };
+            init();
         })
         .controller('FavoriteCtrl', function ($scope, EntryCache, Events) {
             $scope.pageTitle = "Favorite entries";
@@ -272,7 +261,7 @@
                 if (this.entry) {
                     EntryCache.delete(this.entry).then((function (err, res) {
                         Notification.notify({
-                            text:['Entry: "',this.entry.title.substr(0,100),'" removed.'].join(''),
+                            text:['Entry: "',this.entry.title.substr(0,50).concat('...'),'" removed.'].join(''),
                             type:Notification.type.INFO});
                     }).bind(this));
                 }

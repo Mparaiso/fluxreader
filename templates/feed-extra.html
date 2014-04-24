@@ -3,9 +3,9 @@
         <p class='text-small'>{{feed.description}}</p>
         <p class='text-small'><a ng-href="feed.link" target="_blank">{{feed.link}}</a></p>
     </blockquote>
-    <div class="col-sm-6" ng-controller="FeedCtrl">
-        <button class="btn btn-default" ng-click="subscribe(feed.feedUrl)">Refresh Feed</button>
-        <button class="btn btn-warning">Unsubscribe Feed</button>
+    <div ng-show="feed" class="col-sm-6" ng-controller="FeedCtrl">
+        <button class="btn btn-default" ng-click="refresh(feed.feedUrl)">Refresh Feed</button>
+        <!-- <button class="btn btn-warning">Unsubscribe Feed</button> -->
     </div>
 </div>
 
