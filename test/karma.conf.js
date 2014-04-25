@@ -23,6 +23,7 @@ module.exports = function(config) {
             'javascript/dropbox.js',
             'javascript/flowReader.js',
             'javascript/myNotification.js',
+            'javascript/myPagination.js',
             'test/mocks/**/*.js',
             'test/unit/**/*.js'
         ],

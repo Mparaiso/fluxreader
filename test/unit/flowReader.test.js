@@ -3,7 +3,7 @@ describe('flowReader', function () {
     "use strict";
     beforeEach(function () {
         var self = this;
-        angular.module('test', ['$window.mock', 'flowReader', 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock'],
+        angular.module('test', ['$window.mock', 'flowReader', 'dropboxDatabase','myPagination', 'dropbox.mock', 'googleFeed.mock'],
             function (feedFinderProvider) {
                 feedFinderProvider.setGoogle({
                     load: function () {

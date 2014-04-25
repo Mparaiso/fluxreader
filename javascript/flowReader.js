@@ -9,7 +9,7 @@
     "use strict";
     var _enum = 0;
     angular.module('flowReader',
-        ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed','lzCompressor','myNotification'],
+        ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed','lzCompressor','myNotification','myPagination'],
         function (feedFinderProvider, $routeProvider, dropboxClientProvider, baseUrl) {
             /**
              * @note @angular injecting constant in config
@@ -79,7 +79,8 @@
             title: 'Flow Reader',
             email: 'mparaiso@online.fr',
             url: window.location.origin,
-            year: (new Date()).getFullYear()
+            year: (new Date()).getFullYear(),
+            EntryPerPage:50
         })
         .controller('MainCtrl', function ($scope,Notification, Events, $log, globals, $location, dropboxClient, baseUrl) {
             $scope.utils = {
@@ -145,7 +146,9 @@
             $scope.EntryCache = EntryCache;
             EntryCache.load();
         })
-        .controller('DashboardCtrl', function ($scope, EntryCache,FeedCache) {
+        .controller('DashboardCtrl', function ($scope, globals,EntryCache,FeedCache,Pagination) {
+            $scope.Pagination=Pagination;
+            $scope.Pagination.limit(globals.EntryPerPage);
             $scope.pageTitle = "Latest Entries";
             $scope.EntryCache = EntryCache;
             EntryCache.load().then(function(){
@@ -156,8 +159,10 @@
                 });
             });
         })
-        .controller('FeedCtrl', function ($scope, $route,Notification, FeedCache,$location, EntryCache, baseUrl) {
+        .controller('FeedCtrl', function ($scope,globals, $route,Notification,Pagination, FeedCache,$location, EntryCache, baseUrl) {
             var init,feedId = $route.current.params.id;
+            $scope.Pagination=Pagination;
+            $scope.Pagination.limit(globals.EntryPerPage);
             $scope.extra = baseUrl + 'templates/feed-extra.html';
             $scope.EntryCache = EntryCache;
             $scope.refresh = function(url){
