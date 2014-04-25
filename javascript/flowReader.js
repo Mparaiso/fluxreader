@@ -146,9 +146,7 @@
             $scope.EntryCache = EntryCache;
             EntryCache.load();
         })
-        .controller('DashboardCtrl', function ($scope, globals,EntryCache,FeedCache,Pagination) {
-            $scope.Pagination=Pagination;
-            $scope.Pagination.limit(globals.EntryPerPage);
+        .controller('DashboardCtrl', function ($scope ,EntryCache,FeedCache) {
             $scope.pageTitle = "Latest Entries";
             $scope.EntryCache = EntryCache;
             EntryCache.load().then(function(){
@@ -159,10 +157,8 @@
                 });
             });
         })
-        .controller('FeedCtrl', function ($scope,globals, $route,Notification,Pagination, FeedCache,$location, EntryCache, baseUrl) {
+        .controller('FeedCtrl', function ($scope, $route,Notification, FeedCache,$location, EntryCache, baseUrl) {
             var init,feedId = $route.current.params.id;
-            $scope.Pagination=Pagination;
-            $scope.Pagination.limit(globals.EntryPerPage);
             $scope.extra = baseUrl + 'templates/feed-extra.html';
             $scope.EntryCache = EntryCache;
             $scope.refresh = function(url){
@@ -244,7 +240,9 @@
                 });
             };
         })
-        .controller('EntryListCtrl', function (Events, Notification,$scope, Entry, Feed, EntryCache, FeedCache) {
+        .controller('EntryListCtrl', function (Events, globals,Notification,$scope, Entry, Feed, EntryCache, Pagination,FeedCache) {
+            $scope.Pagination=Pagination;
+            Pagination.limit(globals.EntryPerPage);
             $scope.predicate = function (item) {
                 if (item.publishedDate) {
                     return new Date(item.publishedDate);

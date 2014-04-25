@@ -44,6 +44,14 @@ module.exports = function(config) {
         junitReporter: {
             outputFile: 'test_out/unit.xml',
             suite: 'unit'
+        },
+        reporters:['progress','coverage'],
+        preprocessors:{
+            "javascript/**/*.js":['coverage']
+        },
+        coverageReporter:{
+            type:'html',
+            dir:'coverage/'
         }
     });
 };

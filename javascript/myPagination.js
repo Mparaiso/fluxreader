@@ -8,7 +8,7 @@
     angular.module('myPagination', [])
     .directive('paginator',function(){
         return {
-          //  restrict:"E",/* restrict to element */
+            restrict:"E",/* restrict to element */
             template: "<div>Paginator</div>"
         };
     })
