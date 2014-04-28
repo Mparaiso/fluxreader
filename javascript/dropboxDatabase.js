@@ -7,7 +7,7 @@
 /**
  * @typedef {Object} model.Configuration
  * @a configuration
- * @param {string} key
+ * @property {string} key
  * @param {*} value
  */
 /**
@@ -38,6 +38,7 @@
  * @param {string} link link
  * @param {string} id id
  * @param {string} categories categories
+ * @property {Array} medias
  */
 /**
  * @typedef {Object} database.Table
@@ -226,7 +227,7 @@
             }
             //this.insert = function(blacklisted)
         })
-        .service('Entry', function (tableFactory,compressor) {
+        .service('Entry', function (tableFactory, compressor) {
             /**
              * Manage entry persistance
              */
@@ -252,26 +253,39 @@
                 }
                 return potentialDate;
             };
-            this.extractMediaGroup=function(entry){
-               /*@todo write the function*/
+            this.extractMediaGroups = function (entry) {
+                if (entry.mediaGroups instanceof Array) {
+                    return entry.mediaGroups.map(function (group) {
+                        if (group.contents instanceof Array) {
+                            return group.contents.map(function (content) {
+                                return content.url;
+                            });
+                        }
+                    }).reduce(function (result, next) {
+                        result.push.apply(result, next);
+                        return result;
+                    }, []);
+                }
+                return [];
             },
-            this.normalize = function (entry) {
-                return {
-                    //mediaGroup: typeof(entry.mediaGroup) !== 'string' ? entry.mediaGroup !== undefined ? JSON.stringify(entry.mediaGroup) : "{}" : entry.mediaGroup,
-                    title: entry.title || "",
-                    link: entry.link || "",
-                    content: entry.content || "",
-                    contentSnippet: entry.contentSnippet || "",
-                    publishedDate: this.getCorrectDate(entry.publishedDate),
-                    categories: entry.categories || [],
-                    createdAt: (new Date()).getTime(),
-                    feedId: entry.feedId || "",
-                    favorite: !!entry.favorite,
-                    read: !!entry.read,
-                    deleted: !!entry.deleted,
-                    compressed:!!entry.compressed
+                this.normalize = function (entry) {
+                    return {
+                        //mediaGroup: typeof(entry.mediaGroup) !== 'string' ? entry.mediaGroup !== undefined ? JSON.stringify(entry.mediaGroup) : "{}" : entry.mediaGroup,
+                        title: entry.title || "",
+                        link: entry.link || "",
+                        content: entry.content || "",
+                        contentSnippet: entry.contentSnippet || "",
+                        publishedDate: this.getCorrectDate(entry.publishedDate),
+                        categories: entry.categories || [],
+                        medias: entry.medias || [],
+                        createdAt: (new Date()).getTime(),
+                        feedId: entry.feedId || "",
+                        favorite: !!entry.favorite,
+                        read: !!entry.read,
+                        deleted: !!entry.deleted,
+                        compressed: !!entry.compressed
+                    };
                 };
-            };
             this.delete = function (entry, callback) {
                 entryTable.delete(entry, callback);
             };
@@ -297,8 +311,8 @@
                     } else {
                         console.log('inserting', entry);
                         //Compress content
-                        entry.compressed=true;
-                        entry.content=compressor.compress(entry.content);
+                        entry.compressed = true;
+                        entry.content = compressor.compress(entry.content);
                         entryTable.insert(self.normalize(entry), callback);
                     }
                 });
@@ -436,10 +450,10 @@
                 }
                 return deferred.promise;
             };
-            this.subscribe=function(url){
-                var deferred= $q.defer();
-                Feed.subscribe(url,function(err,res){
-                    if(err){
+            this.subscribe = function (url) {
+                var deferred = $q.defer();
+                Feed.subscribe(url, function (err, res) {
+                    if (err) {
                         return deferred.reject(err);
                     }
                     deferred.resolve(res);
@@ -459,9 +473,12 @@
                     return false;
                 }, this);
             };
-            this.getCount=function(){/*@todo*/}
-            this.getFavoriteCount=function(){/*@todo*/}
-            this.getUnreadCount=function(){/*@todo*/}
+            this.getCount = function () {/*@todo*/
+            }
+            this.getFavoriteCount = function () {/*@todo*/
+            }
+            this.getUnreadCount = function () {/*@todo*/
+            }
             this.getCategories = function () {
                 if (this.entries instanceof Array) {
                     return this.entries.reduce(function (categories, entry) {
@@ -497,23 +514,25 @@
                 });
             };
             this.delete = function (entry) {
-                var self=this,deferred = $q.defer();
+                var self = this, deferred = $q.defer();
                 Entry.delete(entry, function (err, res) {
-                    console.warn('entry deletion failed',err);
-                    var index=self.entries.indexOf(self.entries.filter(function(e){return e.id==entry.id;})[0]);
-                    self.entries.splice(index,1);
+                    console.warn('entry deletion failed', err);
+                    var index = self.entries.indexOf(self.entries.filter(function (e) {
+                        return e.id == entry.id;
+                    })[0]);
+                    self.entries.splice(index, 1);
                     deferred.resolve(res);
                 });
                 return deferred.promise;
             }
             /*
-            this.load().then(function (entries) {
-                async.eachSeries(entries.filter(function(e){return !e.compressed}), function (entry, next) {
-                        console.log('cleaning ',entry.id);
-                        Entry.delete(entry,next);
-                }, function(){
-                    console.log('clean up done');
-                });
+             this.load().then(function (entries) {
+             async.eachSeries(entries.filter(function(e){return !e.compressed}), function (entry, next) {
+             console.log('cleaning ',entry.id);
+             Entry.delete(entry,next);
+             }, function(){
+             console.log('clean up done');
+             });
              });
              */
         });

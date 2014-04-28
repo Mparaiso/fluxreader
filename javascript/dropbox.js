@@ -1,4 +1,3 @@
-/*jslint es5:true*/
 /*global angular,Dropbox*/
 /**
  * @copyright 2014 mparaiso <mparaiso@online.fr>

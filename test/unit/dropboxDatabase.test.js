@@ -1,35 +1,35 @@
 /*global jasmine,spyOn,describe,it,inject,module,beforeEach,angular,expect,window*/
-describe("dropboxDatabase", function() {
+describe("dropboxDatabase", function () {
     "use strict";
-    beforeEach(function() {
+    beforeEach(function () {
         var self = this;
-        angular.module('test', ['$window.mock', 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock','lzCompressor']);
+        angular.module('test', ['$window.mock', 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock', 'lzCompressor']);
         module('test');
-        inject(function($timeout) {
+        inject(function ($timeout) {
             self.$timeout = $timeout;
         });
     });
-    describe('database', function() {
-        beforeEach(function() {
+    describe('database', function () {
+        beforeEach(function () {
             var self = this;
-            inject(function(database) {
+            inject(function (database) {
                 self.database = database;
             });
         });
-        it('#open', function(done) {
+        it('#open', function (done) {
             this.database.open(done);
             this.$timeout.flush();
         });
     });
-    describe('Table', function() {
-        beforeEach(function() {
+    describe('Table', function () {
+        beforeEach(function () {
             var self = this;
-            inject(function(Table, $timeout, database) {
+            inject(function (Table, $timeout, database) {
                 self.database = database;
                 self.testTable = new Table('test', database, $timeout);
             });
         });
-        it('#recordToHash', function() {
+        it('#recordToHash', function () {
             var id, fields, record, hash;
             id = 'foo';
             fields = {
@@ -46,7 +46,7 @@ describe("dropboxDatabase", function() {
             expect(hash.bar).toEqual(fields.bar);
             expect(hash.id).toEqual(id);
         });
-        it('#hashToRecordFields', function() {
+        it('#hashToRecordFields', function () {
             var hash, record;
             hash = {
                 id: 'foo',
@@ -57,23 +57,23 @@ describe("dropboxDatabase", function() {
             expect(record.id).not.toBeDefined();
             expect(record.bar).toEqual(hash.bar);
         });
-        it('#getTable', function(done) {
+        it('#getTable', function (done) {
             this.testTable.getTable(done);
             this.$timeout.flush();
         });
-        it('#setTable', function(done) {
+        it('#setTable', function (done) {
             var t = {};
-            this.testTable.setTable(t).getTable(function(err, table) {
+            this.testTable.setTable(t).getTable(function (err, table) {
                 expect(table).toEqual(t);
                 done();
             });
             this.$timeout.flush();
         });
-        it('#insert', function(done) {
+        it('#insert', function (done) {
             this.testTable.insert({}, done);
             this.$timeout.flush();
         });
-        it('#update', function(done) {
+        it('#update', function (done) {
             /* mocking */
             var table, hash, record;
             table = jasmine.createSpyObj('table', ['get']);
@@ -88,7 +88,7 @@ describe("dropboxDatabase", function() {
                 id: 'foo'
             };
             this.testTable.setTable(table);
-            this.testTable.update(hash, function(err, hash) {
+            this.testTable.update(hash, function (err, hash) {
                 expect(hash).toEqual(jasmine.objectContaining({
                     id: 'foo'
                 }));
@@ -98,42 +98,42 @@ describe("dropboxDatabase", function() {
             });
             this.$timeout.flush();
         });
-        it('#find', function(done) {
+        it('#find', function (done) {
             this.testTable.find({
                 foo: 'bar'
             }, done);
             this.$timeout.flush();
         });
-        it('#findAll', function(done) {
+        it('#findAll', function (done) {
             this.testTable.findAll({}, done);
             this.$timeout.flush();
         });
-        it('#delete', function(done) {
+        it('#delete', function (done) {
             this.testTable.delete({}, done);
         });
     });
-    describe('tableFactory', function() {
-        beforeEach(function() {
+    describe('tableFactory', function () {
+        beforeEach(function () {
             var self = this;
-            inject(function(tableFactory, Table) {
+            inject(function (tableFactory, Table) {
                 self.Table = Table;
                 self.tableFactory = tableFactory;
             });
         });
-        it('#create', function() {
+        it('#create', function () {
             expect(this.tableFactory.create('test') instanceof this.Table).toBe(true);
         });
     });
-    describe('Feed', function() {
-        beforeEach(function() {
+    describe('Feed', function () {
+        beforeEach(function () {
             var self = this;
-            inject(function(Feed, Table, $window,$timeout) {
+            inject(function (Feed, Table, $window, $timeout) {
                 self.record = {
                     id: 'foo'
                 };
                 self.Feed = Feed;
             });
-            it('#delete', function(done) {
+            it('#delete', function (done) {
                 var record = {
                     id: 'foo'
                 };
@@ -141,32 +141,32 @@ describe("dropboxDatabase", function() {
             });
         });
     });
-    describe('Entry', function() {
-        beforeEach(function() {
+    describe('Entry', function () {
+        beforeEach(function () {
             var self = this;
             this.table = jasmine.createSpyObj('table', ['update']);
-            inject(function(Entry) {
+            inject(function (Entry) {
                 self.Entry = Entry;
             });
         });
-        it('#setTable', function() {
+        it('#setTable', function () {
             var table = {};
             this.Entry.setTable(table);
             expect(this.Entry.getTable()).toEqual(table);
 
         });
-        describe('#toggleFavorite', function() {
-            it('should toggle favorite field', function(done) {
+        describe('#toggleFavorite', function () {
+            it('should toggle favorite field', function (done) {
                 var entry = {
                     id: 'foo',
                     favorite: false
                 };
                 var table = this.Entry.getTable();
-                spyOn(table, 'update').and.callFake(function(record, callback) {
+                spyOn(table, 'update').and.callFake(function (record, callback) {
                     callback(undefined, record);
                 });
 
-                this.Entry.toggleFavorite(entry, function(err, entry) {
+                this.Entry.toggleFavorite(entry, function (err, entry) {
                     expect(err).not.toBeDefined();
                     expect(entry.favorite).toBe(true);
                     done();
@@ -174,38 +174,59 @@ describe("dropboxDatabase", function() {
             });
 
         });
-        describe('#markAsRead', function() {
-            it('should mark an entry as read', function(done) {
+        describe('#markAsRead', function () {
+            it('should mark an entry as read', function (done) {
                 var entry = {
                     id: 'foo',
                     read: false
                 };
                 this.Entry.setTable(this.table);
-                this.table.update.and.callFake(function(entry, callback) {
+                this.table.update.and.callFake(function (entry, callback) {
                     callback(undefined, entry);
                 });
-                this.Entry.markAsRead(entry, (function(err, entry) {
+                this.Entry.markAsRead(entry, (function (err, entry) {
                     expect(this.table.update).toHaveBeenCalled();
                     done(err);
                 }).bind(this));
             });
         });
-    });
-    describe("EntryCache", function() {
-        beforeEach(function() {
-            var self = this;
-            inject(function(EntryCache, FeedCache,Entry) {
-                self.FeedCache = FeedCache;
-                self.EntryCache = EntryCache;
-                self.Entry=Entry;
+        describe('#extractMediaGroups', function () {
+            it('should return the right array', function () {
+                var entry = {
+                    mediaGroups: [
+                        {
+                            contents: [
+                                {filesize: 100, url: 'foo'},
+                                {filesize: 100, url: 'bar'},
+                            ]
+                        },
+                        {
+                            contents: [
+                                {filesize: 200, url: 'baz'},
+                                {filesize: 200, url: 'biz'}
+                            ]
+                        }
+                    ]
+                };
+                expect(this.Entry.extractMediaGroups(entry)).toEqual(['foo', 'bar', 'baz', 'biz']);
             });
         });
-        describe('#delete',function(){
-            it('should return a promise',function(done){
-                var entry={id:'foo'};
-                spyOn(this.Entry,'delete').and.callThrough();
-                this.EntryCache.entries=[entry];
-                this.EntryCache.delete({}).then((function(){
+    });
+    describe("EntryCache", function () {
+        beforeEach(function () {
+            var self = this;
+            inject(function (EntryCache, FeedCache, Entry) {
+                self.FeedCache = FeedCache;
+                self.EntryCache = EntryCache;
+                self.Entry = Entry;
+            });
+        });
+        describe('#delete', function () {
+            it('should return a promise', function (done) {
+                var entry = {id: 'foo'};
+                spyOn(this.Entry, 'delete').and.callThrough();
+                this.EntryCache.entries = [entry];
+                this.EntryCache.delete({}).then((function () {
                     expect(this.EntryCache.entries.length).toBe(0);
                     done();
                 }).bind(this));
@@ -213,9 +234,9 @@ describe("dropboxDatabase", function() {
                 this.$timeout.flush();
             });
         });
-        describe("#load", function() {
-            it('should return a promise', function(done) {
-                spyOn(this.FeedCache,'load').and.callThrough();
+        describe("#load", function () {
+            it('should return a promise', function (done) {
+                spyOn(this.FeedCache, 'load').and.callThrough();
                 this.EntryCache.load().then(done);
                 expect(this.FeedCache.load).toHaveBeenCalled();
                 this.$timeout.flush();

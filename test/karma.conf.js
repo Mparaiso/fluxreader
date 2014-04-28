@@ -33,12 +33,12 @@ module.exports = function(config) {
         frameworks: ['jasmine'],
 
         browsers: ['PhantomJS'],
-
         plugins: [
             'karma-chrome-launcher',
             'karma-firefox-launcher',
             'karma-phantomjs-launcher',
-            'karma-jasmine'
+            'karma-jasmine',
+            'karma-coverage'
         ],
 
         junitReporter: {
