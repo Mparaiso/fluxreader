@@ -9,7 +9,7 @@
     .directive('paginator',function(){
         return {
             restrict:"E",/* restrict to element */
-            template: "<div>Paginator</div>"
+            template: '<div class="paginator"></div>'
         };
     })
     .service('Pagination',function(){
