@@ -5,7 +5,7 @@
 -->
 <section ng-controller="EntryListCtrl">
     <div class="lead">{{pageTitle}}</div>
-    <h2 class="text-muted blink" data-ng-show="EntryCache.entries.length=0">Loading Entries...</h2>
+    <h2 class="text-muted blink" data-ng-show="!EntryCache.entries">Loading Entries...</h2>
     <div ng-include="extra" class="text-muted text-small"></div>
     <h2 class="text-muted" data-ng-show="EntryCache.entries.length<1">No Entry found, please subscribe a new feed.</h2>
     <!-- LIST OF ENTRIES -->

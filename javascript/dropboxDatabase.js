@@ -239,7 +239,7 @@
                 return removeFile(path);
             };
         })
-        .service('Entry', function (tableFactory, compressor) {
+        .service('Entry', function (tableFactory, compressor,md5,File) {
             /**
              * Manage entry persistance
              */
@@ -256,7 +256,17 @@
                 return this;
             };
             this.getById = function (id, callback) {
-                entryTable.get(id, callback);
+                entryTable.get(id, function(err,entry){
+                    if(err){
+                        return callback(err);
+                    }
+                    File.read(entry.path).then(function(content){
+                        entry.content = content;
+                        callback(null,entry);
+                    }).catch(function(err){
+                        callback(err);
+                    });
+                });
             };
             this.getCorrectDate = function (date) {
                 var potentialDate = (new Date(date)).getTime();
@@ -285,7 +295,7 @@
                         //mediaGroup: typeof(entry.mediaGroup) !== 'string' ? entry.mediaGroup !== undefined ? JSON.stringify(entry.mediaGroup) : "{}" : entry.mediaGroup,
                         title: entry.title || "",
                         link: entry.link || "",
-                        content: entry.content || "",
+                        path:entry.path||"",
                         contentSnippet: entry.contentSnippet || "",
                         publishedDate: this.getCorrectDate(entry.publishedDate),
                         categories: entry.categories || [],
@@ -299,7 +309,17 @@
                     };
                 };
             this.delete = function (entry, callback) {
-                entryTable.delete(entry, callback);
+                return entryTable.delete(entry, function(err,res){
+                    if(err){
+                        return callback(err);
+                    }
+                    return File.remove(entry.path).then(function(){
+                        console.log('remove');
+                        return callback(null,res);
+                    }).catch(function(err){
+                        return callback(err);
+                    });
+                });
             };
             this.findAll = function () {
                 entryTable.findAll.apply(entryTable, [].slice.call(arguments));
@@ -322,10 +342,15 @@
                         callback(err, entryRecord);
                     } else {
                         console.log('inserting', entry);
-                        //Compress content
-                        entry.compressed = true;
-                        entry.content = compressor.compress(entry.content);
-                        entryTable.insert(self.normalize(entry), callback);
+                        /** set file name related to the entry */
+                        entry.path = md5(entry.link).concat('.html');
+                        File.write(entry.path,entry.content).then(function(){
+                            delete entry.content;
+                            return entryTable.insert(self.normalize(entry), callback);
+                        }).catch(function(err){
+                            callback(err);
+                        });
+                        //entry.content = compressor.compress(entry.content);
                     }
                 });
             };
@@ -537,15 +562,5 @@
                 });
                 return deferred.promise;
             };
-            /*
-             this.load().then(function (entries) {
-             async.eachSeries(entries.filter(function(e){return !e.compressed}), function (entry, next) {
-             console.log('cleaning ',entry.id);
-             Entry.delete(entry,next);
-             }, function(){
-             console.log('clean up done');
-             });
-             });
-             */
         });
 }());

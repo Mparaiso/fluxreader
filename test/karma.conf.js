@@ -14,21 +14,10 @@ module.exports = function(config) {
             'bower_components/angular/angular.js',
             'bower_components/angular-route/angular-route.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
- //            'bower_components/angular-resource/angular-resource.js',
- //            'bower_components/angular-animate/angular-animate.js',
             'bower_components/angular-mocks/angular-mocks.js',
- //            'app/js/**/*.js',
-            'javascript/lzCompressor.js',
-            'javascript/googleFeed.js',
-            'javascript/dropboxDatabase.js',
-            'javascript/dropbox.js',
-            'javascript/flowReader.js',
-            'javascript/myNotification.js',
-            'javascript/myPagination.js',
-            'javascript/promisifier.js',
-            'javascript/md5.js',
-            'test/mocks/**/*.js',
-            'test/unit/**/*.js'
+            'javascript/*.js',
+            'test/mocks/*.js',
+            'test/unit/*.js'
         ],
 
         autoWatch: true,
@@ -41,19 +30,20 @@ module.exports = function(config) {
             'karma-firefox-launcher',
             'karma-phantomjs-launcher',
             'karma-jasmine',
-            'karma-coverage'
+            'karma-coverage',
+            'karma-coveralls'
         ],
 
         junitReporter: {
             outputFile: 'test_out/unit.xml',
             suite: 'unit'
         },
-        reporters:['progress','coverage'],
+        reporters:['progress','coverage','coveralls'],
         preprocessors:{
             "javascript/**/*.js":['coverage']
         },
         coverageReporter:{
-            type:'html',
+            type:'lcov',
             dir:'coverage/'
         }
     });

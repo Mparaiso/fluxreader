@@ -179,7 +179,7 @@ describe("dropboxDatabase", function () {
         });
         describe('#markAsRead', function () {
             it('should mark an entry as read', function (done) {
-                var entry = {
+                var self=this,entry = {
                     id: 'foo',
                     read: false
                 };
@@ -187,10 +187,10 @@ describe("dropboxDatabase", function () {
                 this.table.update.and.callFake(function (entry, callback) {
                     callback(undefined, entry);
                 });
-                this.Entry.markAsRead(entry, (function (err, entry) {
-                    expect(this.table.update).toHaveBeenCalled();
+                this.Entry.markAsRead(entry, function (err, entry) {
+                    expect(self.table.update).toHaveBeenCalled();
                     done(err);
-                }).bind(this));
+                });
             });
         });
         describe('#extractMediaGroups', function () {
@@ -198,17 +198,17 @@ describe("dropboxDatabase", function () {
                 var entry = {
                     mediaGroups: [
                         {
-                            contents: [
-                                {filesize: 100, url: 'foo'},
-                                {filesize: 100, url: 'bar'},
-                            ]
-                        },
-                        {
-                            contents: [
-                                {filesize: 200, url: 'baz'},
-                                {filesize: 200, url: 'biz'}
-                            ]
-                        }
+                        contents: [
+                            {filesize: 100, url: 'foo'},
+                            {filesize: 100, url: 'bar'},
+                        ]
+                    },
+                    {
+                        contents: [
+                            {filesize: 200, url: 'baz'},
+                            {filesize: 200, url: 'biz'}
+                        ]
+                    }
                     ]
                 };
                 expect(this.Entry.extractMediaGroups(entry)).toEqual(['foo', 'bar', 'baz', 'biz']);
@@ -218,21 +218,26 @@ describe("dropboxDatabase", function () {
     describe("EntryCache", function () {
         beforeEach(function () {
             var self = this;
-            inject(function (EntryCache, FeedCache, Entry) {
+            inject(function (EntryCache, FeedCache,$q, $rootScope,Entry,File,$timeout,client) {
                 self.FeedCache = FeedCache;
                 self.EntryCache = EntryCache;
                 self.Entry = Entry;
+                self.$timeout=$timeout;
+                self.$rootScope=$rootScope;
+                self.$q=$q;
             });
+
         });
         describe('#delete', function () {
-            it('should return a promise', function (done) {
-                var entry = {id: 'foo'};
-                spyOn(this.Entry, 'delete').and.callThrough();
+            it('should remove entry in entries', function (done) {
+                var self=this,entry = {id: 'foo'};
+                spyOn(this.Entry, 'delete').and.callFake(function(entry,callback){
+                    callback();
+                });
                 this.EntryCache.entries = [entry];
-                this.EntryCache.delete({}).then((function () {
-                    expect(this.EntryCache.entries.length).toBe(0);
-                    done();
-                }).bind(this));
+                this.EntryCache.delete(entry).then(function(){
+                    return expect(self.EntryCache.entries.length).toEqual(0);
+                }).then(done);
                 expect(this.Entry.delete).toHaveBeenCalled();
                 this.$timeout.flush();
             });
@@ -255,14 +260,16 @@ describe("dropboxDatabase", function () {
             expect(this.File).toBeDefined();
         });
         it('#write',function(){
-            var path="path";
-            var content="content";
+            var content,path;
+            path="path";
+            content="content";
             this.File.write(path,content);
             expect(this.client.writeFile).toHaveBeenCalled();
         });
         it('#read',function(){
-            var path="path";
-            var content="content";
+            var content,path;
+            path="path";
+            content="content";
             this.File.read(path);
             expect(this.client.readFile).toHaveBeenCalled();
         });
