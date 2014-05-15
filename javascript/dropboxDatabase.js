@@ -239,7 +239,7 @@
                 return removeFile(path);
             };
         })
-        .service('Entry', function (tableFactory, compressor,md5,File) {
+        .service('Entry', function (tableFactory,md5,File) {
             /**
              * Manage entry persistance
              */
@@ -350,7 +350,6 @@
                         }).catch(function(err){
                             callback(err);
                         });
-                        //entry.content = compressor.compress(entry.content);
                     }
                 });
             };

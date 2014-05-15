@@ -26,8 +26,6 @@ module.exports = function(config) {
 
         browsers: ['PhantomJS'],
         plugins: [
-            'karma-chrome-launcher',
-            'karma-firefox-launcher',
             'karma-phantomjs-launcher',
             'karma-jasmine',
             'karma-coverage',
@@ -40,7 +38,7 @@ module.exports = function(config) {
         },
         reporters:['progress','coverage','coveralls'],
         preprocessors:{
-            "javascript/**/*.js":['coverage']
+            "javascript/*.js":['coverage']
         },
         coverageReporter:{
             type:'lcov',

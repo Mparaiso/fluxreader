@@ -5,21 +5,42 @@ describe('flowReader', function () {
     beforeEach(function () {
         var self = this;
         angular.module('test', ['$window.mock', 'flowReader', 'dropboxDatabase','myPagination', 'dropbox.mock', 'googleFeed.mock'],
-            function (feedFinderProvider) {
-                feedFinderProvider.setGoogle({
-                    load: function () {
-                        return;
-                    }
-                });
-            }).constant('forceHTTPS',false);
-        module('test');
-        inject(function ($window) {
-            self.$window = $window;
-        });
+                       function (feedFinderProvider) {
+                           feedFinderProvider.setGoogle({
+                               load: function () {
+                                   return;
+                               }
+                           });
+                       }).constant('forceHTTPS',false);
+                       module('test');
+                       inject(function ($window,$rootScope,$injector,$controller) {
+                           self.$injector=$injector;
+                           self.$window = $window;
+                           self.$controller=$controller;
+                           self.$rootScope=$rootScope;
+                       });
     });
     it('should run properly', function () {
         inject(function (baseUrl) {
             expect(baseUrl).toBeDefined();
+        });
+    });
+    describe('MainCtrl',function(){
+        beforeEach(function(){
+            this.$scope=this.$rootScope.$new();
+            this.MainCtrl=this.$controller('MainCtrl',{$scope:this.$scope});
+        });
+        it('ok',function(){
+            expect(this.MainCtrl).toBeDefined();
+        });
+    });
+    describe('IndexCtrl',function(){
+        beforeEach(function(){
+            this.$scope=this.$rootScope.$new();
+            this.IndexCtrl=this.$controller('IndexCtrl',{$scope:this.$scope});
+        });
+        it('when',function(){
+            ;
         });
     });
     describe('FeedListCtrl', function () {
@@ -92,4 +113,5 @@ describe('flowReader', function () {
             expect(this.Entry.getById).toHaveBeenCalled();
         });
     });
+
 });

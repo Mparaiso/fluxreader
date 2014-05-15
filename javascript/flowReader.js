@@ -9,7 +9,7 @@
     "use strict";
     var _enum = 0;
     angular.module('flowReader',
-        ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed','lzCompressor','myNotification','myPagination'],
+        ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed','myNotification','myPagination'],
         function (feedFinderProvider, $routeProvider, dropboxClientProvider, baseUrl) {
             /**
              * @note @angular injecting constant in config
@@ -215,7 +215,7 @@
                 $scope.accountInfo = accountInfo;
             });
         })
-        .controller('EntryCtrl', function ($scope, Notification,FeedCache,$route, Entry,compressor) {
+        .controller('EntryCtrl', function ($scope, Notification,FeedCache,$route, Entry) {
             Entry.getById($route.current.params.id, function (err, entry) {
                 if (!entry) {
                     Notification.notify({text:'Entry not found',type:Notification.type.ERROR});
@@ -223,9 +223,6 @@
                     if (!entry.read) {
                         entry.read = true;
                         Entry.markAsRead(entry, angular.noop);
-                    }
-                    if(entry.compressed){
-                        entry.content=compressor.decompress(entry.content);
                     }
                     $scope.entry = entry;
                     FeedCache.getById(entry.feedId).then(function (feed) {
