@@ -10,7 +10,7 @@ path = require('path');
 fs = require('fs');
 stream=require('stream');
 dir = /*process.argv[2] ||*/ process.cwd();
-port = 3100;
+port = 4000;
 app = express();
 app.use(express.static(dir));
 app.use(express.logger());

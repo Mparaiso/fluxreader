@@ -1,5 +1,6 @@
-/*jslint es5:true,browser:true,devel:true*/
+/*jslint white:true,es5:true,browser:true,devel:true,nomen:true*/
 /*global angular,async*/
+/** javascript/dropboxDatabase.js */
 /**
  * @copyright 2014 mparaiso <mparaiso@online.fr>
  * @license GPL
@@ -33,10 +34,10 @@
  * @param {string} favorite favorite
  * @param {string} feedId feedId
  * @param {string} content content
+ * @param {string} filePath path to the file containing the content of the entry on dropbox
  * @param {string} contentSnippet contentSnippet
  * @param {Date} createdAt createdAt
  * @param {string} link link
- * @param {string} id id
  * @param {string} categories categories
  * @property {Array} medias
  */
@@ -204,7 +205,7 @@
             };
         })
         .service('tableFactory', function (database, $q, $timeout) {
-            this.Table = Table,
+            this.Table = Table;
             /**
              * create a new table object
              * @param tableName
@@ -220,22 +221,33 @@
              * @TODO complete
              */
         })
-        .service('EntryBlacklist', function (tableFactory) {
-            var entryBlacklistTable = tableFactory.create('entry_blacklist');
-            this.findAll = function () {
-                entryBlacklistTable.findAll.apply(entryBlacklistTable, [].slice.call(arguments));
-            }
-            //this.insert = function(blacklisted)
+        .service('File', function (client,$q,Promisifier) {
+            var writeFile,readFile,removeFile;
+            writeFile=Promisifier.promisify(client.writeFile,client);
+            readFile=Promisifier.promisify(client.readFile,client);
+            removeFile =Promisifier.promisify(client.remove,client);
+            /** writes a file */
+            this.write=function(path,content){
+                return writeFile(path,content);
+            };
+            /** read a file */
+            this.read=function(path){
+                return readFile(path);
+            };
+            /** remove a file */
+            this.remove=function(path){
+                return removeFile(path);
+            };
         })
         .service('Entry', function (tableFactory, compressor) {
             /**
              * Manage entry persistance
              */
-            var feedTable;
+            var entryTable,feedTable;
             /**
              * @type {database.Table}
              */
-            var entryTable = tableFactory.create('entry');
+            entryTable = tableFactory.create('entry');
             this.getTable = function () {
                 return entryTable;
             };
@@ -248,7 +260,7 @@
             };
             this.getCorrectDate = function (date) {
                 var potentialDate = (new Date(date)).getTime();
-                if (isNaN(potentialDate) || potentialDate == null) {
+                if (isNaN(potentialDate) || potentialDate === null) {
                     potentialDate = (new Date()).getTime();
                 }
                 return potentialDate;
@@ -267,7 +279,7 @@
                     }, []);
                 }
                 return [];
-            },
+            };
                 this.normalize = function (entry) {
                     return {
                         //mediaGroup: typeof(entry.mediaGroup) !== 'string' ? entry.mediaGroup !== undefined ? JSON.stringify(entry.mediaGroup) : "{}" : entry.mediaGroup,
@@ -331,7 +343,7 @@
             this.markAsRead = function (entry, callback) {
                 entry.read = true;
                 this.getTable().update(entry, callback);
-            }
+            };
         })
         .service('Feed', function (tableFactory, Entry, feedFinder, $timeout) {
             /**
@@ -421,10 +433,10 @@
                             }
                         });
                     });
-                } else {
+                } 
                     return $timeout(callback.bind(null, new Error('no url provided')), 1);
-                }
-            }
+                
+            };
         })
         .service('FeedCache', function (Feed, $timeout, $q) {
             /* simple way to keep feeds in memory */
@@ -459,7 +471,7 @@
                     deferred.resolve(res);
                 });
                 return deferred.promise;
-            }
+            };
         })
         .service('EntryCache', function (Entry, FeedCache, $q, $timeout) {
             /* simple way to keep entries in memory to speed things up */
@@ -474,11 +486,11 @@
                 }, this);
             };
             this.getCount = function () {/*@todo*/
-            }
+            };
             this.getFavoriteCount = function () {/*@todo*/
-            }
+            };
             this.getUnreadCount = function () {/*@todo*/
-            }
+            };
             this.getCategories = function () {
                 if (this.entries instanceof Array) {
                     return this.entries.reduce(function (categories, entry) {
@@ -518,13 +530,13 @@
                 Entry.delete(entry, function (err, res) {
                     console.warn('entry deletion failed', err);
                     var index = self.entries.indexOf(self.entries.filter(function (e) {
-                        return e.id == entry.id;
+                        return e.id === entry.id;
                     })[0]);
                     self.entries.splice(index, 1);
                     deferred.resolve(res);
                 });
                 return deferred.promise;
-            }
+            };
             /*
              this.load().then(function (entries) {
              async.eachSeries(entries.filter(function(e){return !e.compressed}), function (entry, next) {

@@ -1,3 +1,4 @@
+/*jslint white:true*/
 /*global jasmine,spyOn,describe,it,inject,module,beforeEach,angular,expect,window*/
 describe("dropboxDatabase", function () {
     "use strict";
@@ -5,8 +6,10 @@ describe("dropboxDatabase", function () {
         var self = this;
         angular.module('test', ['$window.mock', 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock', 'lzCompressor']);
         module('test');
-        inject(function ($timeout) {
+        inject(function ($timeout,$injector,$rootScope) {
             self.$timeout = $timeout;
+            self.$injector=$injector;
+            self.$rootScope=$rootScope;
         });
     });
     describe('database', function () {
@@ -157,11 +160,11 @@ describe("dropboxDatabase", function () {
         });
         describe('#toggleFavorite', function () {
             it('should toggle favorite field', function (done) {
-                var entry = {
+                var table,entry = {
                     id: 'foo',
                     favorite: false
                 };
-                var table = this.Entry.getTable();
+                table = this.Entry.getTable();
                 spyOn(table, 'update').and.callFake(function (record, callback) {
                     callback(undefined, record);
                 });
@@ -241,6 +244,32 @@ describe("dropboxDatabase", function () {
                 expect(this.FeedCache.load).toHaveBeenCalled();
                 this.$timeout.flush();
             });
+        });
+    });
+    describe('File',function(){
+        beforeEach(function(){
+            this.File=this.$injector.get('File');
+            this.client = this.$injector.get('client');
+        });
+        it('constructor',function(){
+            expect(this.File).toBeDefined();
+        });
+        it('#write',function(){
+            var path="path";
+            var content="content";
+            this.File.write(path,content);
+            expect(this.client.writeFile).toHaveBeenCalled();
+        });
+        it('#read',function(){
+            var path="path";
+            var content="content";
+            this.File.read(path);
+            expect(this.client.readFile).toHaveBeenCalled();
+        });
+        it('#remove',function(){
+            var path="path";
+            this.File.remove(path);
+            expect(this.client.remove).toHaveBeenCalled();
         });
     });
 });

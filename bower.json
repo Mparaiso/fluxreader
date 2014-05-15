@@ -22,6 +22,7 @@
     "async": "~0.7.0",
     "angular-sanitize": "~1.2.16",
     "lz-string": "*",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "js-md5": "~1.1.0"
   }
 }

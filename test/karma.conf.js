@@ -7,6 +7,7 @@ module.exports = function(config) {
 
         files: [
             'bower_components/es5-shim/es5-shim.js',
+            "bower_components/js-md5/js/md5.js",
             'bower_components/async/lib/async.js',
             'https://www.google.com/jsapi',
             'https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js',
@@ -24,6 +25,8 @@ module.exports = function(config) {
             'javascript/flowReader.js',
             'javascript/myNotification.js',
             'javascript/myPagination.js',
+            'javascript/promisifier.js',
+            'javascript/md5.js',
             'test/mocks/**/*.js',
             'test/unit/**/*.js'
         ],

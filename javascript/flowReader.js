@@ -66,7 +66,7 @@
             //dropboxClientProvider.setKey('aa8d82y2a6iqbs9');
             feedFinderProvider.setGoogle(google);
         })
-        .constant('DROPBOX_APIKEY', 'gi42kr1ox74tyrb')
+        .constant('DROPBOX_APIKEY', 'jze8pzfye506das')
         .constant('forceHTTPS', true)
         .constant('baseUrl', window.location.pathname.match(/(.*\/)/)[1])
         .constant('Events', {

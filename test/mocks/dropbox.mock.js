@@ -1,8 +1,12 @@
 /*jslint devel:true,es5:true*/
 /*global angular*/
+/* test/mocks/dropbox.mock.js */
 (function () {
     "use strict";
     angular.module('dropbox.mock', [])
+        .service('client',function(){
+            return jasmine.createSpyObj('client',['writeFile','readFile','remove']);
+        })
         .factory('dropboxClient', function ($timeout) {
             var RecordMock = function () {
                 this.getFields = function () {
