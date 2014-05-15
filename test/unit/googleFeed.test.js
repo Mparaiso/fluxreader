@@ -6,6 +6,7 @@ describe('googleFeed',function(){
         var self=this;
         this.feed=jasmine.createSpyObj('feed',['load','includeHistoricalEntries','setNumEntries']);
         this.google={
+            load:jasmine.createSpy('load'),
             feeds:{
                 findFeeds:jasmine.createSpy('findFeeds'),
                 Feed:function(){
@@ -27,9 +28,15 @@ describe('googleFeed',function(){
         beforeEach(function(){
             this.feedFinder=this.$injector.get('feedFinder');
         });
-        it('findFeedByUrl',function(done){
+        it('#findFeedByUrl',function(done){
             this.feed.load.and.callFake(done);
             this.feedFinder.findFeedByUrl("foo"); 
+        });
+        it('#open',function(done){
+            this.google.load.and.callFake(function(s,t,o){
+                o.callback();
+            });
+            this.feedFinder.open(done);
         });
     });
 });
