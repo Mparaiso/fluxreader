@@ -32,8 +32,11 @@ describe('flowReader', function () {
             this.MainCtrl=this.$controller('MainCtrl',{$scope:this.$scope});
         });
         it('ok',function(){
-            expect(this.MainCtrl).toBeDefined();
+            this.$scope.isAuthenticated();
+            this.$scope.signOut();
+            this.$scope.signIn();
         });
+        
     });
     describe('IndexCtrl',function(){
         beforeEach(function(){
@@ -69,6 +72,15 @@ describe('flowReader', function () {
         it('when',function(){
             this.$scope.q="feed";
             this.$scope.search();
+        });
+    });
+    describe('FeedCtrl',function(){
+        beforeEach(function(){
+            this.FeedCtrl=this.$controller('FeedCtrl',{$scope:this.$scope,$route:{current:{params:{id:0}}}});
+        });
+        it('when',function(){
+            this.$scope.refresh("http://foo.fr");
+            this.$scope.init;
         });
     });
     describe('FeedListCtrl', function () {
@@ -135,11 +147,20 @@ describe('flowReader', function () {
             });
         });
         it('#entry',function(){
+            this.scope.toggleFavorite();
             expect(this.scope.entry.title).toEqual('foo');
         });
         it('#entry',function(){
             expect(this.Entry.getById).toHaveBeenCalled();
         });
     });
-
+describe('EntryListCtrl',function(){
+    beforeEach(function(){
+        this.EntryListCtrl=this.$controller('EntryListCtrl',{$scope:this.$scope});
+    });
+    it('when',function(){
+        this.$scope.toggleFavorite();
+        this.$scope.predicate({publishedDate:new Date()});
+    });
+});
 });
