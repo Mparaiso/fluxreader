@@ -1,13 +1,9 @@
 /*global angular*/
 (function() {
-	"use strict";
-	angular.module('index', ['flowReader'], function() {
-		return;
-	})
-	.controller('IndexCtrl', function() {
-		return;
-	});
+    "use strict";
+    angular.module('index', ['flowReader'])
+    .controller('IndexCtrl',angular.noop);
 }());
 /**
- * @todo  write index module
- */
+* @todo  write index module
+*/
