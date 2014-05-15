@@ -56,10 +56,19 @@ describe('flowReader', function () {
     describe('SearchCtrl',function(){
         beforeEach(function(){
             this.$route={current:{params:{id:0}}};
-           this.SearchCtrl=this.$controller('SearchCtrl',{$scope:this.$scope,$route:this.$route}) ;
+            this.SearchCtrl=this.$controller('SearchCtrl',{$scope:this.$scope,$route:this.$route}) ;
         });
         it('when',function(){
             expect(this.SearchCtrl).toBeDefined();
+        });
+    });
+    describe('SearchFormCtrl',function(){
+        beforeEach(function(){
+            this.SearchFormCtrl=this.$controller('SearchFormCtrl',{$scope:this.$scope});
+        });
+        it('when',function(){
+            this.$scope.q="feed";
+            this.$scope.search();
         });
     });
     describe('FeedListCtrl', function () {

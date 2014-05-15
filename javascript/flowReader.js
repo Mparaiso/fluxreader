@@ -144,7 +144,7 @@
             $scope.query = $route.current.params.q;
             $scope.pageTitle = ['Results for "', $scope.query, '" '].join("");
             $scope.EntryCache = EntryCache;
-            EntryCache.load();
+            EntryCache.load({title:new RegExp($scope.query,"i")});
         })
         .controller('DashboardCtrl', function ($scope ,EntryCache,FeedCache) {
             $scope.pageTitle = "Latest Entries";
