@@ -18,6 +18,7 @@ describe('flowReader', function () {
                            self.$window = $window;
                            self.$controller=$controller;
                            self.$rootScope=$rootScope;
+                           self.$scope=$rootScope.$new();
                        });
     });
     it('should run properly', function () {
@@ -41,6 +42,24 @@ describe('flowReader', function () {
         });
         it('when',function(){
             ;
+        });
+    });
+    describe('SignInCtrl',function(){
+        beforeEach(function(){
+
+            this.SignInCtrl=this.$controller('SignInCtrl',{$scope:this.$scope});
+        });
+        it('when',function(){
+            expect(this.SignInCtrl).toBeDefined();
+        });
+    });
+    describe('SearchCtrl',function(){
+        beforeEach(function(){
+            this.$route={current:{params:{id:0}}};
+           this.SearchCtrl=this.$controller('SearchCtrl',{$scope:this.$scope,$route:this.$route}) ;
+        });
+        it('when',function(){
+            expect(this.SearchCtrl).toBeDefined();
         });
     });
     describe('FeedListCtrl', function () {
