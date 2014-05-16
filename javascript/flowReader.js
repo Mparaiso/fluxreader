@@ -82,7 +82,7 @@
             year: (new Date()).getFullYear(),
             EntryPerPage:50
         })
-        .controller('MainCtrl', function ($scope,Notification, Events, $log, globals, $location, dropboxClient, baseUrl) {
+        .controller('MainCtrl', function ($scope,$anchorScroll,Notification, Events, $log, globals, $location, dropboxClient, baseUrl) {
             $scope.utils = {
                 round: Math.round.bind(Math),
                 pow: Math.pow.bind(Math),
@@ -299,7 +299,7 @@
                 }
             };
         })
-        .run(function (dropboxClient, $location, $route, $rootScope, $log, forceHTTPS, $window) {
+        .run(function (dropboxClient, $location,$anchorScroll, $route, $rootScope, $log, forceHTTPS, $window) {
             if (forceHTTPS === true) {
                 //if not https redirect
                 if (($window.location.protocol !== 'https:') && (['127.0.0.1', 'localhost'].indexOf($window.location.hostname) < 0)) {
@@ -332,6 +332,9 @@
                     $location.path('/dashboard');
                 }
 
+            });
+            $rootScope.$on('$routeChangeSuccess',function(){
+                $anchorScroll();
             });
         });
 }(window,angular));
