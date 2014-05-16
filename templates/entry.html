@@ -12,7 +12,7 @@
     <div class="row">
         <aside class="col-md-2" data-ng-include="baseUrl+'templates/feed-list.html'">
         </aside>
-        <article class="col-md-10">
+        <article class="col-md-10 entry">
             <button class="btn btn-default" onclick="history.back();">&crarr; Back</button>
             <h2 class="text-muted" ng-hide="entry">Loading Entry...</h2>
             <div ng-show="entry">
@@ -38,7 +38,7 @@
                 </span>
             </p>
             <p>&nbsp;</p>
-            <section data-ng-bind-html="entry.content"></section>
+            <section data-thumbnail="entry.content" data-ng-bind-html="entry.content"></section>
             </div>
         </article>
     </div>

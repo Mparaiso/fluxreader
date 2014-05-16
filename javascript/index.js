@@ -1,7 +1,7 @@
 /*global angular*/
 (function() {
     "use strict";
-    angular.module('index', ['flowReader'])
+    angular.module('index', ['fluxReader'])
     .controller('IndexCtrl',angular.noop);
 }());
 /**

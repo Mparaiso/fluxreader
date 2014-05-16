@@ -106,6 +106,9 @@ a{
   position: absolute;
   z-index: -1;   
 }
+.entry .thumbnail{
+    border:none;
+}
 
 .container-narrow{
     max-width:768px;

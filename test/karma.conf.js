@@ -9,6 +9,7 @@ module.exports = function(config) {
             'bower_components/es5-shim/es5-shim.js',
             "bower_components/js-md5/js/md5.js",
             'bower_components/async/lib/async.js',
+            'bower_components/jquery/dist/jquery.min.js',
             'https://www.google.com/jsapi',
             'https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js',
             'bower_components/angular/angular.js',
@@ -41,7 +42,7 @@ module.exports = function(config) {
             "javascript/*.js":['coverage']
         },
         coverageReporter:{
-            type:'lcov',
+            type:'text',
             dir:'coverage/'
         }
     });

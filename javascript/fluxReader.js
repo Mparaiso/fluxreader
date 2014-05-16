@@ -1,5 +1,5 @@
-/*jslint browser:true,plusplus:true*/
-/*global angular,async,google*/
+/*jslint eqeq:true,node:true,es5:true,white:true,plusplus:true,nomen:true,unparam:true,devel:true,regexp:true */
+/*global angular,window,async,google,jquery*/
 /**
  * @copyright 2014 mparaiso <mparaiso@online.fr>
  * @license GPL
@@ -7,8 +7,28 @@
  */
 (function (window, angular, undefined) {
     "use strict";
-    var _enum = 0;
-    angular.module('flowReader',
+    angular.module('ng')
+        .directive('thumbnail',function($timeout){
+            return {
+                priority:1000,
+                scope:{
+                    thumbnail:"="
+                },
+                link:function($scope,element,attributes){
+                    var $unwatch = $scope.$watch('thumbnail',function(newValue,oldValue){
+                            if(newValue && newValue!==oldValue){
+                                $timeout(function(){
+                                    element.find('img').wrap('<div class="thumbnail">');
+                                    element.find('a').attr('target','_blank');
+                                    $unwatch();
+                                });
+                            }
+                    });
+                      
+                }
+            };
+        });
+    angular.module('fluxReader',
         ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed','myNotification','myPagination'],
         function (feedFinderProvider, $routeProvider, dropboxClientProvider, baseUrl) {
             /**
@@ -70,13 +90,13 @@
         .constant('forceHTTPS', true)
         .constant('baseUrl', window.location.pathname.match(/(.*\/)/)[1])
         .constant('Events', {
-            FAVORITE_TOGGLED: _enum++,
-            REFRESH_DONE: _enum++,
-            NOTIFIY_ERROR: _enum++
+            FAVORITE_TOGGLED: "Events.FAVORITE_TOGGLED",
+            REFRESH_DONE: "Events.REFRESH_DONE",
+            NOTIFIY_ERROR: "Events.NOTIFIY_ERROR"
         })
         .value('globals', {
-            siteTitle: 'Flow Reader',
-            title: 'Flow Reader',
+            siteTitle: 'Flux Reader',
+            title: 'Flux Reader',
             email: 'mparaiso@online.fr',
             url: window.location.origin,
             year: (new Date()).getFullYear(),
@@ -258,12 +278,13 @@
                 }
             };
             $scope.removeEntry = function () {
+                var self=this;
                 if (this.entry) {
-                    EntryCache.delete(this.entry).then((function (err, res) {
+                    EntryCache.delete(this.entry).then(function (err, res) {
                         Notification.notify({
-                            text:['Entry: "',this.entry.title.substr(0,50).concat('...'),'" removed.'].join(''),
+                            text:['Entry: "',self.entry.title.substr(0,50).concat('...'),'" removed.'].join(''),
                             type:Notification.type.INFO});
-                    }).bind(this));
+                    });
                 }
             };
         })

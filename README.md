@@ -1,12 +1,12 @@
-FLOW READER
+FLUX READER
 ===========
 
-[![Build Status](https://travis-ci.org/Mparaiso/flowreader.svg?branch=master)](https://travis-ci.org/Mparaiso/flowreader)
+[![Build Status](https://travis-ci.org/Mparaiso/fluxreader.svg?branch=master)](https://travis-ci.org/Mparaiso/fluxreader)
 
 a client side RSS reader backed by DropBox Datastore API
 --------------------------------------------------------
 
-https://mparaiso.github.io/flowreader/
+https://mparaiso.github.io/fluxreader/
 
 author mparaiso <mparaiso@online.fr>
 

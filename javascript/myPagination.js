@@ -8,8 +8,10 @@
     angular.module('myPagination', [])
     .directive('paginator',function(){
         return {
-            restrict:"E",/* restrict to element */
-            template: '<div class="paginator"></div>'
+            restrict:"EA",/* restrict to element */
+            link:function($scope,element){
+                element.addClass('paginator');
+            }
         };
     })
     .service('Pagination',function(){
