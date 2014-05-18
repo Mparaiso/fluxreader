@@ -28,9 +28,26 @@ describe('googleFeed',function(){
         beforeEach(function(){
             this.feedFinder=this.$injector.get('feedFinder');
         });
-        it('#findFeedByUrl',function(done){
-            this.feed.load.and.callFake(done);
-            this.feedFinder.findFeedByUrl("foo"); 
+        it('#findFeedByUrl result error ',function(done){
+            var err=true;
+            this.feed.load.and.callFake(function(callback){
+                if(err){
+                    err=false;
+                    return  callback({error:{}});
+                }
+                return callback({feed:{}});
+            });
+            this.google.feeds.findFeeds.and.callFake(function(url,callback){
+                expect(url).toBe("site:foo");
+                return callback({entries:[{url:"bar"}]});
+            });
+            this.feedFinder.findFeedByUrl("foo",done); 
+        });
+        it('#findFeedByUrl result ok',function(done){
+            this.feed.load.and.callFake(function(callback){
+                return callback({feed:{}});
+            });
+            this.feedFinder.findFeedByUrl("foo",done); 
         });
         it('#open',function(done){
             this.google.load.and.callFake(function(s,t,o){

@@ -11,10 +11,9 @@ describe('myPagination',function(){
             self.$compile=$compile;
             self.$rootScope=$rootScope;
         });
-        this.array=[1,2,3,4];
     });
     //@note @angular testing directives
-    describe('paginator',function(){
+    describe('paginator directive',function(){
         beforeEach(function(){
             this.elm=angular.element('<div paginator></div>');
             this.$compile(this.elm)(this.$rootScope);
@@ -25,33 +24,48 @@ describe('myPagination',function(){
         });
     });
     describe('Pagination',function(){
-        it('expectations',function(){
-            expect(this.Pagination).toBeDefined();
-            expect(this.Pagination.slice(this.array).length).toBe(4);
-            this.Pagination.skip(1);
-            expect(this.Pagination.slice(this.array).length).toBe(3);
+        beforeEach(function(){
+            this.array=[1,2,3,4];
+        });
+        it('page',function(){
+            expect(this.Pagination.page()).toBe(1);
         });
         it('limit',function(){
             this.Pagination.limit(2);
+            expect(this.Pagination.slice(this.array).length).toBe(2);
+        });       
+        it('skip',function(){
+            this.Pagination.limit(2);
+            this.Pagination.skip(1);
+            expect(this.Pagination.slice(this.array).length).toBe(2);
         });    
         it('reset',function(){
+            this.Pagination.limit(2);
+            this.Pagination.skip(2);
+            expect(this.Pagination.slice(this.array).length).toBe(0);
             this.Pagination.reset();
+            expect(this.Pagination.slice(this.array).length).toBe(2);
+            expect(this.Pagination.page()).toBe(1);
         });       
 
-        it('slice',function(){
-            this.Pagination.slice(this.array);
-        });     
         it('hasPrevious',function(){
-            this.Pagination.hasPrevious();
+            expect(this.Pagination.hasPrevious()).toBe(false);
         });        
         it('hasNext',function(){
-            this.Pagination.hasNext(this.array);
+            expect(this.Pagination.hasNext(this.array)).toBe(true);
         });         
         it('next',function(){
+            this.Pagination.limit(2);
             this.Pagination.next();
+            expect(this.Pagination.slice(this.array).length).toBe(2);
+            expect(this.Pagination.page()).toBe(2);
         });       
         it('previous',function(){
             this.Pagination.previous();
+            expect(this.Pagination.page()).toBe(1);
+            this.Pagination.skip(2);
+            this.Pagination.previous();
+            expect(this.Pagination.page()).toBe(2);
         });              
     });
 });

@@ -27,31 +27,32 @@ describe('ng',function(){
         it('a must have a target attribute equal to _blank',function(){
             var a =this.elm.find('a').first();
             var img = this.elm.find('img');
-           expect(a.attr('target')).toEqual('_blank'); 
-           expect(img.parent().hasClass('thumbnail')).toBe(true);
+            expect(a.attr('target')).toEqual('_blank'); 
+            expect(img.parent().hasClass('thumbnail')).toBe(true);
         });
     });
 });
-describe('fluxReader', function () {
+
+describe('test', function () {
     "use strict";
     beforeEach(function () {
         var self = this;
         angular.module('test', ['$window.mock', 'fluxReader', 'dropboxDatabase','myPagination', 'dropbox.mock', 'googleFeed.mock'],
-                       function (feedFinderProvider) {
-                           feedFinderProvider.setGoogle({
-                               load: function () {
-                                   return;
-                               }
-                           });
-                       }).constant('forceHTTPS',false);
-                       module('test');
-                       inject(function ($window,$rootScope,$injector,$controller) {
-                           self.$injector=$injector;
-                           self.$window = $window;
-                           self.$controller=$controller;
-                           self.$rootScope=$rootScope;
-                           self.$scope=$rootScope.$new();
-                       });
+            function (feedFinderProvider) {
+                feedFinderProvider.setGoogle({
+                    load: function () {
+                        return;
+                    }
+                });
+            }).constant('forceHTTPS',false);
+        module('test');
+        inject(function ($window,$rootScope,$injector,$controller) {
+            self.$injector=$injector;
+            self.$window = $window;
+            self.$controller=$controller;
+            self.$rootScope=$rootScope;
+            self.$scope=$rootScope.$new();
+        });
     });
     it('should run properly', function () {
         inject(function (baseUrl) {
@@ -68,7 +69,6 @@ describe('fluxReader', function () {
             this.$scope.signOut();
             this.$scope.signIn();
         });
-        
     });
     describe('IndexCtrl',function(){
         beforeEach(function(){
@@ -160,7 +160,14 @@ describe('fluxReader', function () {
         it('$scope', function () {
             expect(this.scope.pageTitle).toBeDefined();
         });
-
+    });
+    describe('AccountCtrl',function(){
+        beforeEach(function(){
+            this.AccountCtrl=this.$controller('AccountCtrl',{$scope:this.$scope});
+        });
+        it('when',function(){
+           this.$scope.refresh(); 
+        });
     });
     describe('EntryCtrl',function(){
         beforeEach(function(){
@@ -185,13 +192,33 @@ describe('fluxReader', function () {
             expect(this.Entry.getById).toHaveBeenCalled();
         });
     });
-describe('EntryListCtrl',function(){
+    describe('EntryListCtrl',function(){
+        beforeEach(function(){
+            this.EntryListCtrl=this.$controller('EntryListCtrl',{$scope:this.$scope});
+        });
+        it('when',function(){
+            this.$scope.toggleFavorite();
+            this.$scope.predicate({publishedDate:new Date()});
+        });
+    });
+    describe('UnreadCtrl',function(){
+        beforeEach(function(){
+            this.UnreadCtrl=this.$controller('UnreadCtrl',{$scope:this.$scope});
+        });
+        it('pageTitle',function(){
+           expect(this.$scope.pageTitle).toBe("Unread entries");
+        });
+    });
+});
+describe('fluxReader',function(){
     beforeEach(function(){
-        this.EntryListCtrl=this.$controller('EntryListCtrl',{$scope:this.$scope});
+        module('fluxReader');
+        var self=this;
+        inject(function($injector){
+            self.$injector = $injector
+        });
     });
-    it('when',function(){
-        this.$scope.toggleFavorite();
-        this.$scope.predicate({publishedDate:new Date()});
-    });
-});
-});
+   it('ok',function(){
+       angular.module('fluxReader');
+   })
+})

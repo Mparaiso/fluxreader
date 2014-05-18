@@ -5,51 +5,6 @@
  * @copyright 2014 mparaiso <mparaiso@online.fr>
  * @license GPL
  */
-/**
- * @typedef {Object} model.Configuration
- * @a configuration
- * @property {string} key
- * @param {*} value
- */
-/**
- * @typedef {Object} model.Feed
- * @description A Feed
- * @param {string} id id
- * @param {string} feedUrl feedUrl
- * @param {string} description description
- * @param {string} author author
- * @param {string} title title
- * @param {string} link link
- * @param {string} type type
- * @param {Date} createdAt createdAt
- * @param {Date} updatedAt updatedAt
- */
-/**
- * @typedef {Object} model.Entry
- * @description An entry
- * @param {string} id
- * @param {string} title title
- * @param {string} read read
- * @param {Date} publishedDate publishedDate
- * @param {string} favorite favorite
- * @param {string} feedId feedId
- * @param {string} content content
- * @param {string} filePath path to the file containing the content of the entry on dropbox
- * @param {string} contentSnippet contentSnippet
- * @param {Date} createdAt createdAt
- * @param {string} link link
- * @param {string} categories categories
- * @property {Array} medias
- */
-/**
- * @typedef {Object} database.Table
- * @param {function(record:object,callback:Function)} insert insert a record;
- * @param {function(record:object,callback:Function)} update insert a record;
- * @param {function(record:object,callback:Function)} delete delete a record;
- * @param {function(id:(number|string),callback:Function)} find find a record by id;
- * @param {function(query?:object,callback:Function)} findAll find a collection of records;
- * @param {function(record:object,callback:Function)} findOne find one record;
- */
 (function () {
     "use strict";
 
@@ -58,12 +13,10 @@
      * datamapper design patter
      * a record is a javascript object that has an id.
      * This implementation relies on dropbox datastore table model
-     *
-     * @type {Table}
      * @constructor
-     * @param tableName
-     * @param database
-     * @param timeout
+     * @param {string} tableName
+     * @param {object} database
+     * @param {Function} timeout
      * @constructor
      */
     function Table(tableName, database, timeout) {
@@ -314,7 +267,7 @@
                         return callback(err);
                     }
                     return File.remove(entry.path).then(function(){
-                        console.log('remove');
+                        //console.log('remove');
                         return callback(null,res);
                     }).catch(function(err){
                         return callback(err);
@@ -334,14 +287,14 @@
             this.insert = function (entry, callback) {
                 var self = this;
                 entryTable.find({link: entry.link, feedId: entry.feedId}, function (err, entryRecord) {
-                    console.log('checking entry if exists', arguments);
+                    //console.log('checking entry if exists', arguments);
                     if (err) {
                         callback(err);
                     } else if (entryRecord) {
                         //entry exists
                         callback(err, entryRecord);
                     } else {
-                        console.log('inserting', entry);
+                        //console.log('inserting', entry);
                         /** set file name related to the entry */
                         entry.path = md5(entry.link).concat('.html');
                         File.write(entry.path,entry.content).then(function(){
@@ -411,7 +364,7 @@
                 delete feed.entries;
                 feedTable.find({feedUrl: feed.feedUrl}, function (err, feedRecord) {
                     if (err) {
-                        console.log('err', err);
+                        console.warn('err', err);
                         callback(err);
                     } else if (feedRecord) {
                         //dont insert feed since exists
@@ -500,21 +453,12 @@
         .service('EntryCache', function (Entry, FeedCache, $q, $timeout) {
             /* simple way to keep entries in memory to speed things up */
             var self = this;
-            this.remove = function (entry) {
-                this.entries.some(function (e, i) {
-                    if (e.id === entry.id) {
-                        this.entries.splice(i, 1);
-                        return true;
-                    }
-                    return false;
-                }, this);
+            /*this.getCount = function () {/*@todo
             };
-            this.getCount = function () {/*@todo*/
+            this.getFavoriteCount = function () {/*@todo
             };
-            this.getFavoriteCount = function () {/*@todo*/
-            };
-            this.getUnreadCount = function () {/*@todo*/
-            };
+            this.getUnreadCount = function () {/*@todo
+            };*/
             this.getCategories = function () {
                 if (this.entries instanceof Array) {
                     return this.entries.reduce(function (categories, entry) {
@@ -537,7 +481,7 @@
                 return FeedCache.load().then(function () {
                     var deferred = $q.defer();
                     Entry.findAll(query, function (err, entries) {
-                        console.log(err);
+                        console.warn(err);
                         self.entries = entries || [];
                         entries.forEach(function (entry) {
                             entry.feed = FeedCache.feeds.filter(function (feed) {
@@ -563,3 +507,4 @@
             };
         });
 }());
+

@@ -9,6 +9,7 @@
     "use strict";
     angular.module('ng')
         .directive('thumbnail',function($timeout){
+            /** wrap img tags into div.thumbnail tags */
             return {
                 priority:1000,
                 scope:{
@@ -329,9 +330,9 @@
             }
             dropboxClient.authenticate(function (error, result) {
                 if (error) {
-                    $log.debug('authentication error', error);
+                    $log.warn('authentication error', error);
                 } else {
-                    $log.debug('authenticated', arguments);
+                    //$log.debug('authenticated', arguments);
                 }
             });
             /**
@@ -340,7 +341,7 @@
              * @link http://www.frederiknakstad.com/2013/01/21/authentication-in-single-page-applications-with-angular-js/
              */
             $rootScope.$on('$routeChangeStart', function (event, next, current) {
-                $log.debug('$routeChangeStart', event, next, current);
+                //$log.debug('$routeChangeStart', event, next, current);
                 if (next.authenticated) {
                     if (!dropboxClient.isAuthenticated()) {
                         $location.path('/signin');

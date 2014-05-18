@@ -250,6 +250,17 @@ describe("dropboxDatabase", function () {
                 this.$timeout.flush();
             });
         });
+        describe('#getCategories',function(){
+            beforeEach(function(){
+                this.EntryCache.entries=[
+                    {categories:['foo']},
+                    {categories:['bar']}
+                ]
+            });
+            it('should return an array of length 2',function(){
+                expect(this.EntryCache.getCategories().length).toBe(2);
+            });
+        });
     });
     describe('File',function(){
         beforeEach(function(){
