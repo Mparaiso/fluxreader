@@ -7,44 +7,41 @@
 (function(){
     "use strict";
     angular.module('pagination', [])
-    .directive('paginator',function(){
-        return {
-            restrict:"EA",/* restrict to element */
-        link:function($scope,element){
-            element.addClass('paginator');
+    .filter('paginator',function(Pagination){
+        return function(list){
+            return Pagination.slice(list);
         }
+    }
+    ).service('Pagination',function(){
+        var _skip=0,_limit=Infinity;
+        this.skip=function(skip){
+            _skip= skip;
         };
-    })
-.service('Pagination',function(){
-    var _skip=0,_limit=Infinity;
-    this.skip=function(skip){
-        _skip= skip;
-    };
-    this.limit=function(limit){
-        _limit= limit;
-    };
-    this.reset=function(){
-        _skip=0;
-    };
-    this.slice=function(array){
-        array=array||[];
-        return array.slice(_skip*_limit,(_skip*_limit)+_limit);
-    };
-    this.hasPrevious = function(array){
-        return _skip > 0 ;
-    };
-    this.hasNext = function(array){
-        return _skip+_limit > array.length;
-    };
-    this.next = function(){
-        _skip++;
-    };
-    this.previous = function(){
-        _skip=_skip-1<0?0:_skip-1;
-    };
-    this.page = function(){
-        return _skip+1;
-    };
-});
+        this.limit=function(limit){
+            _limit= limit;
+        };
+        this.reset=function(){
+            _skip=0;
+        };
+        this.slice=function(array){
+            array=array||[];
+            return array.slice(_skip*_limit,(_skip*_limit)+_limit);
+        };
+        this.hasPrevious = function(array){
+            return _skip > 0 ;
+        };
+        this.hasNext = function(array){
+            return _skip+_limit > array.length;
+        };
+        this.next = function(){
+            _skip++;
+        };
+        this.previous = function(){
+            _skip=_skip-1<0?0:_skip-1;
+        };
+        this.page = function(){
+            return _skip+1;
+        };
+    });
 }());
 

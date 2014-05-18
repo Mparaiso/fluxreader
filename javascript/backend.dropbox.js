@@ -481,7 +481,7 @@
                 return FeedCache.load().then(function () {
                     var deferred = $q.defer();
                     Entry.findAll(query, function (err, entries) {
-                        console.warn(err);
+                        if(err){console.warn(err);}
                         self.entries = entries || [];
                         entries.forEach(function (entry) {
                             entry.feed = FeedCache.feeds.filter(function (feed) {

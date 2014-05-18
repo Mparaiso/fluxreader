@@ -12,6 +12,7 @@ describe('pagination',function(){
             self.$rootScope=$rootScope;
         });
     });
+    /*
     //@note @angular testing directives
     describe('paginator directive',function(){
         beforeEach(function(){
@@ -23,6 +24,7 @@ describe('pagination',function(){
             expect(this.elm.hasClass('paginator')).toBe(true); 
         });
     });
+    */
     describe('Pagination',function(){
         beforeEach(function(){
             this.array=[1,2,3,4];
