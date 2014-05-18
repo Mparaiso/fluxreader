@@ -6,7 +6,7 @@
  */
 (function(){
     "use strict";
-    angular.module('myPagination', [])
+    angular.module('pagination', [])
     .directive('paginator',function(){
         return {
             restrict:"EA",/* restrict to element */

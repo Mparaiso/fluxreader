@@ -5,7 +5,7 @@
     "use strict";
     angular.module('dropbox.mock', [])
         .service('client',function(){
-            return jasmine.createSpyObj('client',['writeFile','readFile','remove']);
+            return jasmine.createSpyObj('client',['writeFile','readFile','remove','authenticate']);
         })
         .factory('dropboxClient', function ($timeout) {
             var RecordMock = function () {

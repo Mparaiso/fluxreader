@@ -1,9 +1,9 @@
 /*global beforeEach,angular,describe,expect,it,jasmine,module,inject*/
-describe("myNotification", function() {
+describe("notification", function() {
 	"use strict";
 	beforeEach(function() {
 		var self = this;
-		module('myNotification');
+		module('notification');
 		inject(function(Notification, $timeout) {
 			self.Notification = Notification;
 			self.$timeout = $timeout;

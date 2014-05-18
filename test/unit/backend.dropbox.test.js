@@ -4,7 +4,8 @@ describe("dropboxDatabase", function () {
     "use strict";
     beforeEach(function () {
         var self = this;
-        angular.module('test', ['$window.mock', 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock', 'lzCompressor']);
+        angular.module('test', ['$window.mock', 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock', 'lzCompressor'],function(dropboxClientProvider){
+        });
         module('test');
         inject(function ($timeout,$injector,$rootScope) {
             self.$timeout = $timeout;
@@ -37,7 +38,7 @@ describe("dropboxDatabase", function () {
             id = 'foo';
             fields = {
                 foo: "bar",
-                bar: "baz"
+            bar: "baz"
             };
             record = jasmine.createSpyObj('record', ['getId', 'getFields']);
             record.getId.and.returnValue(id);
@@ -53,8 +54,8 @@ describe("dropboxDatabase", function () {
             var hash, record;
             hash = {
                 id: 'foo',
-                bar: "baz",
-                baz: "biz"
+            bar: "baz",
+            baz: "biz"
             };
             record = this.testTable.hashToRecordFields(hash);
             expect(record.id).not.toBeDefined();
@@ -88,7 +89,7 @@ describe("dropboxDatabase", function () {
 
             hash = {
                 foo: 'bar',
-                id: 'foo'
+            id: 'foo'
             };
             this.testTable.setTable(table);
             this.testTable.update(hash, function (err, hash) {
@@ -162,7 +163,7 @@ describe("dropboxDatabase", function () {
             it('should toggle favorite field', function (done) {
                 var table,entry = {
                     id: 'foo',
-                    favorite: false
+                favorite: false
                 };
                 table = this.Entry.getTable();
                 spyOn(table, 'update').and.callFake(function (record, callback) {
@@ -181,7 +182,7 @@ describe("dropboxDatabase", function () {
             it('should mark an entry as read', function (done) {
                 var self=this,entry = {
                     id: 'foo',
-                    read: false
+                read: false
                 };
                 this.Entry.setTable(this.table);
                 this.table.update.and.callFake(function (entry, callback) {
@@ -197,19 +198,19 @@ describe("dropboxDatabase", function () {
             it('should return the right array', function () {
                 var entry = {
                     mediaGroups: [
-                        {
-                        contents: [
-                            {filesize: 100, url: 'foo'},
-                            {filesize: 100, url: 'bar'},
-                        ]
-                    },
-                    {
-                        contents: [
-                            {filesize: 200, url: 'baz'},
-                            {filesize: 200, url: 'biz'}
-                        ]
-                    }
-                    ]
+            {
+                contents: [
+            {filesize: 100, url: 'foo'},
+                {filesize: 100, url: 'bar'},
+                ]
+            },
+                {
+                    contents: [
+            {filesize: 200, url: 'baz'},
+                {filesize: 200, url: 'biz'}
+            ]
+                }
+            ]
                 };
                 expect(this.Entry.extractMediaGroups(entry)).toEqual(['foo', 'bar', 'baz', 'biz']);
             });
@@ -253,9 +254,9 @@ describe("dropboxDatabase", function () {
         describe('#getCategories',function(){
             beforeEach(function(){
                 this.EntryCache.entries=[
-                    {categories:['foo']},
-                    {categories:['bar']}
-                ]
+            {categories:['foo']},
+                {categories:['bar']}
+            ]
             });
             it('should return an array of length 2',function(){
                 expect(this.EntryCache.getCategories().length).toBe(2);

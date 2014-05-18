@@ -30,8 +30,8 @@
             };
         });
     angular.module('fluxReader',
-        ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed','myNotification','myPagination'],
-        function (feedFinderProvider, $routeProvider, dropboxClientProvider, baseUrl) {
+        ['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed','notification','pagination'],
+        function (feedFinderProvider, $routeProvider, dropboxClientProvider, baseUrl,DROPBOX_APIKEY) {
             /**
              * @note @angular injecting constant in config
              * @link http://stackoverflow.com/questions/16339595/angular-js-configuration-for-different-enviroments
@@ -83,11 +83,8 @@
                 .otherwise({
                     redirectTo: '/'
                 });
-            //$locationProvider.html5Mode(true);
-            //dropboxClientProvider.setKey('aa8d82y2a6iqbs9');
             feedFinderProvider.setGoogle(google);
         })
-        .constant('DROPBOX_APIKEY', 'jze8pzfye506das')
         .constant('forceHTTPS', true)
         .constant('baseUrl', window.location.pathname.match(/(.*\/)/)[1])
         .constant('Events', {
@@ -251,14 +248,29 @@
                     });
                 }
             });
-
             $scope.toggleFavorite = function () {
                 Entry.toggleFavorite(this.entry, function (err, _entry) {
                     $scope.entry.favorite = _entry.favorite;
                 });
             };
         })
-        .controller('EntryListCtrl', function (Events, globals,Notification,$scope, Entry, Feed, EntryCache, Pagination,FeedCache) {
+        .controller('EntryListCtrl', function (Events, globals,Notification,$scope, Entry, Feed, EntryCache, Pagination,$anchorScroll,FeedCache) {
+            $scope.hasPrevious=function(){
+                return Pagination.hasPrevious();
+            }
+            $scope.hasNext=function(){
+                return Pagination.hasNext($scope.EntryCache.entries);
+            }
+            $scope.next=function(){
+                Pagination.next();
+                $scope.$apply();
+                $anchorScroll();
+            }   
+            $scope.previous=function(){
+                Pagination.previous();
+                $scope.$apply();
+                $anchorScroll();
+            }
             $scope.Pagination=Pagination;
             Pagination.limit(globals.EntryPerPage);
             $scope.predicate = function (item) {

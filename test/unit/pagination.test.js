@@ -1,10 +1,10 @@
 /*jslint eqeq:true,node:true,es5:true,white:true,plusplus:true,nomen:true,unparam:true,devel:true,regexp:true */
 /*global describe,beforeEach,angular,module,inject,it,expect*/
-describe('myPagination',function(){
+describe('pagination',function(){
     "use strict";
     beforeEach(function(){
         var self=this;
-        module('myPagination');
+        module('pagination');
         inject(function(Pagination,$injector,$rootScope,$timeout,$compile){
             self.Pagination=Pagination;
             self.$injector=$injector;

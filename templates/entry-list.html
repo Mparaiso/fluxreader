@@ -9,6 +9,7 @@
     <div ng-include="extra" class="text-muted text-small"></div>
     <h2 class="text-muted" data-ng-show="EntryCache.entries.length<1">No Entry found, please subscribe a new feed.</h2>
     <!-- LIST OF ENTRIES -->
+    <div ng-include="'templates/pagination.html'" ng-show="EntryCache.entries.length>1"></div>
     <table class="table table-striped table-condensed table-hover">
         <!-- @note @angular orderBy http://docs.angularjs.org/api/ng/filter/orderBy http://jsfiddle.net/camus/Fp4nL/ -->
         <tr ng-repeat="entry in Pagination.slice(EntryCache.entries) |filter:{title:query}|orderBy:predicate:true track by $index">
@@ -41,6 +42,5 @@
             </td>
         </tr>
     </table>
-    <!-- PAGINATION -->
-    <paginator></paginator>
+    <div ng-include="'templates/pagination.html'" ng-show="EntryCache.entries.length>1"></div>
 </section>

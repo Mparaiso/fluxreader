@@ -1,7 +1,7 @@
 /*global angular*/
 (function() {
 	"use strict";
-	angular.module('myNotification', [])
+	angular.module('notification', [])
 		.constant('NOTIFICATION_TIME', 4000)
 		.service('Notification', function($timeout, $window, NOTIFICATION_TIME) {
 			/**
