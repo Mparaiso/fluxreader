@@ -11,14 +11,21 @@
         return function(list){
             return Pagination.slice(list);
         }
-    }
-    ).service('Pagination',function(){
+    }).service('Pagination',function(){
         var _skip=0,_limit=Infinity;
         this.skip=function(skip){
-            _skip= skip;
+            if(skip){
+                _skip= skip;
+            }else{
+                return _skip;
+            }
         };
         this.limit=function(limit){
-            _limit= limit;
+            if (limit) {
+                _limit= limit;
+            }else{
+                return _limit;
+            }
         };
         this.reset=function(){
             _skip=0;
@@ -31,7 +38,8 @@
             return _skip > 0 ;
         };
         this.hasNext = function(array){
-            return _skip+_limit > array.length;
+            array=array||[];
+            return (_skip+1)*_limit < array.length;
         };
         this.next = function(){
             _skip++;

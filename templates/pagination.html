@@ -5,12 +5,12 @@
 -->
 <ul class="pager">
     <li class="pull-left">
-    <button  ng-disabled="!EntryCache.entries || !hasPrevious()" class="btn btn-default btn-sm" ng-click="previous()">
+    <button  ng-disabled="!Pagination.hasPrevious()" class="btn btn-default btn-sm" ng-click="previous()">
         Previous
     </button>
     </li>
     <li class="pull-right" >
-    <button ng-click="next()" ng-disabled="EntryCache.entries? !hasNext() : false" class="btn btn-default btn-sm">
+    <button ng-click="next()" ng-disabled="!Pagination.hasNext(EntryCache.entries)"  class="btn btn-default btn-sm">
         Next
     </button>
     </li>

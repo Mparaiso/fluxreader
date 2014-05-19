@@ -15,14 +15,14 @@ describe('pagination',function(){
     /*
     //@note @angular testing directives
     describe('paginator directive',function(){
-        beforeEach(function(){
-            this.elm=angular.element('<div paginator></div>');
-            this.$compile(this.elm)(this.$rootScope);
-            this.$rootScope.$digest();
-        });
-        it('element should have a class paginator',function(){
-            expect(this.elm.hasClass('paginator')).toBe(true); 
-        });
+    beforeEach(function(){
+    this.elm=angular.element('<div paginator></div>');
+    this.$compile(this.elm)(this.$rootScope);
+    this.$rootScope.$digest();
+    });
+    it('element should have a class paginator',function(){
+    expect(this.elm.hasClass('paginator')).toBe(true); 
+    });
     });
     */
     describe('Pagination',function(){
@@ -54,7 +54,10 @@ describe('pagination',function(){
             expect(this.Pagination.hasPrevious()).toBe(false);
         });        
         it('hasNext',function(){
+            this.Pagination.limit(2);
             expect(this.Pagination.hasNext(this.array)).toBe(true);
+            this.Pagination.next();
+            expect(this.Pagination.hasNext(this.array)).toBe(false);
         });         
         it('next',function(){
             this.Pagination.limit(2);

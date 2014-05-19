@@ -1,5 +1,5 @@
 declare module model{
-    export interface Feed{
+    interface Feed{
         id:string;
         feedUrl:string;
         description:string;
@@ -10,7 +10,7 @@ declare module model{
         createdAt:Date; 
         updatedAt:Date;     
     }
-    export interface Entry{
+    interface Entry{
         id:string;
         title:string;
         read:Date;
@@ -26,10 +26,10 @@ declare module model{
 }
 
 declare module database{
-    export interface Record<T>{
+    interface Record<T>{
 
     }
-    export interface Table{
+    interface Table{
         insert(record:Record<any>,callback:Function):void;
         delete(record:Record<any>,callback:Function):void;
         find(id:number,callback:Function):void;
