@@ -42,7 +42,7 @@ module.exports = function(config) {
             "javascript/*.js":['coverage']
         },
         coverageReporter:{
-            type:'text',
+            type:'lcov',
             dir:'coverage/'
         }
     });
