@@ -25,7 +25,7 @@
             ng-src="{{utils.getFavicon(entry.feed.link)}}" alt="{{entry.feed.link}}"></td>
             <td title="{{entry.contentSnippet||entry.title}}">
                 <a ng-class="{'text-muted':entry.read}"
-                   data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:100}}</a>
+                   data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:90}}</a>
             </td>
             <!-- FEED TITLE -->
             <td data-id="{{entry.id}}" data-feedId="{{entry.feedId}}" class="text-muted text-small">

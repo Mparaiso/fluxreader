@@ -8,7 +8,7 @@
 "use strict";
 angular.module('ng')
 .directive('thumbnail',function($timeout){
-    /** wrap img tags into div.thumbnail tags */
+    /** wrap img tags into div.thumbnail tags and add target attribute to a tag */
     return {
         priority:1000,
         scope:{
@@ -76,7 +76,13 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
     })
     .when('/dashboard/search/:q', {
         templateUrl: baseUrl.concat('templates/dashboard.html'),
-        controller: 'SearchCtrl'
+        controller: 'SearchCtrl',
+        resolve:{
+            query:function($route){
+                return $route.current.params.q;
+            }
+        }
+
     })
     .otherwise({
         redirectTo: '/'
@@ -156,11 +162,11 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
     $log.debug('SignIn');
     dropboxClient.signIn();
 })
-.controller('SearchCtrl', function ($scope, $route, EntryCache) {
-    $scope.query = $route.current.params.q;
+.controller('SearchCtrl', function ($scope, $route,query, EntryCache) {
+    $scope.query = query;
     $scope.pageTitle = ['Results for "', $scope.query, '" '].join("");
     $scope.EntryCache = EntryCache;
-    EntryCache.load({title:new RegExp($scope.query,"i")});
+    EntryCache.search($scope.query);
 })
 .controller('DashboardCtrl', function ($scope ,EntryCache,FeedCache) {
     $scope.pageTitle = "Latest Entries";
@@ -304,15 +310,11 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
         }
     };
 })
-.controller('FeedListCtrl', function ($window, Notification,$scope, Feed, FeedCache, EntryCache) {
+.controller('FeedListCtrl', function (Link,$window, Notification,$scope, Feed, FeedCache,Entry, EntryCache) {
     /**
      * display the list of feeds
      */
-    $scope.links = [
-        {name: 'ALL', href: '#/dashboard'},
-        {name: 'UNREAD', href: '#/dashboard/unread'},
-        {name: 'FAVORITES', href: '#/dashboard/favorite'}
-    ];
+    $scope.links =Link.links;
     $scope.FeedCache = FeedCache;
     $scope.unsubscribe = function (feed) {
         var confirm = $window.confirm('Unsubscribe '.concat(feed.title).concat(' ?'));
@@ -328,6 +330,22 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
             });
         }
     };
+    // read counts once
+    var unwatchFeeds=$scope.$watch('FeedCache.feeds',function(newValue,oldValue){
+        if(newValue!==oldValue && newValue.length > 1){
+            unwatchFeeds();
+            Entry.findAll(function(err,entries){
+                Link.links[0].count=entries.length;
+            });
+            Entry.findUnread(function(err,entries){
+                Link.links[1].count=entries.length;
+            });
+            Entry.findFavorites(function(err,entries){
+                Link.links[2].count=entries.length;
+            });
+        }
+    });
+
 })
 .controller('SearchFormCtrl', function ($scope, $route, $location) {
     $scope.search = function () {
@@ -335,6 +353,14 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
             $location.path('/dashboard/search/'.concat(this.q));
         }
     };
+})
+.service('Link',function(){
+    /** links in the left menu */
+    this.links= [
+        {name: 'ALL', href: '#/dashboard'},
+        {name: 'UNREAD', href: '#/dashboard/unread'},
+        {name: 'FAVORITES', href: '#/dashboard/favorite'}
+    ];
 })
 .run(function (dropboxClient, $location,$anchorScroll, $route, $rootScope, $log, forceHTTPS, $window) {
     if (forceHTTPS === true) {

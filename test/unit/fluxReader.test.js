@@ -25,34 +25,35 @@ describe('ng',function(){
             this.$timeout.flush();
         });
         it('a must have a target attribute equal to _blank',function(){
-            var a =this.elm.find('a').first();
-            var img = this.elm.find('img');
+            var a,img;
+            a =this.elm.find('a').first();
+            img = this.elm.find('img');
             expect(a.attr('target')).toEqual('_blank'); 
             expect(img.parent().hasClass('thumbnail')).toBe(true);
         });
     });
 });
 
-describe('test', function () {
+describe('fluxreader', function () {
     "use strict";
     beforeEach(function () {
         var self = this;
         angular.module('test', ['$window.mock', 'fluxReader', 'dropboxDatabase','pagination', 'dropbox.mock', 'googleFeed.mock'],
-            function (feedFinderProvider) {
-                feedFinderProvider.setGoogle({
-                    load: function () {
-                        return;
-                    }
-                });
-            }).constant('forceHTTPS',false);
-        module('test');
-        inject(function ($window,$rootScope,$injector,$controller) {
-            self.$injector=$injector;
-            self.$window = $window;
-            self.$controller=$controller;
-            self.$rootScope=$rootScope;
-            self.$scope=$rootScope.$new();
-        });
+                       function (feedFinderProvider) {
+                           feedFinderProvider.setGoogle({
+                               load: function () {
+                                   return;
+                               }
+                           });
+                       }).constant('forceHTTPS',false);
+                       module('test');
+                       inject(function ($window,$rootScope,$injector,$controller) {
+                           self.$injector=$injector;
+                           self.$window = $window;
+                           self.$controller=$controller;
+                           self.$rootScope=$rootScope;
+                           self.$scope=$rootScope.$new();
+                       });
     });
     it('should run properly', function () {
         inject(function (baseUrl) {
@@ -76,7 +77,6 @@ describe('test', function () {
             this.IndexCtrl=this.$controller('IndexCtrl',{$scope:this.$scope});
         });
         it('when',function(){
-            ;
         });
     });
     describe('SignInCtrl',function(){
@@ -90,8 +90,8 @@ describe('test', function () {
     });
     describe('SearchCtrl',function(){
         beforeEach(function(){
-            this.$route={current:{params:{id:0}}};
-            this.SearchCtrl=this.$controller('SearchCtrl',{$scope:this.$scope,$route:this.$route}) ;
+            this.query="foo";
+            this.SearchCtrl=this.$controller('SearchCtrl',{$scope:this.$scope,query:this.query}) ;
         });
         it('when',function(){
             expect(this.SearchCtrl).toBeDefined();
@@ -117,9 +117,9 @@ describe('test', function () {
     describe('FeedListCtrl', function () {
         beforeEach(function () {
             var self = this;
-            inject(function ($controller) {
+            inject(function ($controller,$injector) {
                 self.feed = {id: 'foo', title: 'bar'};
-                self.scope = {};
+                self.scope = $injector.get('$rootScope').$new();
                 self.FeedListCtrl = $controller('FeedListCtrl', {$scope: self.scope});
             });
         });
@@ -166,7 +166,7 @@ describe('test', function () {
             this.AccountCtrl=this.$controller('AccountCtrl',{$scope:this.$scope});
         });
         it('when',function(){
-           this.$scope.refresh(); 
+            this.$scope.refresh(); 
         });
     });
     describe('EntryCtrl',function(){
@@ -206,19 +206,14 @@ describe('test', function () {
             this.UnreadCtrl=this.$controller('UnreadCtrl',{$scope:this.$scope});
         });
         it('pageTitle',function(){
-           expect(this.$scope.pageTitle).toBe("Unread entries");
+            expect(this.$scope.pageTitle).toBe("Unread entries");
         });
     });
+    describe('Link',function  () {
+        it('exists',function  () {
+            this.Link=this.$injector.get('Link');
+            expect(this.Link).toBeDefined();
+        })
+    })
 });
-describe('fluxReader',function(){
-    beforeEach(function(){
-        module('fluxReader');
-        var self=this;
-        inject(function($injector){
-            self.$injector = $injector
-        });
-    });
-   it('ok',function(){
-       angular.module('fluxReader');
-   })
-})
+

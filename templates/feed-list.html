@@ -10,10 +10,11 @@
     <li class="list-group-item text-muted text-small" data-ng-show="!FeedCache.feeds">
         <span class="blink">Loading subscriptions</span>
     </li>
+    <!--links-->
     <li class="list-group-item text-small text-muted"
         ng-show="FeedCache.feeds"
         ng-repeat="link in links">
-        <a ng-href="{{link.href}}">{{link.name}}</a>
+        <a ng-href="{{link.href}}">{{link.name}}</a>&nbsp; <span class="text-muted" ng-bind="link.count"></span>
     </li>
     <li class="list-group-item text-small" ng-show="FeedCache.feeds">
         <input type="search" class="form-control input-sm search"

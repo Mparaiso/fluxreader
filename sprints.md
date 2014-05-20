@@ -1,17 +1,18 @@
 Sprint1:
 
-- [X] a user can signin into his dropbox database account
-- [X] a user can signout from the application
-- [X] a user can subscribe a feed with its direct feed URL
+- [X] accounts are backed by dropbox
+- [X] a user can signin
+- [X] a user can signout 
+- [X] a user can subscribe a feed 
 - [X] a user can unsubscribe a feed
-- [X] the application can display the subscribed feed list
-- [X] the application can display the title of each entry in a feed
+- [X] the application display the subscribed feeds
+- [X] the application display the title of each entry in a feed
 
 Sprint2:
 
 - [X] a user can click on the title of an entry to see its content
 - [X] a user can filter entries by feed
-- [X] a user can search entries with a form
+- [X] a user can search entries 
 - [X] a user can mark an entry as favorite
 - [X] a user can filter entries by favorites
 
@@ -31,11 +32,14 @@ Sprint4:
 
 Sprint5:
 - [X] A user can remove entries
-- [X] A user can filter out feeds by feed name.
+- [X] A user can filter out feeds
 - [X] the application can discover a syndication url from a website address
 - [X] Each feed is displayed with its favicon
 
 Sprint6:
 - [X] a notification system alerts user of successfull or unsuccessfull events in the app
-- [] replace default browser popups by custom modals
+- [] replace default modals by custom modals
 - [] during page changes, user is notified that some data are being loaded
+- [] user is notifireturned when subscribing
+- [] deleted entries should be blacklisted so they are not fetched again on feed refreshed
+- [] when a feed is deleted,related blacklisted entries should be removed from blacklist

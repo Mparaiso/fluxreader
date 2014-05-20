@@ -4,7 +4,7 @@ describe("dropboxDatabase", function () {
     "use strict";
     beforeEach(function () {
         var self = this;
-        angular.module('test', ['$window.mock', 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock', 'lzCompressor'],function(dropboxClientProvider){
+        angular.module('test', ['$window.mock', 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock'],function(dropboxClientProvider){
         });
         module('test');
         inject(function ($timeout,$injector,$rootScope) {
@@ -12,6 +12,11 @@ describe("dropboxDatabase", function () {
             self.$injector=$injector;
             self.$rootScope=$rootScope;
         });
+        this.entries=[
+            {title:'foo something ',description:'foo',favorite:true},
+            {title:'foo something else ',description:'some description'},
+            {title:'bar',description:'bar',favorite:true}
+        ];
     });
     describe('database', function () {
         beforeEach(function () {
@@ -38,7 +43,7 @@ describe("dropboxDatabase", function () {
             id = 'foo';
             fields = {
                 foo: "bar",
-            bar: "baz"
+                bar: "baz"
             };
             record = jasmine.createSpyObj('record', ['getId', 'getFields']);
             record.getId.and.returnValue(id);
@@ -54,8 +59,8 @@ describe("dropboxDatabase", function () {
             var hash, record;
             hash = {
                 id: 'foo',
-            bar: "baz",
-            baz: "biz"
+                bar: "baz",
+                baz: "biz"
             };
             record = this.testTable.hashToRecordFields(hash);
             expect(record.id).not.toBeDefined();
@@ -89,7 +94,7 @@ describe("dropboxDatabase", function () {
 
             hash = {
                 foo: 'bar',
-            id: 'foo'
+                id: 'foo'
             };
             this.testTable.setTable(table);
             this.testTable.update(hash, function (err, hash) {
@@ -163,7 +168,7 @@ describe("dropboxDatabase", function () {
             it('should toggle favorite field', function (done) {
                 var table,entry = {
                     id: 'foo',
-                favorite: false
+                    favorite: false
                 };
                 table = this.Entry.getTable();
                 spyOn(table, 'update').and.callFake(function (record, callback) {
@@ -182,7 +187,7 @@ describe("dropboxDatabase", function () {
             it('should mark an entry as read', function (done) {
                 var self=this,entry = {
                     id: 'foo',
-                read: false
+                    read: false
                 };
                 this.Entry.setTable(this.table);
                 this.table.update.and.callFake(function (entry, callback) {
@@ -195,24 +200,39 @@ describe("dropboxDatabase", function () {
             });
         });
         describe('#extractMediaGroups', function () {
-            it('should return the right array', function () {
-                var entry = {
+            beforeEach(function  () {
+                this.entry={
                     mediaGroups: [
-            {
-                contents: [
-            {filesize: 100, url: 'foo'},
-                {filesize: 100, url: 'bar'},
-                ]
-            },
-                {
-                    contents: [
-            {filesize: 200, url: 'baz'},
-                {filesize: 200, url: 'biz'}
-            ]
-                }
-            ]
+                        {
+                        contents: [
+                            {filesize: 100, url: 'foo'},
+                            {filesize: 100, url: 'bar'},
+                        ]
+                    },
+                    {
+                        contents: [
+                            {filesize: 200, url: 'baz'},
+                            {filesize: 200, url: 'biz'}
+                        ]
+                    }
+                    ]
                 };
-                expect(this.Entry.extractMediaGroups(entry)).toEqual(['foo', 'bar', 'baz', 'biz']);
+            });
+            it('should return the right array', function () {
+                expect(this.Entry.extractMediaGroups(this.entry)).toEqual(['foo', 'bar', 'baz', 'biz']);
+            });
+        });
+        describe('#findFavorites',function  () {
+            it('should get favorites',function(done){
+                var self=this;
+                this.Entry.findFavorites(done);
+                this.$timeout.flush();
+            });
+        });
+        describe('#findUnread',function(){
+            it('should get undread',function(done){
+                this.Entry.findUnread(done);
+                this.$timeout.flush();
             });
         });
     });
@@ -227,7 +247,9 @@ describe("dropboxDatabase", function () {
                 self.$rootScope=$rootScope;
                 self.$q=$q;
             });
-
+            spyOn(this.Entry,'findAll').and.callFake(function(q,cb){
+                return cb(null,self.entries);
+            });
         });
         describe('#delete', function () {
             it('should remove entry in entries', function (done) {
@@ -245,8 +267,12 @@ describe("dropboxDatabase", function () {
         });
         describe("#load", function () {
             it('should return a promise', function (done) {
+                var self=this;
                 spyOn(this.FeedCache, 'load').and.callThrough();
-                this.EntryCache.load().then(done);
+                this.EntryCache.load().then(function   (entries) {
+                    expect(entries.length).toEqual(self.entries.length);
+                    expect(self.EntryCache.entries).toBe(entries);
+                }).then(done);
                 expect(this.FeedCache.load).toHaveBeenCalled();
                 this.$timeout.flush();
             });
@@ -254,12 +280,32 @@ describe("dropboxDatabase", function () {
         describe('#getCategories',function(){
             beforeEach(function(){
                 this.EntryCache.entries=[
-            {categories:['foo']},
-                {categories:['bar']}
-            ]
+                    {categories:['foo']},
+                    {categories:['bar']}
+                ];
             });
             it('should return an array of length 2',function(){
                 expect(this.EntryCache.getCategories().length).toBe(2);
+            });
+        });
+        describe('#search',function(){
+            it('should filter results by foo',function(done){
+                var query="foo";
+                this.EntryCache.search(query).then(function(res){
+                    expect(res.every(function(entry){          
+                        return JSON.stringify(entry).match(/foo/);
+                    })).toBe(true);
+                }).then(done);
+                this.$timeout.flush();
+            });
+            it('should filter results by bar',function(done){
+                var query="bar";
+                this.EntryCache.search(query).then(function(res){
+                    expect(res.every(function(entry){          
+                        return JSON.stringify(entry).match(/bar/);
+                    })).toBe(true);
+                }).then(done);
+                this.$timeout.flush();
             });
         });
     });

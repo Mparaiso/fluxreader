@@ -258,7 +258,8 @@ angular.module('dropboxDatabase', [])
             publishedDate: this.getCorrectDate(entry.publishedDate),
             categories: entry.categories || [],
             medias: entry.medias || [],
-            createdAt: (new Date()).getTime(),
+            createdAt: entry.createdAt||Date.now(),
+            updatedAt:Date.now(),
             feedId: entry.feedId || "",
             favorite: !!entry.favorite,
             read: !!entry.read,
@@ -279,6 +280,10 @@ angular.module('dropboxDatabase', [])
             });
         });
     };
+    /**
+     * @param {Object} query
+     * @param {Function} callback
+     */
     this.findAll = function () {
         entryTable.findAll.apply(entryTable, [].slice.call(arguments));
     };
@@ -326,6 +331,12 @@ angular.module('dropboxDatabase', [])
         entry.read = true;
         this.getTable().update(entry, callback);
     };
+    this.findFavorites=function(callback){
+        return this.findAll({favorite:true},callback);
+    };
+    this.findUnread=function  (callback) {
+        return this.findAll({read:false},callback);
+    }
 })
 .service('Feed', function (tableFactory, Entry, feedFinder, $timeout) {
     /**
@@ -455,7 +466,7 @@ angular.module('dropboxDatabase', [])
         return deferred.promise;
     };
 })
-.service('EntryCache', function (Entry, FeedCache, $q, $timeout) {
+.service('EntryCache', function (Entry, FeedCache, $q, $timeout,$filter) {
     /* simple way to keep entries in memory to speed things up */
     var self = this;
 
@@ -505,5 +516,15 @@ angular.module('dropboxDatabase', [])
         });
         return deferred.promise;
     };
+    /**
+     * @param {string} query
+     * @return {promise}
+     */
+    this.search=function(query){
+        return this.load().then(function(entries){
+            self.entries= $filter('filter')(entries,query);
+            return self.entries;
+        });
+    }
 });
 
