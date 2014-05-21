@@ -14,8 +14,8 @@
     <link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Lobster+Two' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/styles.css"/>
-    <script type="text/javascript" src="bower_components/js-md5/js/md5.min.js"></script>
-    <script type="text/javascript" src="bower_components/lz-string/libs/lz-string-1.3.3-min.js"></script>
+    <script src="bower_components/js-md5/js/md5.min.js"></script>
+    <script src="bower_components/lz-string/libs/lz-string-1.3.3-min.js"></script>
     <script src="bower_components/async/lib/async.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -29,9 +29,10 @@
     <script src="javascript/backend.dropbox.js"></script>
     <script src="javascript/googleFeed.js"></script>
     <script src="javascript/notification.js"></script>
-    <script type="text/javascript" src="javascript/pagination.js"></script>
-    <script type="text/javascript" src="javascript/promisifier.js"></script>
-    <script type="text/javascript" src="javascript/md5.js"></script>
+    <script src="javascript/pagination.js"></script>
+    <script src="javascript/promisifier.js"></script>
+    <script src="javascript/md5.js"></script>
+    <script src="javascript/directives.js"></script>
     <title>Flowreader</title>
 </head>
 
@@ -102,6 +103,7 @@
 
     </section>
 </footer>
+<!-- notification -->
+<span data-ng-include="'templates/navbar-bottom.html'"></span>
 </body>
-
 </html>

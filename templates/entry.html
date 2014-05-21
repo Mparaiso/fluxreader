@@ -38,6 +38,13 @@
                 </span>
             </p>
             <p>&nbsp;</p>
+            <!-- MEDIAS -->
+            <ul class="list-unstyled">
+                <li ng-repeat="media in entry.medias track by $index">
+                {{media}}
+                <media src="media"></media>
+                </li>  
+            </ul>
             <section data-thumbnail="entry.content" data-ng-bind-html="entry.content"></section>
             </div>
         </article>

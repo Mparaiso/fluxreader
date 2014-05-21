@@ -1,6 +1,7 @@
 /*jslint browser:true,eqeq:true,node:true,es5:true,white:true,plusplus:true,nomen:true,unparam:true,devel:true,regexp:true */
 /*global angular*/
 /* javascript/index.js*/
+/* Copyright © 2014 mparaiso. All Rights Reserved. */
 (function() {
     "use strict";
     angular.module('index', ['dropbox','ngRoute'])

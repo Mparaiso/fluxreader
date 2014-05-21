@@ -1,4 +1,6 @@
 /*global angular*/
+/* Copyright © 2014 mparaiso <mparaiso@online.fr>. All Rights Reserved.*/
+/* javascript/notification.js */
 (function() {
 	"use strict";
 	angular.module('notification', [])

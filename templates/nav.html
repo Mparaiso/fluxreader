@@ -4,12 +4,6 @@
  @license GPL
 -->
 <ul class="nav navbar-nav navbar-right" data-ng-cloak>
-    <li class="navbar-text">
-        <span ng-class="Notification.current.type" >
-            {{Notification.current.text}}&nbsp;
-            <span class="badge">{{Notification.notifications.length||""}}</span>
-        </span>
-    </li>
     <li data-ng-hide="isAuthenticated()">
         <a class="btn btn-link" data-ng-click="signIn()">
             <span class="glyphicon glyphicon-cloud-upload"></span> Sign in with dropbox</a>

@@ -6,28 +6,6 @@
  * dependencies dropbox.js googleFeed.js angular.js angular-route.js
  */
 "use strict";
-angular.module('ng')
-.directive('thumbnail',function($timeout){
-    /** wrap img tags into div.thumbnail tags and add target attribute to a tag */
-    return {
-        priority:1000,
-        scope:{
-            thumbnail:"="
-        },
-        link:function($scope,element,attributes){
-            var $unwatch = $scope.$watch('thumbnail',function(newValue,oldValue){
-                if(newValue && newValue!==oldValue){
-                    $timeout(function(){
-                        element.find('img').wrap('<div class="thumbnail">');
-                        element.find('a').attr('target','_blank');
-                        $unwatch();
-                    });
-                }
-            });
-
-        }
-    };
-});
 angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabase', 'googleFeed','notification','pagination'])
 .config(function (feedFinderProvider, $routeProvider, dropboxClientProvider, baseUrl,DROPBOX_APIKEY) {
     /**
@@ -250,6 +228,7 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
             FeedCache.getById(entry.feedId).then(function (feed) {
                 $scope.entry.feed = feed;
             });
+            //console.log(entry);
         }
     });
     $scope.toggleFavorite = function () {
@@ -272,7 +251,7 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
     };
     $scope.next=function(){
         if(!Pagination.hasNext(EntryCache.entries)){
-            console.log('dont have next',EntryCache.entries.length,Pagination.limit(),Pagination.skip());
+            //console.log('dont have next',EntryCache.entries.length,Pagination.limit(),Pagination.skip());
             return;
         }
         Pagination.next();
@@ -398,3 +377,4 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
         $anchorScroll();
     });
 });
+

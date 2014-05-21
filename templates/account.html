@@ -1,13 +1,10 @@
-<!-- account.html-->
+<!-- templates/account.html-->
 <!--
- @copyright 2014 mparaiso <mparaiso@online.fr>
- @license GPL
+ Copyright © 2014 mparaiso <mparaiso@online.fr>. All Rights Reserved.
 -->
 <div class="container-fluid">
     <h1>Your account</h1>
-
     <h3 class="text-muted" ng-hide="accountInfo">Loading account infos</h3>
-
     <hgroup ng-show="accountInfo">
         <h3>Name: <span class="text-primary">{{accountInfo.name}}</span></h3>
 
@@ -24,8 +21,4 @@
     	<button ng-click="refresh()" class="btn btn-md btn-primary">Refresh subscriptions manualy</button>
     </p>
     </hgroup>
-
-   
-
-
 </div>

@@ -1,0 +1,15 @@
+<!--templates/navbar-bottom.html -->
+<!--
+Copyright © 2014 mparaiso <mparaiso@online.fr>. All Rights Reserved.
+-->
+<nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation" ng-show="Notification.current">
+    <div class="container">
+        <div class="navbar-header">
+            <p class="navbar-text {{Notification.current.type}}">{{Notification.current.text}} 
+            <span class="badge">{{Notification.notifications.length||""}}</span>
+            </p>
+        </div>
+    </div>
+</nav>
+
+

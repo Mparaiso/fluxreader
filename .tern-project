@@ -1,3 +1,7 @@
 {
-    "libs":["browser","node"]
+    "libs":["browser"],
+    "plugins":{
+        "node":{},
+        "angular":{}
+    }
 }

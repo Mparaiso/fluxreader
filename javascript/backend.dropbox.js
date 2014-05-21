@@ -142,6 +142,9 @@ fluxreader.Table=(function(){
 
 
 angular.module('dropboxDatabase', [])
+.constant('Events',{
+    "SUBSCRIBING":"backend.SUBSCRIBING"
+})
 .constant('Table', fluxreader.Table)
 .service('database', function (dropboxClient, $timeout) {
     var datastore;
@@ -234,6 +237,7 @@ angular.module('dropboxDatabase', [])
         return potentialDate;
     };
     this.extractMediaGroups = function (entry) {
+        console.log('mediaGroups',entry);
         if (entry.mediaGroups instanceof Array) {
             return entry.mediaGroups.map(function (group) {
                 if (group.contents instanceof Array) {
@@ -257,7 +261,7 @@ angular.module('dropboxDatabase', [])
             contentSnippet: entry.contentSnippet || "",
             publishedDate: this.getCorrectDate(entry.publishedDate),
             categories: entry.categories || [],
-            medias: entry.medias || [],
+            medias: entry.medias || this.extractMediaGroups(entry) ,
             createdAt: entry.createdAt||Date.now(),
             updatedAt:Date.now(),
             feedId: entry.feedId || "",
@@ -507,7 +511,7 @@ angular.module('dropboxDatabase', [])
     this.delete = function (entry) {
         var self = this, deferred = $q.defer();
         Entry.delete(entry, function (err, res) {
-            console.warn('entry deletion failed', err);
+            if(err){console.warn('entry deletion failed', err)};
             var index = self.entries.indexOf(self.entries.filter(function (e) {
                 return e.id === entry.id;
             })[0]);

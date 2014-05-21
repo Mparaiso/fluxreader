@@ -27,6 +27,10 @@
                 <a ng-class="{'text-muted':entry.read}"
                    data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:90}}</a>
             </td>
+            <!-- MEDIAS -->
+            <td>
+                <i ng-if='entry.medias.length>0' class="text-muted glyphicon glyphicon-headphones" tooltip title="this entry has media content"></i>
+            </td>
             <!-- FEED TITLE -->
             <td data-id="{{entry.id}}" data-feedId="{{entry.feedId}}" class="text-muted text-small">
                 <a class='text-muted' ng-href="#/dashboard/feed/{{entry.feed.id}}">{{entry.feed.title|limitTo:20}}</a>

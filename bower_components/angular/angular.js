@@ -19302,7 +19302,7 @@ var ngIfDirective = ['$animate', function($animate) {
 var ngIncludeDirective = ['$http', '$templateCache', '$anchorScroll', '$animate', '$sce',
                   function($http,   $templateCache,   $anchorScroll,   $animate,   $sce) {
   return {
-    restrict: 'ECA',
+    restrict: 'ECAM',
     priority: 400,
     terminal: true,
     transclude: 'element',
