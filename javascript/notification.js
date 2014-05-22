@@ -28,7 +28,7 @@
 					this.notifications.push(notif);
 				}
 				if(!this.current){
-					this.current = this.notifications.pop();
+					this.current = this.notifications.shift();
 				}
 				if(!this.timeout){
 					this.timeout=$timeout(onNotificationTimeEnd.bind(this), NOTIFICATION_TIME);					

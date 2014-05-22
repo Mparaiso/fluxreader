@@ -166,13 +166,13 @@ nav .alert-info{
   color:#ECF0F1!important;
 }
 .text-info{
-  color:#BEC3C7;
+  color:#BEC3C7 !important;
 }
 .text-success{
-  color: #1BBC9D;
+  color: #1BBC9D !important;
 }
 .text-error{
-  color:#E77E23;
+  color:#E77E23 !important;
 }
 .close{
   color:inherit;

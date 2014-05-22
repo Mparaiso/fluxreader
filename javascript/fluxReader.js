@@ -52,7 +52,7 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
         controller: 'AccountCtrl',
         templateUrl: baseUrl.concat('templates/account.html')
     })
-    .when('/dashboard/search/:q', {
+    .when('/dashboard/search/:q*', {
         templateUrl: baseUrl.concat('templates/dashboard.html'),
         controller: 'SearchCtrl',
         resolve:{
@@ -66,6 +66,7 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
         redirectTo: '/'
     });
     feedFinderProvider.setGoogle(google);
+    feedFinderProvider.setNumEntries(50);
 })
 .constant('forceHTTPS', true)
 .constant('baseUrl', window.location.pathname.match(/(.*\/)/)[1])
@@ -117,6 +118,10 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
     $scope.subscribe = function () {
         var url = $window.prompt('Enter the feed URL');
         if (url) {
+            Notification.notify({
+                text:["Subscribing",url].join(" "),
+                type:Notification.type.INFO
+            });
             Feed.subscribe(url, function (err, feed) {
                 if (err) {
                     Notification.notify({
@@ -162,11 +167,10 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
     $scope.extra = baseUrl + 'templates/feed-extra.html';
     $scope.EntryCache = EntryCache;
     $scope.refresh = function(url){
-        FeedCache.subscribe(url).then(function(res){
-            Notification.notify({text:'Refreshing '+$scope.feed.title,type:Notification.type.INFO}); 
-            return init();
-        }).then(function(){
+        Notification.notify({text:'Refreshing '+$scope.feed.title,type:Notification.type.INFO}); 
+        return FeedCache.subscribe(url).then(function(res){
             Notification.notify({text:"Feed "+$scope.feed.title+" has been refreshed.",type:Notification.type.SUCCESS});
+            return init();
         });
     };
     init=function(){
@@ -215,7 +219,8 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
         $scope.accountInfo = accountInfo;
     });
 })
-.controller('EntryCtrl', function ($scope, Notification,FeedCache,$route, Entry) {
+.controller('EntryCtrl', function ($scope, Notification,$timeout,FeedCache,$route,$location, Entry) {
+    /* display one entry*/
     Entry.getById($route.current.params.id, function (err, entry) {
         if (!entry) {
             Notification.notify({text:'Entry not found',type:Notification.type.ERROR});
@@ -234,6 +239,17 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
     $scope.toggleFavorite = function () {
         Entry.toggleFavorite(this.entry, function (err, _entry) {
             $scope.entry.favorite = _entry.favorite;
+        });
+    };
+    $scope.delete=function(entry){
+        Entry.delete(entry,function(err,res){
+            $timeout(function(){
+                if(err){
+                    return Notification.notify({type:Notification.type.ERROR,text:"Error deleting entry "+entry.title.slice(0,50)});
+                }
+                Notification.notify({type:Notification.type.ERROR,text:"Entry '"+entry.title.slice(0,50)+"' deleted"});
+                $location.path('/dashboard/feed/'+entry.feedId);
+            });  
         });
     };
 })

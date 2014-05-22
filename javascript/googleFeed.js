@@ -4,16 +4,17 @@
  * @copyright 2014 mparaiso <mparaiso@online.fr>
  * @license GPL
  */
-(function (window, google, undefined) {
-    "use strict";
-    angular.module('googleFeed', [])
-    .provider('feedFinder', function () {
-        /* feed service */
-        var numEntries = 30, _google, initialized = false;
-        return {
-            setNumEntries: function (number) {
-                numEntries = number;
-            },
+"use strict";
+angular.module('googleFeed', [])
+.provider('feedFinder', function () {
+    /* feed service */
+    var numEntries = 30, _google, initialized = false;
+    return {
+        /** set max entry number when fetching feed entries*/
+        setNumEntries: function (number) {
+            numEntries = number;
+        },
+        /* set google object */
         setGoogle: function (google) {
             _google = google;
             return this;
@@ -59,6 +60,5 @@
                 }
             };
         }
-        };
-    });
-}(this, google));
+    };
+});

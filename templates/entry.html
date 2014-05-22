@@ -14,38 +14,40 @@
         </aside>
         <article class="col-md-10 entry">
             <button class="btn btn-default" onclick="history.back();">&crarr; Back</button>
-            <h2 class="text-muted" ng-hide="entry">Loading Entry...</h2>
+            <h2 class="text-muted blink" ng-hide="entry">Loading Entry...</h2>
             <div ng-show="entry">
-            <h2>
-                <a data-ng-href="{{entry.link}}" target="_blank">
-                {{entry.title}}
-                </a>
-                <small>
+                <h2>
+                    <a data-ng-href="{{entry.link}}" target="_blank">
+                        {{entry.title}}
+                    </a>
                     <button class="btn btn-link" ng-click="toggleFavorite(entry)" title="mark as favorite">
                         <span class="glyphicon"
                             ng-class="{'glyphicon-star':entry.favorite,'glyphicon-star-empty':!entry.favorite}">
                         </span>
                     </button>
-                </small>
-            </h2>
-            <p><a data-ng-href="#/dashboard/feed/{{entry.feed.id}}">{{entry.feed.title}}</a></p>
-            <p class="text-muted">{{entry.contentSnippet}}</p>
-            <p class="text-small text-muted">{{entry.publishedDate|date:'medium'}}</p>
-            <p>
-                <span data-ng-repeat="category in entry.categories">
-                     <a class="label label-default"
-                        data-ng-href="#/dashboard/search/{{category}}">{{category}}</a>
-                </span>
-            </p>
-            <p>&nbsp;</p>
-            <!-- MEDIAS -->
-            <ul class="list-unstyled">
-                <li ng-repeat="media in entry.medias track by $index">
-                {{media}}
-                <media src="media"></media>
-                </li>  
-            </ul>
-            <section data-thumbnail="entry.content" data-ng-bind-html="entry.content"></section>
+                    <button class="btn btn-link" ng-click="delete(entry)">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </button>
+                </h2>
+                <p><a data-ng-href="#/dashboard/feed/{{entry.feed.id}}">{{entry.feed.title}}</a></p>
+                <p class="text-muted">{{entry.contentSnippet}}</p>
+                <p class="text-small text-muted">{{entry.publishedDate|date:'medium'}}</p>
+                <p>
+                    <span data-ng-repeat="category in entry.categories">
+                        <a class="label label-default"
+                            data-ng-href="#/dashboard/search/{{category}}">{{category}}
+                        </a>
+                    </span>
+                </p>
+                <p>&nbsp;</p>
+                <!-- MEDIAS -->
+                <ul class="list-unstyled">
+                    <li ng-repeat="media in entry.medias track by $index">
+                        {{media}}
+                        <media src="media"></media>
+                    </li>  
+                </ul>
+                <section data-thumbnail="entry.content" data-ng-bind-html="entry.content"></section>
             </div>
         </article>
     </div>

@@ -312,7 +312,7 @@ angular.module('dropboxDatabase', [])
                 /** set file name related to the entry */
                 entry.path = md5(entry.link).concat('.html');
                 File.write(entry.path,entry.content).then(function(){
-                    delete entry.content;
+                    entry.content="";
                     return entryTable.insert(self.normalize(entry), callback);
                 }).catch(function(err){
                     callback(err);
@@ -340,7 +340,7 @@ angular.module('dropboxDatabase', [])
     };
     this.findUnread=function  (callback) {
         return this.findAll({read:false},callback);
-    }
+    };
 })
 .service('Feed', function (tableFactory, Entry, feedFinder, $timeout) {
     /**
@@ -470,7 +470,7 @@ angular.module('dropboxDatabase', [])
         return deferred.promise;
     };
 })
-.service('EntryCache', function (Entry, FeedCache, $q, $timeout,$filter) {
+.service('EntryCache', function (Entry, FeedCache, $q,Promisifier, $timeout,$filter) {
     /* simple way to keep entries in memory to speed things up */
     var self = this;
 
@@ -511,7 +511,7 @@ angular.module('dropboxDatabase', [])
     this.delete = function (entry) {
         var self = this, deferred = $q.defer();
         Entry.delete(entry, function (err, res) {
-            if(err){console.warn('entry deletion failed', err)};
+            if(err){console.warn('entry deletion failed', err);}
             var index = self.entries.indexOf(self.entries.filter(function (e) {
                 return e.id === entry.id;
             })[0]);
@@ -529,6 +529,12 @@ angular.module('dropboxDatabase', [])
             self.entries= $filter('filter')(entries,query);
             return self.entries;
         });
-    }
+    };
+    this.update=function(entry){
+        var update = Promisifier.promisify(Entry.update,Entry);
+        return update(entry).then(function(e){
+            console.log('entry updated',e);
+        });
+    };
 });
 

@@ -76,10 +76,16 @@ describe('fluxreader', function () {
     });
     describe('FeedCtrl',function(){
         beforeEach(function(){
+            this.$scope.feed={title:"foo"};
+            this.FeedCache=this.$injector.get('FeedCache');
+            this.$q=this.$injector.get('$q');
+            spyOn(this.FeedCache,'subscribe').and.callThrough();          
             this.FeedCtrl=this.$controller('FeedCtrl',{$scope:this.$scope,$route:{current:{params:{id:0}}}});
         });
         it('#refresh',function(){
-            this.$scope.refresh("http://foo.fr");
+            var url="http://foo.fr";
+            this.$scope.refresh(url);
+            expect(this.FeedCache.subscribe).toHaveBeenCalledWith(url);
         });
     });
     describe('FeedListCtrl', function () {
@@ -181,7 +187,7 @@ describe('fluxreader', function () {
         it('exists',function  () {
             this.Link=this.$injector.get('Link');
             expect(this.Link).toBeDefined();
-        })
-    })
+        });
+    });
 });
 

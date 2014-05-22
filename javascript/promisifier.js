@@ -7,11 +7,19 @@ angular.module('ng')
     /**
     * takes a function that requires a callback(err,res) as last argument
     * and returns a function that returns a promise
-    * @param {Function} func
-    * @param {Object} context
+    * @exemple
+    *   promisify(Resource.fetch,Resource);
+    *   promisify(Resource,"fetch");
+    * @param {Function|Object} func  function or context
+    * @param {Object|string} context context or function name
     * @param {*} arguments
     */
     this.promisify=function(func,context){
+        if(typeof context ==='string'){
+            var c=func;
+            func = c[context];
+            context = c;
+        }
         return function(){
             var callback,deferred;
             deferred = $q.defer();

@@ -1,5 +1,8 @@
+/*jslint  eqeq:true,node:true,es5:true,white:true,plusplus:true,nomen:true,unparam:true,devel:true,regexp:true */
+/*global angular*/
 /*Copyright © 2014 mparaiso <mparaiso@online.fr>. All Rights Reserved.*/
 /** some directives */
+"use strict";
 angular.module('ng')
 .directive('media',function(){
     return {
@@ -8,16 +11,17 @@ angular.module('ng')
             src:"="
         },
         template:"<div ng-switch='getType(src)'>\
-        <audio ng-switch-when='audio' src='{{mediaUrl(src)}}' controls ></audio>\
-        <video ng-switch-when='video' src='{{mediaUrl(src)}}' controls ></video>\
-        <a ng-switch-default ng-href='src' target='_blank'></a>\
+            <audio ng-switch-when='audio' src='{{mediaUrl(src)}}' controls ></audio>\
+            <video ng-switch-when='video' src='{{mediaUrl(src)}}' controls ></video>\
+            <img ng-switch-when='image' ng-src='{{mediaUrl(src)}}' alt='' />\
+            <a ng-switch-default ng-href='{{mediaUrl(src)}}' target='_blank'>{{src}}</a>\
         </div>",
         controller:function($scope,$sce){
             $scope.mediaUrl=function(src){
                 return $sce.trustAsResourceUrl(src);
-            }
+            };
             $scope.getType=function(src){
-                if (!typeof src ==='string') {return;}
+                if (typeof src !=='string') {return;}
                 var suffix = src.match(/\w+$/)[0];
                 switch(suffix) {
                     case 'mp3':
@@ -31,6 +35,14 @@ angular.module('ng')
                     case 'ogv':
                     case 'ogg':
                         return "video";
+                    case 'webp':
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'gif':
+                    case 'png':
+                        return "image";
+                    default:
+                        return "";
                 }
             };
         }
