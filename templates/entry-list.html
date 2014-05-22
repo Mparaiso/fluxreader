@@ -4,7 +4,12 @@
  @license GPL
 -->
 <section ng-controller="EntryListCtrl">
-    <div class="lead">{{pageTitle}}</div>
+    <div class="row">
+        <div class="col-xs-6">{{pageTitle}}</div>
+        <div class="col-xs-6" ng-show="EntryCache.entries.length && !loading">
+            <!-- <button class="btn btn-default">Refresh</button>-->
+        </div>
+    </div>
     <h2 class="text-muted blink" data-ng-show="!EntryCache.entries">Loading Entries...</h2>
     <div ng-include="extra" class="text-muted text-small"></div>
     <h2 class="text-muted" data-ng-show="EntryCache.entries.length<1">No Entry found, please subscribe a new feed.</h2>
@@ -25,7 +30,7 @@
             ng-src="{{utils.getFavicon(entry.feed.link)}}" alt="{{entry.feed.link}}"></td>
             <td title="{{entry.contentSnippet||entry.title}}">
                 <a ng-class="{'text-muted':entry.read}"
-                   data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title|limitTo:90}}</a>
+                   data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title||entry.contentSnippet|limitTo:90}}</a>
             </td>
             <!-- MEDIAS -->
             <td>

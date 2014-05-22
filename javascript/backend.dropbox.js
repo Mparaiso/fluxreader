@@ -36,6 +36,9 @@ fluxreader.Table=(function(){
         * @param {object} record
         */
         recordToHash: function (record) {
+            if(!record){
+                return;
+            }
             var fields={};
             if (record.getFields instanceof Function) {
                 fields = record.getFields();
@@ -220,6 +223,9 @@ angular.module('dropboxDatabase', [])
         entryTable.get(id, function(err,entry){
             if(err){
                 return callback(err);
+            }
+            if(!entry){
+                return callback(new Error('Entry not found'));
             }
             File.read(entry.path).then(function(content){
                 entry.content = content;

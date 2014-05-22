@@ -201,7 +201,7 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
     $scope.EntryCache = EntryCache;
     EntryCache.load({read: false});
 })
-.controller('AccountCtrl', function ($timeout, $log, Events, $scope, dropboxClient, Feed, FeedCache) {
+.controller('AccountCtrl', function ($timeout,$window, $log, Events, $scope, dropboxClient, Feed, FeedCache) {
     $scope.refresh = function () {
         return Feed.findAll(function (err, feeds) {
             return async.eachSeries(feeds, function (feed, next) {
@@ -222,19 +222,21 @@ angular.module('fluxReader',['ngRoute', 'ngSanitize', 'dropbox', 'dropboxDatabas
 .controller('EntryCtrl', function ($scope, Notification,$timeout,FeedCache,$route,$location, Entry) {
     /* display one entry*/
     Entry.getById($route.current.params.id, function (err, entry) {
-        if (!entry) {
-            Notification.notify({text:'Entry not found',type:Notification.type.ERROR});
-        }else{
-            if (!entry.read) {
-                entry.read = true;
-                Entry.markAsRead(entry, angular.noop);
+        return $timeout(function(){
+            if (err || !entry) {
+                Notification.notify({text:'Entry not found',type:Notification.type.ERROR});
+                $location.path('/dashboard');
+            }else{
+                if (!entry.read) {
+                    entry.read = true;
+                    Entry.markAsRead(entry, angular.noop);
+                }
+                $scope.entry = entry;
+                FeedCache.getById(entry.feedId).then(function (feed) {
+                    $scope.entry.feed = feed;
+                });
             }
-            $scope.entry = entry;
-            FeedCache.getById(entry.feedId).then(function (feed) {
-                $scope.entry.feed = feed;
-            });
-            //console.log(entry);
-        }
+        });
     });
     $scope.toggleFavorite = function () {
         Entry.toggleFavorite(this.entry, function (err, _entry) {

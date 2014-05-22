@@ -1,4 +1,4 @@
-FLUX READER
+[FLUX READER](https://mparaiso.github.io/fluxreader/)
 ===========
 
 [![Build Status](https://travis-ci.org/Mparaiso/fluxreader.svg?branch=master)](https://travis-ci.org/Mparaiso/fluxreader)

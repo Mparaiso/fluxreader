@@ -2,8 +2,8 @@
 /*global spyOn,describe,jasmine,beforeEach,it,expect,angular,module,inject*/
 
 
+"use strict";
 describe('fluxreader', function () {
-    "use strict";
     beforeEach(function () {
         var self = this;
         angular.module('test', ['$window.mock', 'fluxReader', 'dropboxDatabase','pagination', 'dropbox.mock', 'googleFeed.mock'],
@@ -149,21 +149,20 @@ describe('fluxreader', function () {
             this.entry={};
             inject(function($controller,Entry,FeedCache,Notification){
                 self.scope={};
-                self.entry={title:'foo'};
+                self.entry={title:'foo',favorite:false};
                 self.Entry=Entry;
                 self.route = {current:{params:{id:'foo'}}};
+                spyOn(self.Entry,'toggleFavorite');
                 spyOn(self.Entry,'getById').and.callFake(function(id,cb){
                     return cb(undefined,self.entry);
                 });
                 self.EntryCtrl=$controller('EntryCtrl',{$scope:self.scope,$route:self.route});
             });
         });
-        it('#entry',function(){
-            this.scope.toggleFavorite();
-            expect(this.scope.entry.title).toEqual('foo');
-        });
-        it('#entry',function(){
+        it('#toggleFavorite',function(){
             expect(this.Entry.getById).toHaveBeenCalled();
+            this.scope.toggleFavorite();
+            expect(this.Entry.toggleFavorite).toHaveBeenCalled();
         });
     });
     describe('EntryListCtrl',function(){
