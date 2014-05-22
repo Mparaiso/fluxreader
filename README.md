@@ -9,6 +9,12 @@ FLUX READER
 a client side RSS reader backed by DropBox Datastore API
 --------------------------------------------------------
 
+![screen1](https://mparaiso.github.io/fluxreader/images/screen1.jpg)
+
+![screen1](https://mparaiso.github.io/fluxreader/images/screen2.jpg)
+
+![screen1](https://mparaiso.github.io/fluxreader/images/screen3.jpg)
+
 https://mparaiso.github.io/fluxreader/
 
 author mparaiso <mparaiso@online.fr>
