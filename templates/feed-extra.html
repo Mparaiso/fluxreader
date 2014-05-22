@@ -6,7 +6,7 @@
 <div class="row">
     <blockquote class="col-sm-6">
         <p class='text-small'>{{feed.description}}</p>
-        <p class='text-small'><a ng-href="feed.link" target="_blank">{{feed.link}}</a></p>
+        <p class='text-small'><a ng-href="{{feed.link}}" target="_blank">{{feed.link}}</a></p>
     </blockquote>
     <div ng-show="feed" class="col-sm-6" ng-controller="FeedCtrl">
         <button class="btn btn-default" ng-click="refresh(feed.feedUrl)">Refresh Feed</button>

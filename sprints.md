@@ -31,15 +31,21 @@ Sprint4:
 
 
 Sprint5:
+
 - [X] A user can remove entries
 - [X] A user can filter out feeds
 - [X] the application can discover a syndication url from a website address
 - [X] Each feed is displayed with its favicon
 
 Sprint6:
+
 - [X] a notification system alerts user of successfull or unsuccessfull events in the app
-- [] replace default modals by custom modals
-- [] during page changes, user is notified that some data are being loaded
-- [] user is notifireturned when subscribing
-- [] deleted entries should be blacklisted so they are not fetched again on feed refreshed
-- [] when a feed is deleted,related blacklisted entries should be removed from blacklist
+- [ ] replace default modals by custom modals
+- [ ] during page changes, user is notified that some data are being loaded
+- [X] user is notifired when subscribing
+- [ ] deleted entries should be blacklisted so they are not fetched again on feed refreshed
+- [ ] when a feed is deleted,related blacklisted entries should be removed from blacklist
+
+Sprint7:
+
+- [ ] entries can be shared,via google+,facebook,twitter or mail.
