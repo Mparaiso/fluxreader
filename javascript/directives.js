@@ -68,4 +68,37 @@ angular.module('ng')
 
         }
     };
+})
+.directive('mpDropTarget',function($timeout){
+    return {
+        scope:{
+            mpDropTarget:"="
+        },
+        link:function($scope,element,attributes){
+            console.log('drop-target',this,arguments);
+            $timeout(function(){
+                console.log(arguments);
+                element.on('dragenter',function(e){
+                    element.addClass('mp-drop-target');
+                    e.stopPropagation();
+                    e.preventDefault();
+                })
+                .on('dragleave',function(e){
+                    element.removeClass('mp-drop-target');   
+                })
+                .on('dragover',function  (e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }).on('drop',function  (e) {
+                    element.removeClass('mp-drop-target');   
+                    console.log('drop',e.originalEvent.dataTransfer.files);
+                    if($scope.mpDropTarget && $scope.mpDropTarget instanceof Function){
+                        $scope.mpDropTarget(e.originalEvent,e.originalEvent.dataTransfer.files);
+                    }
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+            });
+        }
+    };
 });

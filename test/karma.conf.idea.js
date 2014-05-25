@@ -1,4 +1,4 @@
-/*jslint eqeq:true,node:true,es5:true,white:true,plusplus:true,nomen:true,unparam:true,devel:true,regexp:true */
+/*jslint node:true*/
 module.exports = function(config) {
     "use strict";
     config.set({
@@ -16,7 +16,6 @@ module.exports = function(config) {
             'bower_components/angular-route/angular-route.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
             'bower_components/angular-mocks/angular-mocks.js',
-            'javascript/backend.js',
             'javascript/*.js',
             'test/mocks/*.js',
             'test/unit/*.js'
@@ -38,7 +37,7 @@ module.exports = function(config) {
             outputFile: 'test_out/unit.xml',
             suite: 'unit'
         },
-        reporters:['progress','coverage','coveralls'],
+        reporters:['progress'],
         preprocessors:{
             "javascript/*.js":['coverage']
         },

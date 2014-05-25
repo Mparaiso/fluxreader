@@ -4,7 +4,7 @@ describe("dropboxDatabase", function () {
     "use strict";
     beforeEach(function () {
         var self = this;
-        angular.module('test', ['$window.mock', 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock'],function(dropboxClientProvider){
+        angular.module('test', [ 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock'],function(dropboxClientProvider){
         });
         module('test');
         inject(function ($timeout,$injector,$rootScope) {

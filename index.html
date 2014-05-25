@@ -14,17 +14,17 @@
     <link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Lobster+Two' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/styles.css"/>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="//www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js"></script>
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/angular-route/angular-route.min.js"></script>
-    <script src="javascript/index.js"></script>
-    <script src="javascript/dropbox.js"></script>
+    <script defer src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script defer src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script defer src="vendor/dropbox-datastores-1.0-latest.js"></script>
+    <script defer src="bower_components/angular/angular.min.js"></script>
+    <script defer src="bower_components/angular-route/angular-route.min.js"></script>
+    <script defer src="javascript/index.js"></script>
+    <script defer src="javascript/dropbox.js"></script>
     <title ng-bind="globals.title">Fluxreader - news aggregator</title>
 </head>
 
-<body class="bg-dark ">
+<body class="bg-dark " ng-cloak>
     <noscript>
         <section class="container-fluid">
             <h1 class="alert alert-warning">This Website makes heavy use of javascript,please enable javascript</h1>

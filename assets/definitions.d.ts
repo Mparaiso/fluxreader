@@ -9,6 +9,7 @@ declare module model{
         type:string;
         createdAt:Date; 
         updatedAt:Date;     
+        refreshedAt:Date;
     }
     interface Entry{
         id:string;

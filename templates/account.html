@@ -1,24 +1,40 @@
 <!-- templates/account.html-->
 <!--
- Copyright © 2014 mparaiso <mparaiso@online.fr>. All Rights Reserved.
+Copyright © 2014 mparaiso <mparaiso@online.fr>. All Rights Reserved.
 -->
 <div class="container-fluid">
-    <h1>Your account</h1>
-    <h3 class="text-muted" ng-hide="accountInfo">Loading account infos</h3>
-    <hgroup ng-show="accountInfo">
-        <h3>Name: <span class="text-primary">{{accountInfo.name}}</span></h3>
+    <div class="row">
+        <div class="col-sm-4">
+            <h1>Your account</h1>
+            <h3 class="text-muted" ng-hide="accountInfo">Loading account infos</h3>
+            <hgroup ng-show="accountInfo">
+                <h3>Name: <span class="text-primary">{{accountInfo.name}}</span></h3>
 
-        <h3>Quota: <span class="text-primary">
-        {{utils.round((+accountInfo.quota)/utils.pow(1024,2))}} Mb</span></h3>
+                <h3>Quota: <span class="text-primary">
+                        {{utils.round((+accountInfo.quota)/utils.pow(1024,2))}} Mb</span></h3>
 
-        <h3>Used Quota: <span class="text-primary">
-        {{utils.round((+accountInfo.usedQuota)/utils.pow(1024,2))}} Mb</span></h3>
-        <h3>Datastore Quota: 
-            <span class="text-primary">{{utils.round((+accountInfo._json.quota_info.datastores)/utils.pow(1024,2))}} Mb</span>
-        </h3>
-		<h1>&nbsp;</h1>
-         <p>
-    	<button ng-click="refresh()" class="btn btn-md btn-primary">Refresh subscriptions manualy</button>
-    </p>
-    </hgroup>
+                <h3>Used Quota: <span class="text-primary">
+                        {{utils.round((+accountInfo.usedQuota)/utils.pow(1024,2))}} Mb</span></h3>
+                <h3>Datastore Quota: 
+                    <span class="text-primary">{{utils.round((+accountInfo._json.quota_info.datastores)/utils.pow(1024,2))}} Mb</span>
+                </h3>
+                <h1>&nbsp;</h1>
+                <p>
+                    <button ng-click="refresh()" class="btn btn-md btn-primary">Refresh subscriptions manualy</button>
+                </p>
+                <p><button class="btn btn-md btn-info" ng-click="export()">Export subscriptions as XML</button></p>
+            </hgroup>
+        </div>
+        <div class="col-sm-4">
+            <h2>Import subscriptions</h2>
+            <hr />
+
+            <h3 mp-drop-target="onDrop" class="import" style="text-align:center;display:table;height:15em;background:#EEE;color:#444;border:1px solide black;padding:15px;">
+                <div style="display:table-cell;vertical-align:middle;text-align:justified;">
+                    Drop OPML file here(or the xml file containing your data exported from google reader)
+                </div>    
+            </h3>
+        </div>
+    </div>    
+
 </div>

@@ -231,3 +231,6 @@ nav .alert-info{
     opacity:1;
   }
 }
+.mp-drop-target{
+    border:1px dashed #444 ;
+}
