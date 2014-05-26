@@ -21,7 +21,9 @@ module.exports = function(config) {
             'test/mocks/*.js',
             'test/unit/*.js'
         ],
-
+        exclude: [
+            'javascript/worker.js'
+        ],
         autoWatch: true,
 
         frameworks: ['jasmine'],
@@ -43,7 +45,7 @@ module.exports = function(config) {
             "javascript/*.js":['coverage']
         },
         coverageReporter:{
-            type:'text',
+            type:'lcov',
             dir:'coverage/'
         }
     });

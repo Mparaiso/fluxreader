@@ -85,6 +85,7 @@ fluxreader.Table=(function(){
         * @param {Function} callback
         */
         update: function (record, callback) {
+            //console.log(record);
             var self = this;
             this.getTable(function (err, table) {
                 var _record = table.get(record.id);
@@ -275,7 +276,7 @@ fluxreader.Entry=function (tableFactory,md5,File) {
         return [];
     };
     this.normalize = function (entry) {
-        return {
+        var normalized= {
             //mediaGroup: typeof(entry.mediaGroup) !== 'string' ? entry.mediaGroup !== undefined ? JSON.stringify(entry.mediaGroup) : "{}" : entry.mediaGroup,
             title: entry.title || "",
             link: entry.link || "",
@@ -292,6 +293,10 @@ fluxreader.Entry=function (tableFactory,md5,File) {
             deleted: !!entry.deleted,
             compressed: !!entry.compressed
         };
+        if(entry.id){
+            normalized.id=entry.id;
+        }
+        return normalized;
     };
     this.delete = function (entry, callback) {
         return entryTable.delete(entry, function(err,res){
@@ -322,8 +327,8 @@ fluxreader.Entry=function (tableFactory,md5,File) {
     */
     this.insert = function (entry, callback) {
         var self = this;
+        //check if entry exists
         entryTable.find({link: entry.link, feedId: entry.feedId}, function (err, entryRecord) {
-            //console.log('checking entry if exists', arguments);
             if (err) {
                 callback(err);
             } else if (entryRecord) {
@@ -496,5 +501,42 @@ fluxreader.Feed=function (tableFactory, Entry, feedFinder, $timeout) {
  * @constructor
  */
 fluxreader.User=function(client){
-}
+};
+fluxreader.TaskExecutionContext=function(){};
+fluxreader.TaskManager=function(){};
+fluxreader.TaskManager.prototype.register=function(name,task){};
+fluxreader.TaskManager.prototype.add=function(name,args){};
+/**
+ * @return {Boolean}
+ */
+fluxreader.TaskManager.prototype.hasNext=function(){};
+/**
+ * get next task
+ */
+fluxreader.TaskManager.prototype.next=function(){};
 
+
+/**
+ * @constructor 
+ * @param {object} $rootScope
+ * @property {object} _$rootScope
+ */
+fluxreader.PubSub=function($rootScope){
+    
+    this._$rootScope=$rootScope;
+};
+/**
+* @param {string} event
+* @param {Function} subscriber
+* @return {Function} unsubscribe function
+*/
+fluxreader.PubSub.prototype.subscribe=function(event,subscriber){
+    return this._$rootScope.$on(event,subscriber);
+};
+/**
+ * @param {string} event
+ * @param {...} args
+ */
+fluxreader.PubSub.prototype.publish=function(event,args){
+    return this._$rootScope.$broadcast.apply(this._$rootScope,[].slice.call(arguments));
+};

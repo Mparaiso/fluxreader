@@ -304,6 +304,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
         $scope.toggleFavorite = function (entry) {
             entry = entry || {};
             if (entry.id) {
+                console.log(entry);
                 Entry.toggleFavorite(entry, function (err, _entry) {
                     Object.keys(_entry).forEach(function (key) {
                         entry[key] = _entry[key];
