@@ -76,7 +76,10 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
     NOTIFIY_ERROR: "Events.NOTIFIY_ERROR",
     REFRESH_ALL_FEEDS_ERROR: "Events.REFRESH_ALL_FEEDS_ERROR",
     REFRESH_FEED_START: "Events.REFRESH_FEED_START",
-    REFRESH_ALL_FEEDS_DONE: "Events.REFRESH_ALL_FEEDS_DONE"
+    REFRESH_ALL_FEEDS_DONE: "Events.REFRESH_ALL_FEEDS_DONE",
+    IMPORT_FEEDS_START:"Events.IMPORT_FEEDS_START",
+    IMPORT_FEEDS_ERROR:"Events.IMPORT_FEEDS_ERROR",
+    IMPORT_FEEDS_DONE:"Events.IMPORT_FEEDS_DONE"
 })
 .value('globals', {
     siteTitle: 'Flux Reader',
@@ -237,6 +240,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
                 $rootScope.$broadcast(Events.IMPORT_FEEDS_DONE);
             }
             //$scope.$apply();
+            //
         });
     };
     $scope.refresh = function () {

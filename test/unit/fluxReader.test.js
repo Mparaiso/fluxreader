@@ -15,19 +15,18 @@ describe('fluxreader', function () {
                 });
             }).constant('forceHTTPS', false);
         module('test');
-        inject(function ($window, $timeout, $rootScope, $injector, $controller) {
+        inject(function ($window, $timeout, $rootScope, $injector, $controller,$httpBackend) {
             self.$timeout = $timeout;
             self.$injector = $injector;
             self.$window = $window;
             self.$controller = $controller;
             self.$rootScope = $rootScope;
             self.$scope = $rootScope.$new();
-
+            self.$httpBackend=$httpBackend;
             spyOn($window, 'prompt');
             spyOn($window, 'alert');
             spyOn($window, 'confirm');
-            //spyOn($window,'scrollTo');
-            //self.=function(){};
+            $httpBackend.when('GET', '/templates/index.html').respond("");
         });
     });
     it('should run properly', function () {
@@ -99,16 +98,30 @@ describe('fluxreader', function () {
         beforeEach(function () {
             var self = this;
             inject(function ($controller, $injector) {
+                self.FeedCache=$injector.get('FeedCache');
+                self.Feed=$injector.get('Feed');
+                self.Notification=$injector.get('Notification');
                 self.feed = {id: 'foo', title: 'bar'};
                 self.scope = $injector.get('$rootScope').$new();
                 self.FeedListCtrl = $controller('FeedListCtrl', {$scope: self.scope});
             });
         });
+        it('#watches FeedCache.feeds',function(done){
+            var self=this;
+            this.FeedCache.load(true).then(done);
+            this.$timeout.flush();
+            this.$rootScope.$apply();
+        });
         it('#unsubscribe', function () {
+            spyOn(this.Notification,'notify');
+            spyOn(this.Feed,'delete').and.callFake(function(feed,cb){
+                cb();
+            });
             this.$window.confirm.and.returnValue(true);
             this.scope.unsubscribe(this.feed);
             expect(this.$window.confirm).toHaveBeenCalled();
-
+            expect(this.Feed.delete).toHaveBeenCalled();
+            expect(this.Notification.notify).toHaveBeenCalled();
         });
     });
     describe('SubscribeCtrl', function () {
@@ -147,6 +160,22 @@ describe('fluxreader', function () {
             this.dropboxClient = this.$injector.get('dropboxClient');
             spyOn(this.dropboxClient, "getAccountInfo");
             this.AccountCtrl = this.$controller('AccountCtrl', {$scope: this.$scope});
+        });
+        describe('#export',function  () {
+            it('executes',function(){
+                this.$scope.export();
+            });
+        });
+        describe('#import',function(){
+            beforeEach(function  () {
+                this.fileList = [{}];
+                this.event={};
+            });
+            it('should execute',function(){
+                this.$scope.import(this.event,this.fileList);
+                this.$httpBackend.flush();
+                this.$scope.$apply();
+            });
         });
         describe('#refresh', function () {
             beforeEach(function () {
@@ -194,14 +223,32 @@ describe('fluxreader', function () {
             this.scope.toggleFavorite();
             expect(this.Entry.toggleFavorite).toHaveBeenCalled();
         });
+        it('#delete',function(){
+            this.scope.delete({});
+        });
     });
     describe('EntryListCtrl', function () {
         beforeEach(function () {
             this.EntryListCtrl = this.$controller('EntryListCtrl', {$scope: this.$scope});
         });
-        it('when', function () {
+        it('#toggleFavorite', function () {
             this.$scope.toggleFavorite();
             this.$scope.predicate({publishedDate: new Date()});
+        });
+        it('#removeEntry',function () {
+            this.$scope.removeEntry({});
+        });
+        it('#next',function () {
+            this.$scope.next();
+        });
+        it('#previous',function () {
+            this.$scope.previous();
+        });
+        it('#hasPrevious',function () {
+            this.$scope.hasPrevious();
+        });
+        it('#hasNext',function () {
+            this.$scope.hasNext();
         });
     });
     describe('UnreadCtrl', function () {

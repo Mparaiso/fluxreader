@@ -15,7 +15,6 @@
         stripped = func.toString().replace(comments, "");
         brackets = /(?:\()(.*)?(?:\))/im;
         keep = stripped.match(brackets);
-        console.log(keep);
         return keep[1].split(/\s*,\s*/).map(function(service) {
             return service.trim();
         });

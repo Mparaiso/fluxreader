@@ -40,7 +40,7 @@ angular.module('googleFeed', [])
                         /*try a search strategy if no feed*/
                         return _google.feeds.findFeeds("site:".concat(feedUrl),function(result){
                             if(!result.error && result.entries.length>0){
-                                console.log(result.entries);
+                                //console.log(result.entries);
                                 return self.findFeedByUrl(result.entries[0].url,callback);
                             }
                             callback(result.error);

@@ -22,7 +22,6 @@ describe("modular", function() {
             this.modular.value('foo', 'foo');
         });
         it('foo', function() {
-            console.log(this.modular.inject('foo'));
             expect(this.modular.inject('foo')).toEqual('foo');
         });
     });
