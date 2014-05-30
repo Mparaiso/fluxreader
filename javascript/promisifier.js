@@ -1,9 +1,10 @@
 /*jslint eqeq:true,node:true,es5:true,white:true,plusplus:true,nomen:true,unparam:true,devel:true,regexp:true */
-/*global angular*/
+/*global angular,fluxreader*/
 /* Copyright © 2014 mparaiso <mparaiso@online.fr>. All Rights Reserved.  */
-angular.module('ng')
-.service('Promisifier',function($q){
-    "use strict";
+"use strict";
+var fluxreader=fluxreader||{};
+var angular=angular || undefined;
+fluxreader.Promisifier = function($q){
     /**
     * takes a function that requires a callback(err,res) as last argument
     * and returns a function that returns a promise
@@ -34,4 +35,10 @@ angular.module('ng')
             return deferred.promise;
         };
     };
-});
+};
+/* because of possible use in webworkers , if angular,register the module */
+if( angular  ){
+    angular.module('ng')
+    .service('Promisifier',fluxreader.Promisifier);
+}
+

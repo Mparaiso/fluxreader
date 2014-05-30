@@ -3,7 +3,7 @@
 /* a dependency injection container for javascript */
 (function() {
     "use strict";
-    var Modular, Injector, getFunctionArgs;
+    var Modular, Injector, InjectorError,getFunctionArgs;
     /** extrat args from function */
     getFunctionArgs = function(func) {
         var length,comments,stripped,brackets,keep;
@@ -13,8 +13,9 @@
         }
         comments = /(\/\*).*?\*\/ /gm;
         stripped = func.toString().replace(comments, "");
-        brackets = /(?:\()(.*)?(?:\)) /im;
+        brackets = /(?:\()(.*)?(?:\))/im;
         keep = stripped.match(brackets);
+        console.log(keep);
         return keep[1].split(/\s*,\s*/).map(function(service) {
             return service.trim();
         });
@@ -46,20 +47,7 @@
         });
         return this;
     };
-    /* fixit
-    Modular.prototype.factory=function  (name,value) {
-        this.service(name,value);
-        var s =  this.injector._registry.filter(function(s){
-            return s.name===name;
-        })[0];
-        if(s){
-            delete s.resolved;
-            Object.defineProperty(s,"resolved",{
-                value:false});
-        }
-        return this;
-    };
-    */
+
     Modular.prototype.inject = function(service) {
         return this.injector.get(service);
     };
@@ -81,9 +69,13 @@
         serviceDefinition = service.service.slice();
         _constructor = serviceDefinition.pop();
         _arguments = serviceDefinition.map(function(service) {
-            return this.get(service);
+            var  s = this.get(service);
+            if(s === undefined){
+                throw ["Service",service,'not found in',name].join(' ');
+            }
+            return s ;
         }, this);
-        //console.log('get', _arguments, serviceDefinition, service.service);
+
         service.resolved = new(Function.bind.apply(_constructor, [_constructor].concat(_arguments)))();
         return service.resolved;
     };
@@ -102,6 +94,8 @@
     this.modular = function() {
         return new Modular();
     };
+    InjectorError=function(){ Error.apply(this,[].slice.call(arguments))};
+    InjectorError.prototype=Object.create(Error.prototype);
     //this.modular.getFunctionArgs = getFunctionArgs;
 }.call(this));
 

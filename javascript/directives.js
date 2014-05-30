@@ -75,9 +75,7 @@ angular.module('ng')
             mpDropTarget:"="
         },
         link:function($scope,element,attributes){
-            console.log('drop-target',this,arguments);
             $timeout(function(){
-                console.log(arguments);
                 element.on('dragenter',function(e){
                     element.addClass('mp-drop-target');
                     e.stopPropagation();
@@ -90,8 +88,7 @@ angular.module('ng')
                     e.stopPropagation();
                     e.preventDefault();
                 }).on('drop',function  (e) {
-                    element.removeClass('mp-drop-target');   
-                    console.log('drop',e.originalEvent.dataTransfer.files);
+                    element.removeClass('mp-drop-target');  
                     if($scope.mpDropTarget && $scope.mpDropTarget instanceof Function){
                         $scope.mpDropTarget(e.originalEvent,e.originalEvent.dataTransfer.files);
                     }

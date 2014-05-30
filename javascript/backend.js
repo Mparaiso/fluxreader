@@ -1,5 +1,5 @@
 /*jslint white:true,es5:true,browser:true,devel:true,nomen:true*/
-/*global angular,async*/
+/*global angular,async,google,Dropbox*/
 /** javascript/dropboxDatabase.js */
 /**
  * @copyright 2014 mparaiso <mparaiso@online.fr>
@@ -373,7 +373,7 @@ fluxreader.Entry=function (tableFactory,md5,File) {
  * @constructor
  *
  */
-fluxreader.Feed=function (tableFactory, Entry, feedFinder, $timeout) {
+fluxreader.Feed=function (tableFactory, Entry, feedFinder, $timeout,opml) {
     /**
     * Manage feed persistance
     */
@@ -492,51 +492,116 @@ fluxreader.Feed=function (tableFactory, Entry, feedFinder, $timeout) {
                 });
             } 
             return $timeout(callback.bind(null, new Error('no url provided')), 1);
+        },
+        /**
+        * import from file
+        * @param {window.File} file
+        * @param {Function} callback
+        * @return {void}
+        */
+        import:function(file,callback){
+            var self=this;
+            opml.import(file).then(function(feedUrlList){
+                async.eachSeries(feedUrlList,function(feedUrl,next){
+                    $timeout(this.subscribe.bind(this,feedUrl,next),2000);
+                },callback);
+            });
+        },
+        /**
+        * export to xml string
+        * @param {Function} callback
+        * @return {void}
+        */
+        export:function(callback){
+            this.findAll(function(err,feeds){
+                if(err){
+                    return callback(err);
+                }
+                return callback(null,opml.export(feeds));
+            });
         }
     };
 };
 
-/**
- * @param {object} client
- * @constructor
- */
-fluxreader.User=function(client){
-};
-fluxreader.TaskExecutionContext=function(){};
-fluxreader.TaskManager=function(){};
-fluxreader.TaskManager.prototype.register=function(name,task){};
-fluxreader.TaskManager.prototype.add=function(name,args){};
-/**
- * @return {Boolean}
- */
-fluxreader.TaskManager.prototype.hasNext=function(){};
-/**
- * get next task
- */
-fluxreader.TaskManager.prototype.next=function(){};
 
+fluxreader.FeedFinder=function($timeout){
+    var _numEntries = 30, _google=google, initialized = false;
+    /** set max entry number when fetching feed entries*/
+    this.setNumEntries= function (number) {
+        _numEntries = number;
+    };
+    /* set google object */
+    this.setGoogle=function (google) {
+        _google = google;
+        return this;
+    };
+    /* load a feed according to its syndication url */
+    this.findFeedByUrl= function (feedUrl, callback) {
+        var self=this,feed = new _google.feeds.Feed(feedUrl);
+        feed.includeHistoricalEntries();
+        feed.setNumEntries(_numEntries);
+        return feed.load(function (result) {
+            if(!result.error){
+                return callback(result.error, result.feed);
+            }
+            /*try a search strategy if no feed*/
+            return _google.feeds.findFeeds("site:".concat(feedUrl),function(result){
+                if(!result.error && result.entries.length>0){
+                    console.log(result.entries);
+                    return self.findFeedByUrl(result.entries[0].url,callback);
+                }
+                callback(result.error);
+            });
+        });
+    };
+    /* create a feed loader if undefined */
+    this.open= function (callback) {
+        if (!initialized) {
+            _google.load('feeds', '1', {
+                callback: callback
+            });
+        } else {
+            $timeout(callback, 1);
+        }
 
-/**
- * @constructor 
- * @param {object} $rootScope
- * @property {object} _$rootScope
- */
-fluxreader.PubSub=function($rootScope){
-    
-    this._$rootScope=$rootScope;
+    };
 };
-/**
-* @param {string} event
-* @param {Function} subscriber
-* @return {Function} unsubscribe function
-*/
-fluxreader.PubSub.prototype.subscribe=function(event,subscriber){
-    return this._$rootScope.$on(event,subscriber);
+
+fluxreader.Client = function(apiKey){
+    return new Dropbox.Client({
+        key: apiKey
+    });
 };
-/**
- * @param {string} event
- * @param {...} args
- */
-fluxreader.PubSub.prototype.publish=function(event,args){
-    return this._$rootScope.$broadcast.apply(this._$rootScope,[].slice.call(arguments));
+
+fluxreader.DropboxClient = function ($timeout,client) {
+    return {
+        authenticate:function(callback){
+            callback=callback||function(){};
+            client.authenticate({
+                interactive: false
+            },callback);
+        },
+        /* sign in */
+        signIn: function () {
+            client.authenticate();
+        },
+        /* sign out */
+        signOut: function (callback) {
+            client.signOut(callback);
+        },
+        isAuthenticated: function () {
+            return client.isAuthenticated();
+        },
+        getDatastoreManager: function () {
+            return client.getDatastoreManager();
+        },
+        /* get account info */
+        getAccountInfo: function (callback) {
+            client.getAccountInfo({
+                httpCache: true
+            }, callback);
+            /* @link https://www.dropbox.com/developers/datastore/docs/js#Dropbox.Client.getAccountInfo */
+
+        }
+    };
 };

@@ -8,11 +8,13 @@ describe('ng',function(){
         angular.module('test',['ngSanitize']);
         module('test');
         var self=this;
-        inject(function($injector,$rootScope,$timeout,$compile){
+        inject(function($injector,$rootScope,$timeout,$compile,$window,$document){
             self.$injector = $injector;
             self.$compile=$compile;
             self.$rootScope=$rootScope;
             self.$timeout=$timeout;
+            self.$window=$window;
+            self.$document=$document;
         });
     });
     //@note @angular test directives
@@ -46,5 +48,39 @@ describe('ng',function(){
             var audio = this.elm.find('audio');
             expect(audio.attr('src')).toEqual(this.src);
         });
+        it('default',function  () {
+            this.$rootScope.src=undefined;
+            this.$rootScope.$apply();
+            expect(this.elm.find('a').get(0)).toBeTruthy();
+            console.log(this.elm.find('a').get(0));
+        })
     });
+    describe('mpDropTarget',function  () {
+        /*@note @angular testing drag and drop events */
+        beforeEach(function(){
+            this.$rootScope.listener=angular.noop;
+            spyOn(this.$rootScope,'listener');
+            this.element=angular.element('<div mp-drop-target="listener"></div>');
+            this.$compile(this.element)(this.$rootScope);
+            this.$rootScope.$apply();
+            this.$timeout.flush();
+        });
+        it('dragenter',function  () {
+            var dragenter= $.Event("dragenter");
+            this.element.trigger(dragenter);
+        })
+        it('dragleave',function  () {
+            var dragleave= $.Event("dragleave");
+            this.element.trigger(dragleave);
+        })
+        it('dragover',function  () {
+            var dragover= $.Event("dragover");
+            this.element.trigger(dragover);
+        })
+        it('drop',function  () {
+            var drop= $.Event("drop",{originalEvent:{dataTransfer:{files:[]}}});
+            this.element.trigger(drop);
+            expect(this.$rootScope.listener).toHaveBeenCalledWith(drop.originalEvent,drop.originalEvent.dataTransfer.files);
+        })
+    })
 });

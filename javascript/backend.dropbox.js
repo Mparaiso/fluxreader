@@ -7,7 +7,7 @@
  */
 "use strict";
 
-angular.module('dropboxDatabase', [])
+angular.module('dropboxDatabase', ['opml'])
 .constant('Events',{
     "SUBSCRIBING":"backend.SUBSCRIBING"
 })

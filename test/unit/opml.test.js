@@ -5,9 +5,12 @@ describe('opml',function(){
     beforeEach(function(){
         var self=this;
         module('opml');
-        inject(function  ($injector,opml) {
+        inject(function  ($timeout,$injector,opml,$window,$rootScope) {
             self.$injector= $injector;
             self.opml=opml;
+            self.$window=$window;
+            self.$rootScope=$rootScope;
+            self.$timeout=$timeout;
         });
         this.feedList=[{title:"foo",type:"rss",feedUrl:"bar",link:"baz"}];
         this.xmlString='<opml version="1.0"><body><outline title="foo" text="foo" type="rss" xmlUrl="bar" htmlUrl="baz"/></body></opml>';
@@ -19,10 +22,27 @@ describe('opml',function(){
         });
     });   
 
-    /*
     describe('#import',function(){
-    var blob=new window.ArrayBuffer([this.xmlString]);
-    var file=new window.File(blob,"xmlString");
+        beforeEach(function(){
+            var self=this;
+            this.$window.FileReader=function(){};
+            this.$window.FileReader.prototype.readAsText=function(value){
+                self.$timeout(function(){
+                    this.onload({result:value});
+                }.bind(this));
+            };
+            spyOn(this.$window.FileReader.prototype,'readAsText').and.callThrough();
+        });
+        it('should transform a File into a list of feedUrls ',function(done){
+            var self=this;
+            this.file =this.xmlString;
+            this.opml.import(this.file).then(function(urlList){
+                expect(urlList.length).toBe(1);
+                expect(urlList[0]).toEqual("bar");
+                expect(self.$window.FileReader.prototype.readAsText).toHaveBeenCalled();
+            }).then(done);
+            this.$rootScope.$apply();
+            this.$timeout.flush();
+        });
     });
-    */
 });

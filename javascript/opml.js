@@ -13,25 +13,25 @@ angular.module('opml',[])
         reader = new $window.FileReader();
         reader.readAsText(file);
         reader.onload=function(e){
-            deferred.reslove(e.result);
+            deferred.resolve(e.result);
         };
         reader.onerror=deferred.reject.bind(deferred);
         return deferred.promise;
     };
+
     /**
-     * parse xml return a list of url
-     * @private
+     * @param {string} an xml string
+     * @return {Array} a list of urls
      */
     this._parse=function(xmlString){
         var deferred,parser,doc,result;
-        deferred=$q.defer();
         parser = new $window.DOMParser();
         doc = parser.parseFromString(xmlString, "text/xml");
         result =  [].slice.call(doc.querySelectorAll('outline[xmlUrl]'))
         .map(function  (node) {
             return node.getAttribute('xmlUrl');
         });
-        return $q.when(result);
+        return result;
     };
 
     /**
@@ -41,9 +41,9 @@ angular.module('opml',[])
      */
     this.import=function(file) {
         var self=this;
-        return $q.when(file)
-        .then(function(file){return self._readFile(file);})
-        .then(function(xmlString){return self._parse(xmlString);});
+        return this._readFile(file).then(function(xmlString){
+            return self._parse(xmlString)
+        ;});
     };
     /**
      * returns a xml string from a list of Feeds

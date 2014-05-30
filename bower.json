@@ -23,6 +23,10 @@
     "angular-sanitize": "~1.2.16",
     "lz-string": "*",
     "underscore": "~1.6.0",
-    "js-md5": "~1.1.0"
+    "js-md5": "~1.1.0",
+    "q": "1.0.0"
+  },
+  "resolutions": {
+    "q": "1.0.0"
   }
 }
