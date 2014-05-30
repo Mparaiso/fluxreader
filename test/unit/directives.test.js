@@ -48,11 +48,10 @@ describe('ng',function(){
             var audio = this.elm.find('audio');
             expect(audio.attr('src')).toEqual(this.src);
         });
-        it('default',function  () {
+        it('should have a like element',function  () {
             this.$rootScope.src=undefined;
             this.$rootScope.$apply();
             expect(this.elm.find('a').get(0)).toBeTruthy();
-            console.log(this.elm.find('a').get(0));
         })
     });
     describe('mpDropTarget',function  () {
@@ -65,22 +64,24 @@ describe('ng',function(){
             this.$rootScope.$apply();
             this.$timeout.flush();
         });
-        it('dragenter',function  () {
-            var dragenter= $.Event("dragenter");
-            this.element.trigger(dragenter);
-        })
-        it('dragleave',function  () {
-            var dragleave= $.Event("dragleave");
-            this.element.trigger(dragleave);
-        })
-        it('dragover',function  () {
-            var dragover= $.Event("dragover");
-            this.element.trigger(dragover);
-        })
-        it('drop',function  () {
-            var drop= $.Event("drop",{originalEvent:{dataTransfer:{files:[]}}});
-            this.element.trigger(drop);
-            expect(this.$rootScope.listener).toHaveBeenCalledWith(drop.originalEvent,drop.originalEvent.dataTransfer.files);
-        })
+        describe('Events',function(){
+            it('dragenter',function  () {
+                var dragenter= $.Event("dragenter");
+                this.element.trigger(dragenter);
+            })
+            it('dragleave',function  () {
+                var dragleave= $.Event("dragleave");
+                this.element.trigger(dragleave);
+            })
+            it('dragover',function  () {
+                var dragover= $.Event("dragover");
+                this.element.trigger(dragover);
+            })
+            it('drop',function  () {
+                var drop= $.Event("drop",{originalEvent:{dataTransfer:{files:[]}}});
+                this.element.trigger(drop);
+                expect(this.$rootScope.listener).toHaveBeenCalledWith(drop.originalEvent,drop.originalEvent.dataTransfer.files);
+            })
+        });
     })
 });
