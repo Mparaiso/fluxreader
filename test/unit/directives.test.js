@@ -1,6 +1,6 @@
 /*Copyright © 2014 mparaiso <mparaiso@online.fr>. All Rights Reserved.*/
 /*jslint eqeq:true,node:true,es5:true,white:true,plusplus:true,nomen:true,unparam:true,devel:true,regexp:true */
-/*global beforeEach,describe,it,expect,inject,angular,module*/
+/*global jQuery,spyOn,beforeEach,describe,it,expect,inject,angular,module*/
 
 describe('ng',function(){
     "use strict";
@@ -44,15 +44,20 @@ describe('ng',function(){
             this.$compile(this.elm)(this.$rootScope);
             this.$rootScope.$apply();
         });
-        it('should have an audio element',function(){
-            var audio = this.elm.find('audio');
-            expect(audio.attr('src')).toEqual(this.src);
+        [
+            {url:undefined,el:"a"},
+            {url:"",el:"a"},
+            {url:"http://example.com/file.pdf",el:"a"},
+            {url:"http://example.com/file.mpg",el:"video"},
+            {url:"http://example.com/file.mp3",el:"audio"},
+            {url:"http://example.com/file.png",el:"img"}
+        ].forEach(function(test){
+            it('should have an '+test.el+' element',function(){
+                this.$rootScope.src=test.url;
+                this.$rootScope.$apply();
+                expect(this.elm.find(test.el).get(0)).toBeTruthy();
+            });
         });
-        it('should have a like element',function  () {
-            this.$rootScope.src=undefined;
-            this.$rootScope.$apply();
-            expect(this.elm.find('a').get(0)).toBeTruthy();
-        })
     });
     describe('mpDropTarget',function  () {
         /*@note @angular testing drag and drop events */
@@ -66,22 +71,22 @@ describe('ng',function(){
         });
         describe('Events',function(){
             it('dragenter',function  () {
-                var dragenter= $.Event("dragenter");
+                var dragenter= jQuery.Event("dragenter");
                 this.element.trigger(dragenter);
-            })
+            });
             it('dragleave',function  () {
-                var dragleave= $.Event("dragleave");
+                var dragleave= jQuery.Event("dragleave");
                 this.element.trigger(dragleave);
-            })
+            });
             it('dragover',function  () {
-                var dragover= $.Event("dragover");
+                var dragover= jQuery.Event("dragover");
                 this.element.trigger(dragover);
-            })
+            });
             it('drop',function  () {
-                var drop= $.Event("drop",{originalEvent:{dataTransfer:{files:[]}}});
+                var drop= jQuery.Event("drop",{originalEvent:{dataTransfer:{files:[]}}});
                 this.element.trigger(drop);
                 expect(this.$rootScope.listener).toHaveBeenCalledWith(drop.originalEvent,drop.originalEvent.dataTransfer.files);
-            })
+            });
         });
-    })
+    });
 });

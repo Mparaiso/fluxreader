@@ -21,12 +21,13 @@ angular.module('ng')
                 return $sce.trustAsResourceUrl(src);
             };
             $scope.getType=function(src){
-                if (typeof src !=='string') {return;}
+                if (typeof src !=='string' || src==="") {return;}
                 var suffix = src.match(/\w+$/)[0];
+                if (!suffix){return;}
                 switch(suffix) {
                     case 'mp3':
-                    case 'oga':
-                    case 'wav':
+                        case 'oga':
+                        case 'wav':
                         return "audio";
                     case 'mpg':
                     case 'mpeg':
