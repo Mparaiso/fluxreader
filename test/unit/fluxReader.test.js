@@ -15,13 +15,14 @@ describe('fluxreader', function () {
                 });
             }).constant('forceHTTPS', false);
         module('test');
-        inject(function ($window, $timeout, $rootScope, $injector, $controller,$httpBackend) {
+        inject(function ($window, $timeout, $rootScope, $injector, $controller,$httpBackend,$q) {
             self.$timeout = $timeout;
             self.$injector = $injector;
             self.$window = $window;
             self.$controller = $controller;
             self.$rootScope = $rootScope;
             self.$scope = $rootScope.$new();
+            self.$q=$q;
             self.$httpBackend=$httpBackend;
             spyOn($window, 'prompt');
             spyOn($window, 'alert');
@@ -234,13 +235,23 @@ describe('fluxreader', function () {
     describe('EntryListCtrl', function () {
         beforeEach(function () {
             this.EntryListCtrl = this.$controller('EntryListCtrl', {$scope: this.$scope});
+            this.EntryCache=this.$injector.get('EntryCache');
+            this.Notification=this.$injector.get('Notification');
         });
         it('#toggleFavorite', function () {
             this.$scope.toggleFavorite();
             this.$scope.predicate({publishedDate: new Date()});
         });
         it('#removeEntry',function () {
-            this.$scope.removeEntry({});
+            var self=this;
+            spyOn(this.Notification,'notify');
+            spyOn(this.EntryCache,'delete').and.callFake(function(entry){
+                return self.$q.when(entry);
+            });
+            this.$scope.removeEntry.bind({entry:{title:""}})();
+            this.$scope.$apply();
+            expect(this.EntryCache.delete).toHaveBeenCalled();
+            expect(this.Notification.notify).toHaveBeenCalled();
         });
         it('#next',function () {
             this.$scope.next();
