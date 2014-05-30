@@ -226,6 +226,10 @@ describe('fluxreader', function () {
         it('#delete',function(){
             this.scope.delete({});
         });
+        it('#Entry.getById',function(){
+            this.$timeout.flush();
+            expect(this.scope.entry).toBe(this.entry);
+        })
     });
     describe('EntryListCtrl', function () {
         beforeEach(function () {
