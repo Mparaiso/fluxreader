@@ -12,8 +12,9 @@ angular.module('opml',[])
         deferred=$q.defer();
         reader = new $window.FileReader();
         reader.readAsText(file);
-        reader.onload=function(e){
+        reader.onloadend=function(e){
             deferred.resolve(e.result);
+            console.log('result',e.result);
         };
         reader.onerror=deferred.reject.bind(deferred);
         return deferred.promise;
@@ -52,7 +53,7 @@ angular.module('opml',[])
      */
     this.export=function(feedList){
         return this._serialize(this._toXML(feedList));
-    }
+    };
     /** 
      * xml to string 
      * @private

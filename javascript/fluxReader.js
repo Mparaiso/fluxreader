@@ -228,9 +228,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
     * @param {window.FileList} fileList
     */
     $scope.import=function(event,fileList){
-        console.log(fileList);
         var file=[].slice.call(fileList)[0];
-        console.log(file);
         $rootScope.$broadcast(Events.IMPORT_FEEDS_START);
         Feed.import(file,function(err,result){
             if (err) {

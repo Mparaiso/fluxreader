@@ -28,7 +28,7 @@ describe('opml',function(){
             this.$window.FileReader=function(){};
             this.$window.FileReader.prototype.readAsText=function(value){
                 self.$timeout(function(){
-                    this.onload({result:value});
+                    this.onloadend({result:value});
                 }.bind(this));
             };
             spyOn(this.$window.FileReader.prototype,'readAsText').and.callThrough();

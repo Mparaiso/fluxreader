@@ -500,8 +500,10 @@ fluxreader.Feed=function (tableFactory, Entry, feedFinder, $timeout,opml) {
         * @return {void}
         */
         import:function(file,callback){
+            console.log("importing list",file);
             var self=this;
             opml.import(file).then(function(feedUrlList){
+                console.log('importing feed list',feedUrlList)
                 async.eachSeries(feedUrlList,function(feedUrl,next){
                     $timeout(this.subscribe.bind(this,feedUrl,next),2000);
                 },callback);
