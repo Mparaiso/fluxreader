@@ -17,7 +17,9 @@ angular.module('dropboxDatabase', ['opml'])
 .service('File', fluxreader.File)
 .service('Entry', fluxreader.Entry)
 .service('Feed', fluxreader.Feed)
-.service('FeedCache', function (Feed, $timeout, $q) {
+.service('Import',fluxreader.Import)
+.service('User',fluxreader.User)
+.service('FeedProxy', function (Feed, $timeout, $q) {
     /* simple way to keep feeds in memory */
     var self = this;
     this.getById = function (id) {
@@ -32,13 +34,12 @@ angular.module('dropboxDatabase', ['opml'])
     this.load = function (forceReload) {
         var deferred = $q.defer();
         if (this.feeds && !forceReload) {
-            $timeout(deferred.resolve.bind(deferred, this.feeds));
-        } else {
-            Feed.findAll(function (err, feeds) {
-                self.feeds = feeds || [];
-                deferred.resolve(feeds);
-            });
-        }
+            return $q.when(this.feeds);
+        } 
+        Feed.findAll(function (err, feeds) {
+            self.feeds = feeds || [];
+            deferred.resolve(feeds);
+        });
         return deferred.promise;
     };
     this.subscribe = function (url) {
@@ -52,7 +53,7 @@ angular.module('dropboxDatabase', ['opml'])
         return deferred.promise;
     };
 })
-.service('EntryCache', function (Entry, FeedCache, $q,Promisifier, $timeout,$filter) {
+.service('EntryProxy', function (Entry, FeedProxy, $q,Promisifier, $timeout,$filter) {
     /* simple way to keep entries in memory to speed things up */
     var self = this;
 
@@ -75,13 +76,13 @@ angular.module('dropboxDatabase', ['opml'])
     */
     this.load = function (query) {
         query = query || {};
-        return FeedCache.load().then(function () {
+        return FeedProxy.load().then(function () {
             var deferred = $q.defer();
             Entry.findAll(query, function (err, entries) {
                 if(err){console.warn(err);}
                 self.entries = entries || [];
                 entries.forEach(function (entry) {
-                    entry.feed = FeedCache.feeds.filter(function (feed) {
+                    entry.feed = FeedProxy.feeds.filter(function (feed) {
                         return feed.id === entry.feedId;
                     })[0];
                 });

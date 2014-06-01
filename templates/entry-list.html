@@ -6,18 +6,18 @@
 <section ng-controller="EntryListCtrl">
     <div class="row">
         <div class="col-xs-6">{{pageTitle}}</div>
-        <div class="col-xs-6" ng-show="EntryCache.entries.length && !loading">
+        <div class="col-xs-6" ng-show="EntryProxy.entries.length && !loading">
             <!-- <button class="btn btn-default">Refresh</button>-->
         </div>
     </div>
-    <h2 class="text-muted blink" data-ng-show="!EntryCache.entries">Loading Entries...</h2>
+    <h2 class="text-muted blink" data-ng-show="!EntryProxy.entries">Loading Entries...</h2>
     <div ng-include="extra" class="text-muted text-small"></div>
-    <h2 class="text-muted" data-ng-show="EntryCache.entries.length<1">No Entry found, please subscribe a new feed.</h2>
+    <h2 class="text-muted" data-ng-show="EntryProxy.entries.length<1">No Entry found, please subscribe a new feed.</h2>
     <!-- LIST OF ENTRIES -->
-    <div ng-include="'templates/pagination.html'" ng-show="EntryCache.entries.length>Pagination.limit()"></div>
+    <div ng-include="'templates/pagination.html'" ng-show="EntryProxy.entries.length>Pagination.limit()"></div>
     <table class="table table-striped table-condensed table-hover">
         <!-- @note @angular orderBy http://docs.angularjs.org/api/ng/filter/orderBy http://jsfiddle.net/camus/Fp4nL/ -->
-        <tr ng-repeat="entry in EntryCache.entries | orderBy:predicate:true | paginator track by $index">
+        <tr ng-repeat="entry in EntryProxy.entries | orderBy:predicate:true | paginator track by $index">
             <td class="text-muted text-small">{{$index+1}}</td>
             <td>
                 <button ng-click="toggleFavorite(entry)" class="btn btn-link btn-xs">
@@ -51,5 +51,5 @@
             </td>
         </tr>
     </table>
-    <div ng-include="'templates/pagination.html'" ng-show="EntryCache.entries.length>Pagination.limit()"></div>
+    <div ng-include="'templates/pagination.html'" ng-show="EntryProxy.entries.length>Pagination.limit()"></div>
 </section>

@@ -84,22 +84,22 @@ describe('fluxreader', function () {
     describe('FeedCtrl', function () {
         beforeEach(function () {
             this.$scope.feed = {title: "foo"};
-            this.FeedCache = this.$injector.get('FeedCache');
+            this.FeedProxy = this.$injector.get('FeedProxy');
             this.$q = this.$injector.get('$q');
-            spyOn(this.FeedCache, 'subscribe').and.callThrough();
+            spyOn(this.FeedProxy, 'subscribe').and.callThrough();
             this.FeedCtrl = this.$controller('FeedCtrl', {$scope: this.$scope, $route: {current: {params: {id: 0}}}});
         });
         it('#refresh', function () {
             var url = "http://foo.fr";
             this.$scope.refresh(url);
-            expect(this.FeedCache.subscribe).toHaveBeenCalledWith(url);
+            expect(this.FeedProxy.subscribe).toHaveBeenCalledWith(url);
         });
     });
     describe('FeedListCtrl', function () {
         beforeEach(function () {
             var self = this;
             inject(function ($controller, $injector) {
-                self.FeedCache=$injector.get('FeedCache');
+                self.FeedProxy=$injector.get('FeedProxy');
                 self.Feed=$injector.get('Feed');
                 self.Notification=$injector.get('Notification');
                 self.feed = {id: 'foo', title: 'bar'};
@@ -107,9 +107,9 @@ describe('fluxreader', function () {
                 self.FeedListCtrl = $controller('FeedListCtrl', {$scope: self.scope});
             });
         });
-        it('#watches FeedCache.feeds',function(done){
+        it('#watches FeedProxy.feeds',function(done){
             var self=this;
-            this.FeedCache.load(true).then(done);
+            this.FeedProxy.load(true).then(done);
             this.$timeout.flush();
             this.$rootScope.$apply();
         });
@@ -207,7 +207,7 @@ describe('fluxreader', function () {
         beforeEach(function () {
             var self = this;
             this.entry = {};
-            inject(function ($controller, Entry, FeedCache, Notification) {
+            inject(function ($controller, Entry, FeedProxy, Notification) {
                 self.scope = {};
                 self.entry = {title: 'foo', favorite: false};
                 self.Entry = Entry;
@@ -235,7 +235,7 @@ describe('fluxreader', function () {
     describe('EntryListCtrl', function () {
         beforeEach(function () {
             this.EntryListCtrl = this.$controller('EntryListCtrl', {$scope: this.$scope});
-            this.EntryCache=this.$injector.get('EntryCache');
+            this.EntryProxy=this.$injector.get('EntryProxy');
             this.Notification=this.$injector.get('Notification');
         });
         it('#toggleFavorite', function () {
@@ -245,12 +245,12 @@ describe('fluxreader', function () {
         it('#removeEntry',function () {
             var self=this;
             spyOn(this.Notification,'notify');
-            spyOn(this.EntryCache,'delete').and.callFake(function(entry){
+            spyOn(this.EntryProxy,'delete').and.callFake(function(entry){
                 return self.$q.when(entry);
             });
             this.$scope.removeEntry.bind({entry:{title:""}})();
             this.$scope.$apply();
-            expect(this.EntryCache.delete).toHaveBeenCalled();
+            expect(this.EntryProxy.delete).toHaveBeenCalled();
             expect(this.Notification.notify).toHaveBeenCalled();
         });
         it('#next',function () {

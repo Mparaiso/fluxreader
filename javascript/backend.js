@@ -151,7 +151,7 @@ fluxreader.Table=(function(){
 /**
  * @constructor
  */
-fluxreader.File = function (client,$q,Promisifier) {
+fluxreader.File = function (client,Promisifier) {
     var writeFile,readFile,removeFile;
     writeFile=Promisifier.promisify(client.writeFile,client);
     readFile=Promisifier.promisify(client.readFile,client);
@@ -215,6 +215,7 @@ fluxreader.TableFactory=function (database, $q, $timeout,Table) {
 };
 
 /**
+ * Entry repository
  * @constructor
  * @param {fluxreader.TableFactory} tableFactory
  * @param {Function} md5
@@ -370,18 +371,24 @@ fluxreader.Entry=function (tableFactory,md5,File) {
 };
 
 /**
+ * Feed repository
  * @constructor
- *
  */
-fluxreader.Feed=function (tableFactory, Entry, feedFinder, $timeout,opml) {
+fluxreader.Feed=function (tableFactory, Entry, feedFinder,$q, $timeout,opml,Import) {
     /**
     * Manage feed persistance
     */
     var feedTable = tableFactory.create('feed');
+    
     return {
+        /** interval in milliseconds between 2 opertations in a long running process */
+        _batchInterval:2000,
         _refreshInterval:1000*60*60*24,
         setRefreshInterval:function(value){
             this._refreshInterval=value;
+        },
+        setBatchInterval:function  (milliseconds) {
+            this._batchInterval=milliseconds;
         },
         /**
         * remove feed and remove any associated entry
@@ -405,11 +412,9 @@ fluxreader.Feed=function (tableFactory, Entry, feedFinder, $timeout,opml) {
         * @param callback
         */
         getById : function (id, callback) {
-
             feedTable.get(id, callback);
         },
         findAll : function (query, callback) {
-
             feedTable.findAll(query, callback);
         },
         /**
@@ -497,16 +502,32 @@ fluxreader.Feed=function (tableFactory, Entry, feedFinder, $timeout,opml) {
         * import from file
         * @param {window.File} file
         * @param {Function} callback
-        * @return {void}
+        * @return {Promise}
         */
-        import:function(file,callback){
-            console.log("importing list",file);
+        import:function(file){
             var self=this;
-            opml.import(file).then(function(feedUrlList){
-                console.log('importing feed list',feedUrlList)
+            Import.isInProgress=true;
+            return opml.import(file).then(function(feedUrlList){
+                var deferred=$q.defer();
                 async.eachSeries(feedUrlList,function(feedUrl,next){
-                    $timeout(this.subscribe.bind(this,feedUrl,next),2000);
-                },callback);
+                    deferred.notify({event:Import.events.IMPORT_FEED_START,value:feedUrl});
+                    $timeout(self.subscribe.bind(self,feedUrl,function(err,feed){
+                        if(err){
+                            console.warn(err);
+                            deferred.notify({event:Import.events.IMPORT_FEED_ERROR,value:err});
+                        }else{
+                            deferred.notify({event:Import.events.IMPORT_FEED_SUCCESS,value:feed});
+                        }
+                        next();
+                    }),self._batchInterval);
+                },function(err,res){
+                    Import.isInProgress=false;
+                    if(err){
+                        return deferred.reject(err);
+                    }
+                    return deferred.resolve(res);
+                });
+                return deferred.promise;
             });
         },
         /**
@@ -569,6 +590,24 @@ fluxreader.FeedFinder=function($timeout){
     };
 };
 
+/**
+ * user repository
+ * @todo
+ */
+fluxreader.User = function(){};
+
+/**
+ * feed import states
+ */
+fluxreader.Import=function(){
+    this.isInProgress=false;
+    this.events={
+        IMPORT_FEED_START:"Import.IMPORT_FEED_START",
+        IMPORT_FEED_SUCCESS:"Import.IMPORT_FEED_SUCCESS",
+        IMPORT_FEED_ERROR:"Import.IMPORT_FEED_ERROR"
+    };
+};
+
 fluxreader.Client = function(apiKey){
     return new Dropbox.Client({
         key: apiKey
@@ -600,10 +639,12 @@ fluxreader.DropboxClient = function ($timeout,client) {
         /* get account info */
         getAccountInfo: function (callback) {
             client.getAccountInfo({
-                httpCache: true
+                httpProxy: true
             }, callback);
             /* @link https://www.dropbox.com/developers/datastore/docs/js#Dropbox.Client.getAccountInfo */
 
         }
     };
 };
+
+

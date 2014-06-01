@@ -13,8 +13,7 @@ angular.module('opml',[])
         reader = new $window.FileReader();
         reader.readAsText(file);
         reader.onloadend=function(e){
-            deferred.resolve(e.result);
-            console.log('result',e.result);
+            deferred.resolve(reader.result);
         };
         reader.onerror=deferred.reject.bind(deferred);
         return deferred.promise;

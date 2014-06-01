@@ -179,6 +179,22 @@ nav .alert-info{
   font-weight: normal;
 }
 /**
+ * IMPORT
+ */
+    .import{
+        text-align:center;
+        display:table;
+        height:15em;
+        background:#EEE;
+        color:#444;
+        border:1px solide black;
+        padding:15px;
+    }
+    .import.inprogress{
+        color: #888;
+    }
+
+/**
  * ANIMATION
  */
 .blink{
@@ -234,3 +250,4 @@ nav .alert-info{
 .mp-drop-target{
     border:1px dashed #444 ;
 }
+

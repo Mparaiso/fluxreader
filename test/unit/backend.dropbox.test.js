@@ -236,12 +236,12 @@ describe("dropboxDatabase", function () {
             });
         });
     });
-    describe("EntryCache", function () {
+    describe("EntryProxy", function () {
         beforeEach(function () {
             var self = this;
-            inject(function (EntryCache, FeedCache,$q, $rootScope,Entry,File,$timeout,client) {
-                self.FeedCache = FeedCache;
-                self.EntryCache = EntryCache;
+            inject(function (EntryProxy, FeedProxy,$q, $rootScope,Entry,File,$timeout,client) {
+                self.FeedProxy = FeedProxy;
+                self.EntryProxy = EntryProxy;
                 self.Entry = Entry;
                 self.$timeout=$timeout;
                 self.$rootScope=$rootScope;
@@ -257,9 +257,9 @@ describe("dropboxDatabase", function () {
                 spyOn(this.Entry, 'delete').and.callFake(function(entry,callback){
                     callback();
                 });
-                this.EntryCache.entries = [entry];
-                this.EntryCache.delete(entry).then(function(){
-                    return expect(self.EntryCache.entries.length).toEqual(0);
+                this.EntryProxy.entries = [entry];
+                this.EntryProxy.delete(entry).then(function(){
+                    return expect(self.EntryProxy.entries.length).toEqual(0);
                 }).then(done);
                 expect(this.Entry.delete).toHaveBeenCalled();
                 this.$timeout.flush();
@@ -268,30 +268,30 @@ describe("dropboxDatabase", function () {
         describe("#load", function () {
             it('should return a promise', function (done) {
                 var self=this;
-                spyOn(this.FeedCache, 'load').and.callThrough();
-                this.EntryCache.load().then(function   (entries) {
+                spyOn(this.FeedProxy, 'load').and.callThrough();
+                this.EntryProxy.load().then(function   (entries) {
                     expect(entries.length).toEqual(self.entries.length);
-                    expect(self.EntryCache.entries).toBe(entries);
+                    expect(self.EntryProxy.entries).toBe(entries);
                 }).then(done);
-                expect(this.FeedCache.load).toHaveBeenCalled();
+                expect(this.FeedProxy.load).toHaveBeenCalled();
                 this.$timeout.flush();
             });
         });
         describe('#getCategories',function(){
             beforeEach(function(){
-                this.EntryCache.entries=[
+                this.EntryProxy.entries=[
                     {categories:['foo']},
                     {categories:['bar']}
                 ];
             });
             it('should return an array of length 2',function(){
-                expect(this.EntryCache.getCategories().length).toBe(2);
+                expect(this.EntryProxy.getCategories().length).toBe(2);
             });
         });
         describe('#search',function(){
             it('should filter results by foo',function(done){
                 var query="foo";
-                this.EntryCache.search(query).then(function(res){
+                this.EntryProxy.search(query).then(function(res){
                     expect(res.every(function(entry){          
                         return JSON.stringify(entry).match(/foo/);
                     })).toBe(true);
@@ -300,7 +300,7 @@ describe("dropboxDatabase", function () {
             });
             it('should filter results by bar',function(done){
                 var query="bar";
-                this.EntryCache.search(query).then(function(res){
+                this.EntryProxy.search(query).then(function(res){
                     expect(res.every(function(entry){          
                         return JSON.stringify(entry).match(/bar/);
                     })).toBe(true);

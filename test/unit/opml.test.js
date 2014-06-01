@@ -26,6 +26,7 @@ describe('opml',function(){
         beforeEach(function(){
             var self=this;
             this.$window.FileReader=function(){};
+            this.$window.FileReader.prototype.result=this.xmlString;
             this.$window.FileReader.prototype.readAsText=function(value){
                 self.$timeout(function(){
                     this.onloadend({result:value});

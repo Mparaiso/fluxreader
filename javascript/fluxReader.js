@@ -79,7 +79,8 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
     REFRESH_ALL_FEEDS_DONE: "Events.REFRESH_ALL_FEEDS_DONE",
     IMPORT_FEEDS_START:"Events.IMPORT_FEEDS_START",
     IMPORT_FEEDS_ERROR:"Events.IMPORT_FEEDS_ERROR",
-    IMPORT_FEEDS_DONE:"Events.IMPORT_FEEDS_DONE"
+    IMPORT_FEEDS_DONE:"Events.IMPORT_FEEDS_DONE",
+    IMPORT_FEEDS_PROGRESS:"Events.IMPORT_FEEDS_PROGRESS"
 })
 .value('globals', {
     siteTitle: 'Flux Reader',
@@ -89,7 +90,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
     year: (new Date()).getFullYear(),
     EntryPerPage: 50
 })
-.controller('MainCtrl', function ($scope, $rootScope,$anchorScroll, Notification, Events, $log, globals, $location, dropboxClient, baseUrl) {
+.controller('MainCtrl', function ($scope, $rootScope,$anchorScroll, Notification, Events, $log, globals, $location, dropboxClient, baseUrl,Import) {
     $scope.utils = {
         round: Math.round.bind(Math),
         pow: Math.pow.bind(Math),
@@ -121,9 +122,27 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
     $rootScope.$on(Events.REFRESH_FEED_START,function(event,feed){
         return Notification.notify({type:Notification.type.INFO,text:"Refreshing feed "+feed.title});
     });
+    $rootScope.$on(Events.IMPORT_FEEDS_PROGRESS,function(event,feedUrl){
+        return Notification.notify({type:Notification.type.INFO,text:"Importing feed "+feedUrl});
+    });
+    $rootScope.$on(Events.IMPORT_FEEDS_DONE,function(event){
+        return Notification.notify({type:Notification.type.SUCCESS,text:"Done importing feeds ! "});
+    });
+    $rootScope.$on(Events.IMPORT_FEEDS_ERROR,function(event,err){
+        return Notification.notify({type:Notification.type.ERROR,text:"Error importing feeds ! "+err});
+    });
+    $rootScope.$on(Import.events.IMPORT_FEED_START,function(event,url){
+        return Notification.notify({type:Notification.type.INFO,text:"Importing feed  "+url});
+    });
+    $rootScope.$on(Import.events.IMPORT_FEED_SUCCESS,function(event,feed){
+        return Notification.notify({type:Notification.type.SUCCESS,text:"Feed '"+feed.title+"' successfully imported"});
+    });
+    $rootScope.$on(Import.events.IMPORT_FEED_ERROR,function(event,error){
+        return Notification.notify({type:Notification.type.ERROR,text:"Error importing feed :"+error});
+    });
 })
 .controller('IndexCtrl', angular.noop)
-.controller('SubscribeCtrl', function ($scope, Notification, Events, Feed, feedFinder, FeedCache, $location, $window) {
+.controller('SubscribeCtrl', function ($scope, Notification, Events, Feed, feedFinder, FeedProxy, $location, $window) {
     $scope.subscribe = function () {
         var url = $window.prompt('Enter the feed URL');
         if (url) {
@@ -139,7 +158,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
                     });
                     $scope.$apply('Notification');
                 } else {
-                    FeedCache.feeds.push(feed);
+                    FeedProxy.feeds.push(feed);
                     Notification.notify({
                         text: "You've successfully subscribed to " + feed.title,
                         type: Notification.type.SUCCESS
@@ -154,38 +173,38 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
     $log.debug('SignIn');
     dropboxClient.signIn();
 })
-.controller('SearchCtrl', function ($scope, $route, $routeParams,query, EntryCache) {
+.controller('SearchCtrl', function ($scope, $route, $routeParams,query, EntryProxy) {
     $scope.query = query;
     $scope.q=query;
     $scope.pageTitle = ['Results for "', $scope.query, '" '].join("");
-    $scope.EntryCache = EntryCache;
-    EntryCache.search($scope.query);
+    $scope.EntryProxy = EntryProxy;
+    EntryProxy.search($scope.query);
 })
-.controller('DashboardCtrl', function ($scope, Entry, EntryCache, FeedCache) {
+.controller('DashboardCtrl', function ($scope, Entry, EntryProxy, FeedProxy) {
     $scope.pageTitle = "Latest Entries";
-    $scope.EntryCache = EntryCache;
-    EntryCache.load().then(function (entries) {
-        FeedCache.feeds.forEach(function (feed) {
-            feed.entryCount = EntryCache.entries.filter(function (entry) {
+    $scope.EntryProxy = EntryProxy;
+    EntryProxy.load().then(function (entries) {
+        FeedProxy.feeds.forEach(function (feed) {
+            feed.entryCount = EntryProxy.entries.filter(function (entry) {
                 return entry.feedId === feed.id && !entry.read;
             }).length;
         });
     });
 })
-.controller('FeedCtrl', function ($scope, $route, Notification, FeedCache, $location, EntryCache, baseUrl) {
+.controller('FeedCtrl', function ($scope, $route, Notification, FeedProxy, $location, EntryProxy, baseUrl) {
     var init, feedId = $route.current.params.id;
     $scope.extra = baseUrl + 'templates/feed-extra.html';
-    $scope.EntryCache = EntryCache;
+    $scope.EntryProxy = EntryProxy;
     $scope.refresh = function (url) {
         Notification.notify({text: 'Refreshing ' + $scope.feed.title, type: Notification.type.INFO});
-        return FeedCache.subscribe(url).then(function (res) {
+        return FeedProxy.subscribe(url).then(function (res) {
             Notification.notify({text: "Feed " + $scope.feed.title + " has been refreshed.", type: Notification.type.SUCCESS});
             return init();
         });
     };
     init = function () {
-        return EntryCache.load({feedId: feedId })
-        .then(FeedCache.getById.bind(FeedCache, feedId))
+        return EntryProxy.load({feedId: feedId })
+        .then(FeedProxy.getById.bind(FeedProxy, feedId))
         .then(function (feed) {
             if (!feed) {
                 return $location.path('/dashboard');
@@ -196,22 +215,23 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
     };
     init();
 })
-.controller('FavoriteCtrl', function ($scope, EntryCache, Events) {
+.controller('FavoriteCtrl', function ($scope, EntryProxy, Events) {
     $scope.pageTitle = "Favorite entries";
-    $scope.EntryCache = EntryCache;
+    $scope.EntryProxy = EntryProxy;
     $scope.$on(Events.FAVORITE_TOGGLED, function (event, entry) {
         if (!entry.favorite) {
-            EntryCache.remove(entry);
+            EntryProxy.remove(entry);
         }
     });
-    EntryCache.load({favorite: true});
+    EntryProxy.load({favorite: true});
 })
-.controller('UnreadCtrl', function ($scope, EntryCache) {
+.controller('UnreadCtrl', function ($scope, EntryProxy) {
     $scope.pageTitle = "Unread entries";
-    $scope.EntryCache = EntryCache;
-    EntryCache.load({read: false});
+    $scope.EntryProxy = EntryProxy;
+    EntryProxy.load({read: false});
 })
-.controller('AccountCtrl', function (opml,$timeout, $window, $log, globals, Events, $scope, $rootScope, dropboxClient, Feed, FeedCache) {
+.controller('AccountCtrl', function (opml,$timeout, $window, $log, globals, Events, $scope, $rootScope, dropboxClient, Feed, FeedProxy,Import) {
+    $scope.Import=Import;
     /** 
      * export feeds
      */
@@ -230,15 +250,18 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
     $scope.import=function(event,fileList){
         var file=[].slice.call(fileList)[0];
         $rootScope.$broadcast(Events.IMPORT_FEEDS_START);
-        Feed.import(file,function(err,result){
-            if (err) {
-                console.warn(err);
-                $rootScope.$broadcast(Events.IMPORT_FEEDS_ERROR, err);
-            } else {
-                $rootScope.$broadcast(Events.IMPORT_FEEDS_DONE);
+        return Feed.import(file).then(function(result){
+            $rootScope.$broadcast(Events.IMPORT_FEEDS_DONE);
+        },function(err){
+            console.warn(err);
+            $rootScope.$broadcast(Events.IMPORT_FEEDS_ERROR, err);
+        },function(progress){
+            $rootScope.$broadcast(progress.event,progress.value);
+            switch(progress.event){
+                case Import.events.IMPORT_FEED_SUCCESS:
+                    FeedProxy.load(true);
+                break;
             }
-            //$scope.$apply();
-            //
         });
     };
     $scope.refresh = function () {
@@ -260,7 +283,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
         $scope.accountInfo = accountInfo;
     });
 })
-.controller('EntryCtrl', function ($scope, Notification, $timeout, FeedCache, $route, $location, Entry) {
+.controller('EntryCtrl', function ($scope, Notification, $timeout, FeedProxy, $route, $location, Entry) {
     /* display one entry*/
     Entry.getById($route.current.params.id, function (err, entry) {
         return $timeout(function () {
@@ -273,7 +296,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
                     Entry.markAsRead(entry, angular.noop);
                 }
                 $scope.entry = entry;
-                FeedCache.getById(entry.feedId).then(function (feed) {
+                FeedProxy.getById(entry.feedId).then(function (feed) {
                     $scope.entry.feed = feed;
                 });
 
@@ -297,7 +320,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
         });
     };
 })
-.controller('EntryListCtrl', function (Events, globals, Notification, $scope, Entry, Feed, EntryCache, Pagination, $anchorScroll, FeedCache, $timeout) {
+.controller('EntryListCtrl', function (Events, globals, Notification, $scope, Entry, Feed, EntryProxy, Pagination, $anchorScroll, FeedProxy, $timeout) {
     Pagination.limit(globals.EntryPerPage);
     Pagination.reset();
     $scope.Pagination = Pagination;
@@ -305,13 +328,13 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
         return Pagination.hasPrevious();
     };
     $scope.hasNext = function () {
-        if ($scope.EntryCache && $scope.EntryCache.entries) {
-            return Pagination.hasNext($scope.EntryCache.entries);
+        if ($scope.EntryProxy && $scope.EntryProxy.entries) {
+            return Pagination.hasNext($scope.EntryProxy.entries);
         }
     };
     $scope.next = function () {
-        if (!Pagination.hasNext(EntryCache.entries)) {
-            //console.log('dont have next',EntryCache.entries.length,Pagination.limit(),Pagination.skip());
+        if (!Pagination.hasNext(EntryProxy.entries)) {
+            //console.log('dont have next',EntryProxy.entries.length,Pagination.limit(),Pagination.skip());
             return;
         }
         Pagination.next();
@@ -342,7 +365,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
     $scope.removeEntry = function () {
         var self = this;
         if (this.entry) {
-            EntryCache.delete(this.entry).then(function (err, res) {
+            EntryProxy.delete(this.entry).then(function (err, res) {
                 Notification.notify({
                     text: ['Entry: "', self.entry.title.substr(0, 50).concat('...'), '" removed.'].join(''),
                     type: Notification.type.INFO});
@@ -350,12 +373,12 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
         }
     };
 })
-.controller('FeedListCtrl', function (Link, $window, Notification, $scope, Feed, FeedCache, Entry, EntryCache) {
+.controller('FeedListCtrl', function (Link, $window, Notification, $scope, Feed, FeedProxy, Entry, EntryProxy) {
     /**
     * display the list of feeds
     */
     $scope.links = Link.links;
-    $scope.FeedCache = FeedCache;
+    $scope.FeedProxy = FeedProxy;
     $scope.unsubscribe = function (feed) {
         var confirm = $window.confirm('Unsubscribe '.concat(feed.title).concat(' ?'));
         if (confirm) {
@@ -364,14 +387,14 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
                     text: ['Feed ', feed.title, ' removed.'].join(''),
                     type: Notification.INFO
                 });
-                FeedCache.load(true).then(function () {
-                    EntryCache.load();
+                FeedProxy.load(true).then(function () {
+                    EntryProxy.load();
                 });
             });
         }
     };
     // read counts once
-    var unwatchFeeds = $scope.$watch('FeedCache.feeds', function (newValue, oldValue) {
+    var unwatchFeeds = $scope.$watch('FeedProxy.feeds', function (newValue, oldValue) {
         if (newValue !== oldValue && newValue.length > 1) {
             unwatchFeeds();
             Entry.findAll(function (err, entries) {

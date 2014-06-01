@@ -7,21 +7,21 @@
     <li class="list-group-item">
         <h5 class="list-group-item-heading text-muted">SUBSCRIPTIONS</h5>
     </li>
-    <li class="list-group-item text-muted text-small" data-ng-show="!FeedCache.feeds">
+    <li class="list-group-item text-muted text-small" data-ng-show="!FeedProxy.feeds">
         <span class="blink">Loading subscriptions</span>
     </li>
     <!--links-->
     <li class="list-group-item text-small text-muted"
-        ng-show="FeedCache.feeds"
+        ng-show="FeedProxy.feeds"
         ng-repeat="link in links">
         <a ng-href="{{link.href}}">{{link.name}}</a>&nbsp; <span class="text-muted" ng-bind="link.count"></span>
     </li>
-    <li class="list-group-item text-small" ng-show="FeedCache.feeds">
+    <li class="list-group-item text-small" ng-show="FeedProxy.feeds">
         <input type="search" class="form-control input-sm search"
                placeholder="filter subscriptions" ng-model="feed_filter"/>
     </li>
     <li class="list-group-item text-small"
-        ng-repeat="feed in FeedCache.feeds|filter:{title:feed_filter} track by $index"
+        ng-repeat="feed in FeedProxy.feeds|filter:{title:feed_filter} track by $index"
         title="{{feed.title+'\n'+feed.description}}">
         <img ng-src="{{utils.getFavicon(feed.link)}}" alt="{{feed.link}}" width="16px" height="16px">
         <a ng-href="#/dashboard/feed/{{feed.id}}">{{feed.title|limitTo:16}} </a>
