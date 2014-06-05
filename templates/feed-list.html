@@ -1,34 +1,45 @@
 <!-- feed-list.html-->
 <!--
- @copyright 2014 mparaiso <mparaiso@online.fr>
- @license GPL
+@copyright 2014 mparaiso <mparaiso@online.fr>
+@license GPL
 -->
 <ul class="list-group list-group-narrow" data-ng-controller="FeedListCtrl">
     <li class="list-group-item">
         <h5 class="list-group-item-heading text-muted">SUBSCRIPTIONS</h5>
     </li>
-    <li class="list-group-item text-muted text-small" data-ng-show="!FeedProxy.feeds">
+    <!-- loader -->
+    <li class="list-group-item text-muted text-small" data-ng-if="!FeedProxy.feeds">
         <span class="blink">Loading subscriptions</span>
     </li>
     <!--links-->
     <li class="list-group-item text-small text-muted"
-        ng-show="FeedProxy.feeds"
-        ng-repeat="link in links">
+        ng-if="FeedProxy.feeds"
+        ng-repeat="link in links track by $index">
         <a ng-href="{{link.href}}">{{link.name}}</a>&nbsp; <span class="text-muted" ng-bind="link.count"></span>
     </li>
-    <li class="list-group-item text-small" ng-show="FeedProxy.feeds">
+    <!-- feed search -->
+    <!--
+    <li class="list-group-item text-small" ng-if="FeedProxy.feeds.length>0">
         <input type="search" class="form-control input-sm search"
-               placeholder="filter subscriptions" ng-model="feed_filter"/>
+        placeholder="filter subscriptions" ng-model="feed_filter"/>
     </li>
-    <li class="list-group-item text-small"
-        ng-repeat="feed in FeedProxy.feeds|filter:{title:feed_filter} track by $index"
-        title="{{feed.title+'\n'+feed.description}}">
-        <img ng-src="{{utils.getFavicon(feed.link)}}" alt="{{feed.link}}" width="16px" height="16px">
-        <a ng-href="#/dashboard/feed/{{feed.id}}">{{feed.title|limitTo:16}} </a>
-        <span class="text-small" ng-show="feed.entryCount>0">{{feed.entryCount}}</span>
-        <a data-ng-click="unsubscribe(feed)" data-id="{{feed.id}}" href="javascript:void 0;"
-           title="unsubscribe {{feed.title}}" class="pull-right ">
-            <span class="text-muted Fglyphicon glyphicon-minus"></span>
-        </a>
+    -->
+    <!-- folders -->
+    <li class="list-group-item text-small" 
+        ng-if="FeedProxy.feeds.length>0"
+        ng-repeat="folder in FolderProxy.folders track by $index"
+        ng-include="'templates/folder-list-item.html'"
+        >
+    </li>
+    <!-- feeds without folders -->
+    <li class="list-group-item text-small">
+        <ul class="row list-unstyled">
+            <li class="col-xs-12"
+                ng-if="FeedProxy.feeds.length>0"
+                ng-repeat="feed in FeedProxy.feeds|filter:{title:feed_filter}|filter:notInFolder track by $index"
+                title="{{feed.title+'\n'+feed.description}}"
+                ng-include="'templates/feed-list-item.html'">
+            </li>
+        </ul>
     </li>
 </ul>

@@ -15,8 +15,8 @@ describe('Promisifier',function(){
     });
     describe('#promisify',function(){
         beforeEach(function(){
-            var self=this,func;
-            func = function(callback){
+            var self=this;
+            this.func = function func(callback){
                 func.result = func.result || {status:"ok"};
                 self.$timeout(function(){
                     if(func.error){
@@ -25,7 +25,6 @@ describe('Promisifier',function(){
                     return callback(null,func.result);
                 });
             };
-            this.func=func;
         });
         it('resolves',function(done){
             this.func.result="foo";

@@ -1,11 +1,10 @@
 /*jslint white:true*/
-/*global jasmine,spyOn,describe,it,inject,module,beforeEach,angular,expect,window*/
+/*global fluxreader,folders,jasmine,spyOn,describe,it,inject,module,beforeEach,angular,expect,window*/
 describe("dropboxDatabase", function () {
     "use strict";
     beforeEach(function () {
         var self = this;
-        angular.module('test', [ 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock'],function(dropboxClientProvider){
-        });
+        angular.module('test', [ 'dropboxDatabase', 'dropbox.mock', 'googleFeed.mock'])
         module('test');
         inject(function ($timeout,$injector,$rootScope) {
             self.$timeout = $timeout;
@@ -336,5 +335,7 @@ describe("dropboxDatabase", function () {
             this.File.remove(path);
             expect(this.client.remove).toHaveBeenCalled();
         });
-    });
+    }); 
 });
+
+

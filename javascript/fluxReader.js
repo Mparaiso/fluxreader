@@ -1,5 +1,5 @@
 /*jslint eqeq:true,node:true,white:true,plusplus:true,nomen:true,unparam:true,devel:true,regexp:true */
-/*global angular,window,async,google,jquery*/
+/*global angular,window,async,google,jquery,_*/
 /**
  * @copyright 2014 mparaiso <mparaiso@online.fr>
  * @license GPL
@@ -253,7 +253,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
         return Feed.import(file).then(function(result){
             $rootScope.$broadcast(Events.IMPORT_FEEDS_DONE);
         },function(err){
-            console.warn(err);
+            $log.warn(err);
             $rootScope.$broadcast(Events.IMPORT_FEEDS_ERROR, err);
         },function(progress){
             $rootScope.$broadcast(progress.event,progress.value);
@@ -271,7 +271,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
                 $timeout(Feed.subscribe.bind(Feed, feed.feedUrl, next), 2000);
             }, function (err, res) {
                 if (err) {
-                    console.warn(err);
+                    $log.warn(err);
                     $rootScope.$broadcast(Events.REFRESH_ALL_FEEDS_ERROR, err);
                 } else {
                     $rootScope.$broadcast(Events.REFRESH_ALL_FEEDS_DONE, arguments, feeds);
@@ -320,7 +320,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
         });
     };
 })
-.controller('EntryListCtrl', function (Events, globals, Notification, $scope, Entry, Feed, EntryProxy, Pagination, $anchorScroll, FeedProxy, $timeout) {
+.controller('EntryListCtrl', function (Events,$log, globals, Notification, $scope, Entry, Feed, EntryProxy, Pagination, $anchorScroll, FeedProxy, $timeout) {
     Pagination.limit(globals.EntryPerPage);
     Pagination.reset();
     $scope.Pagination = Pagination;
@@ -352,7 +352,7 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
     $scope.toggleFavorite = function (entry) {
         entry = entry || {};
         if (entry.id) {
-            console.log(entry);
+            $log.log(entry);
             Entry.toggleFavorite(entry, function (err, _entry) {
                 Object.keys(_entry).forEach(function (key) {
                     entry[key] = _entry[key];
@@ -373,16 +373,17 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
         }
     };
 })
-.controller('FeedListCtrl', function (Link, $window, Notification, $scope, Feed, FeedProxy, Entry, EntryProxy) {
+.controller('FeedListCtrl', function (Link, $q,$window, Notification, $scope, Feed,FolderProxy, FeedProxy, Entry, EntryProxy,$log) {
     /**
     * display the list of feeds
     */
+    $scope.FolderProxy = FolderProxy;
     $scope.links = Link.links;
     $scope.FeedProxy = FeedProxy;
     $scope.unsubscribe = function (feed) {
         var confirm = $window.confirm('Unsubscribe '.concat(feed.title).concat(' ?'));
         if (confirm) {
-            Feed.delete(feed, function () {
+            FeedProxy.delete(feed).then(function () {
                 Notification.notify({
                     text: ['Feed ', feed.title, ' removed.'].join(''),
                     type: Notification.INFO
@@ -393,6 +394,57 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
             });
         }
     };
+
+    $scope.removeFolder=function(folder){
+        var confirm=$window.confirm(['Delete folder "',folder.title,"' ?"].join(''));
+        if(confirm){
+            $q.when(_(FeedProxy.feeds).filter({folderId:folder.id}).map(function(feed){
+                $log.log(feed);
+                feed.folderId=null;
+                return FeedProxy.update(feed);
+            }).value()).then(function(feeds){
+                return $q.all(feeds.concat([FolderProxy.delete(folder)]));
+            });
+        }
+    };
+
+    $scope.renameFolder=function(folder){
+        var title;
+        title=$window.prompt('Enter a new tile for folder '+folder.title);
+        if(!title){return;}
+        folder.title=title;
+        return FolderProxy.update(folder);
+    };
+    $scope.notInFolder=function(feed){
+
+        return !feed.folderId;
+    };
+    $scope.toggleFolderOpen=function  (folder) {
+        folder.open=!folder.open;
+        return FolderProxy.update(folder);
+    };
+    $scope.moveToFolder=function(feed,destinationFolder){
+        feed.folderId=destinationFolder.id;    
+        return FeedProxy.update(feed);
+    };
+    $scope.moveToNewFolder = function(feed, currentFolder) {
+        var folderName;
+        folderName = $window.prompt(['Move',feed.title,' Enter Folder\'s name'].join(' '));
+        if(!folderName){return;}
+        if(currentFolder){
+            //Getfeed from folderId
+            feed = currentFolder.feeds.splice(currentFolder.feeds.indexOf(feed), 1)[0];
+        }
+        return FolderProxy.insert({title:folderName,open:true})
+        .then(function(folder){
+            console.log(folder);
+            feed.folderId=folder.id;
+            return feed;
+        }.bind(this)).then(function  () {
+            return FeedProxy.update(feed);    // body...
+        });
+    };
+    /*
     // read counts once
     var unwatchFeeds = $scope.$watch('FeedProxy.feeds', function (newValue, oldValue) {
         if (newValue !== oldValue && newValue.length > 1) {
@@ -407,6 +459,11 @@ angular.module('fluxReader', ['ngRoute', 'ngSanitize','opml','dropbox', 'dropbox
                 Link.links[2].count = entries.length;
             });
         }
+    });
+    */
+    var unwatchFolders=$scope.$watch('FolderProxy.folders',function(n,o){
+        unwatchFolders();
+        return FolderProxy.findAll();
     });
 })
 .controller('SearchFormCtrl', function ($scope, $route, $location) {

@@ -1,0 +1,91 @@
+/*jslint eqeq:true,node:true,es5:true,white:true,plusplus:true,nomen:true,unparam:true,devel:true,regexp:true */
+/*global fluxreader,angular,module,inject,it,describe,beforeEach,expect,jasmine,_*/
+"use strict";
+describe('fluxreader.TableStub',function(){
+    beforeEach(function(){
+        var self=this;
+        angular.module('test',[])
+        .service('tableFactory',fluxreader.TableFactory)
+        .value('Table',fluxreader.TableStub)
+        .service('database',function(){});
+        module('test');
+        inject(function  ($injector,tableFactory,$timeout) {
+            self.$injector=$injector;
+            self.tableFactory=tableFactory;
+            self.$timeout=$timeout;
+        });
+        this.Table=this.tableFactory.create('table');
+        this.record={title:"foo",'description':"bar"};
+    });
+    describe('#insert',function(){
+        it('',function(done){
+            this.Table.insert(this.record,function(err,record){
+                expect(record.title).toEqual('foo');
+                expect(this.Table._records).toContain(record);
+                done();
+            }.bind(this));
+            this.$timeout.flush();
+        });
+    });
+    describe('#update',function(){
+        it('',function(done){
+            this.Table.insert(this.record,function(err,record){
+                var newRec=_.clone(record);
+                newRec.title="baz";
+                this.Table.update(newRec,function(err,record){
+                    expect(record.title).toEqual("baz");
+                    expect(record.description).toEqual("bar");
+                    expect(this.Table._records).toContain(record);
+                    done();
+                }.bind(this));
+            }.bind(this));
+            this.$timeout.flush();
+        });
+    });
+    describe('#delete',function(){
+        beforeEach(function(done){
+            this.Table.insert(this.record,function(err,rec){
+                this.id=rec.id;
+                done();
+            }.bind(this));
+            this.$timeout.flush();
+        });
+        it('',function(done){
+            this.Table.delete({id:this.id},function(err,rec){
+                expect(this.Table._records.length).toBe(0);
+                done();
+            }.bind(this));
+            this.$timeout.flush();
+        });
+    });
+    describe('#findAll',function(){
+        beforeEach(function(done){
+            this.Table.insert(this.record,done);
+            this.$timeout.flush();
+        });
+        it('',function(done){
+            this.Table.findAll(function(err,records){
+                expect(records.length).toEqual(1);
+                done();
+            });
+            this.$timeout.flush();
+        });
+    });
+    describe('#find',function(){
+        beforeEach(function(done){
+            this.Table.insert(this.record,function  (err,record) {
+                this.id=record.id;
+                done();
+            }.bind(this));
+            this.$timeout.flush();
+        });
+        it('',function(done){
+            this.Table.find({id:this.id},function(err,record){
+                expect(record.id).toEqual(this.id);
+                done();
+            }.bind(this));
+            this.$timeout.flush();
+        });
+    });
+});
+

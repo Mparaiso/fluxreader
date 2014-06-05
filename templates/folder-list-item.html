@@ -1,0 +1,28 @@
+<!-- templates/folder-list-item.html -->
+<!-- Copyright © 2014 mparaiso <mparaiso@online.fr>. All Rights Reserved.-->
+<div>
+    <a href="" title="open / close folder"><i class="glyphicon" ng-click="toggleFolderOpen(folder)"
+            ng-class="{'glyphicon-folder-open':folder.open,'glyphicon-folder-close':!folder.open}"></i></a>
+    &nbsp;
+    <a >
+        {{folder.title}}
+    </a>
+    <!-- Single button -->
+    <div class="pull-right" title="folder menu"> 
+        <div class="btn-group">
+            <button type="button" class="text-small btn btn-link dropdown-toggle btn-xs" data-toggle="dropdown">
+                <span class="text-small text-muted glyphicon glyphicon-minus"></span>
+            </button>
+            <ul class="dropdown-menu text-medium" role="menu">
+                <li><a  ng-click="renameFolder(folder)">Rename</a></li>
+                <li><a ng-click="removeFolder(folder)">Remove</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<ul  ng-show="folder.open" class="row list-unstyled" style="padding-left:1em">
+    <li class="col-xs-12" 
+        ng-repeat="feed in FeedProxy.feeds|filter:{title:feed_filter,folderId:folder.id} track by $index"
+        title="{{feed.title+'\n'+feed.description}}"
+        ng-include="'templates/feed-list-item.html'"></li>
+</ul>

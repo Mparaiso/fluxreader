@@ -14,6 +14,11 @@ body{
 .padded{
   padding-top: 70px;
 }
+/** medium text*/
+.text-medium{
+  font-size:0.95em;
+}
+/**small text*/
 .text-small{
     font-size: 0.85em;
 }

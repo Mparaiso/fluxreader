@@ -1,0 +1,22 @@
+<img ng-src="{{utils.getFavicon(feed.link)}}" alt="{{feed.link}}" width="16px" height="16px">
+<a  ng-href="#/dashboard/feed/{{feed.id}}">{{feed.title|limitTo:13}} </a>
+<!--<span class="text-small" ng-show="feed.entryCount>0">{{feed.entryCount}}</span>-->
+<!-- Single button -->
+<div class="pull-right">
+    <div class="btn-group drop-up " style="display:inline-block">
+        <button type="button" class="btn btn-link text-small btn-xs dropdown-toggle " data-toggle="dropdown">
+            <span class="text-small text-muted glyphicon glyphicon-minus"></span>
+        </button>
+        <ul class="dropdown-menu text-medium"  role="menu">
+            <li ng-repeat="candidate in FolderProxy.folders track by $index">
+                <a ng-click="moveToFolder(feed,candidate)">
+                    <span ng-bind="candidate.id==feed.folderId ? '&check;' : '&nbsp;'"></span>
+                    <span > {{candidate.title}}</span>           
+                </a>
+            </li>
+            <li class="divider"></li>
+            <li><a ng-click="moveToNewFolder(feed,folder)" href="javascript:void 0;">New Folder</a></li>
+            <li><a title="unsubscribe {{feed.title}}" data-ng-click="unsubscribe(feed)" data-id="{{feed.id}}" href="javascript:void 0;">Remove Feed</a></li>
+        </ul>
+    </div>
+</div>

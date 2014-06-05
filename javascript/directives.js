@@ -4,6 +4,18 @@
 /** some directives */
 "use strict";
 angular.module('ng')
+.directive('bsDropdownToggle',function($timeout){
+    return {
+        link:function  ($scope,element,attr) {
+            $timeout(function(){
+                element.dropdown();
+                $scope.$on('$destroy',function(){
+                    element.off();
+                });
+            });
+        }
+    };
+})
 .directive('media',function(){
     return {
         restrict:'E',
@@ -11,10 +23,10 @@ angular.module('ng')
             src:"="
         },
         template:"<div ng-switch='getType(src)'>\
-            <audio ng-switch-when='audio' src='{{mediaUrl(src)}}' controls ></audio>\
-            <video ng-switch-when='video' src='{{mediaUrl(src)}}' controls ></video>\
-            <img ng-switch-when='image' ng-src='{{mediaUrl(src)}}' alt='' />\
-            <a ng-switch-default ng-href='{{mediaUrl(src)}}' target='_blank'>{{src}}</a>\
+        <audio ng-switch-when='audio' src='{{mediaUrl(src)}}' controls ></audio>\
+        <video ng-switch-when='video' src='{{mediaUrl(src)}}' controls ></video>\
+        <img ng-switch-when='image' ng-src='{{mediaUrl(src)}}' alt='' />\
+        <a ng-switch-default ng-href='{{mediaUrl(src)}}' target='_blank'>{{src}}</a>\
         </div>",
         controller:function($scope,$sce){
             $scope.mediaUrl=function(src){
@@ -30,17 +42,17 @@ angular.module('ng')
                         case 'wav':
                         return "audio";
                     case 'mpg':
-                    case 'mpeg':
-                    case 'mp4':
-                    case 'webm':
-                    case 'ogv':
-                    case 'ogg':
+                        case 'mpeg':
+                        case 'mp4':
+                        case 'webm':
+                        case 'ogv':
+                        case 'ogg':
                         return "video";
                     case 'webp':
-                    case 'jpg':
-                    case 'jpeg':
-                    case 'gif':
-                    case 'png':
+                        case 'jpg':
+                        case 'jpeg':
+                        case 'gif':
+                        case 'png':
                         return "image";
                     default:
                         return "";
@@ -96,7 +108,19 @@ angular.module('ng')
                     e.stopPropagation();
                     e.preventDefault();
                 });
+                $scope.$on('$destroy',function(){element.off();})   ; 
             });
+        }
+    };
+})
+.directive('mpBindonce',function($timeout){
+    return {
+        scope:true,
+        priority:1000,
+        link:function($scope){
+            $timeout(function(){
+                $scope.$destroy();
+            },100);
         }
     };
 });

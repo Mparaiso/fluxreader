@@ -8,6 +8,7 @@ module.exports = function(config) {
         files: [
             'bower_components/es5-shim/es5-shim.js',
             "bower_components/js-md5/js/md5.js",
+            "bower_components/lodash/dist/lodash.min.js",
             'bower_components/async/lib/async.js',
             'bower_components/jquery/dist/jquery.min.js',
             'https://www.google.com/jsapi',
@@ -16,9 +17,11 @@ module.exports = function(config) {
             'bower_components/angular-route/angular-route.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
             'bower_components/angular-mocks/angular-mocks.js',
-            'javascript/backend.js',
+            'javascript/domain.js',
+            'javascript/domain.stub.js',
             'javascript/*.js',
             'test/mocks/*.js',
+            'test/stubs/*.js',
             'test/unit/*.js'
         ],
         exclude: [
@@ -45,7 +48,7 @@ module.exports = function(config) {
             "javascript/*.js":['coverage']
         },
         coverageReporter:{
-            type:'lcov',
+            type:'text',
             dir:'coverage/'
         }
     });

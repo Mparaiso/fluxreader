@@ -29,7 +29,6 @@ Sprint4:
 - [X] entries are sorted by date descending
 - [X] the application has an favicon
 
-
 Sprint5:
 
 - [X] A user can remove entries
@@ -39,13 +38,17 @@ Sprint5:
 
 Sprint6:
 
+- [X] Subscriptions can be imported from OPML.
+- [X] Subscriptions can be exported to OPML.
 - [X] a notification system alerts user of successfull or unsuccessfull events in the app
-- [ ] replace default modals by custom modals
-- [ ] during page changes, user is notified that some data are being loaded
 - [X] user is notifired when subscribing
-- [ ] deleted entries should be blacklisted so they are not fetched again on feed refreshed
-- [ ] when a feed is deleted,related blacklisted entries should be removed from blacklist
+- [ ] Subscriptions can be sorted into folders.
 
 Sprint7:
 
+- [ ] when a feed is deleted,related blacklisted entries should be removed from blacklist
+- [ ] deleted entries should be blacklisted so they are not fetched again on feed refreshed
+- [ ] during page changes, user is notified that some data are being loaded
+- [ ] replace default modals by custom modals
 - [ ] entries can be shared,via google+,facebook,twitter or mail.
+- [ ] notify an error when datastore quota are exceeded

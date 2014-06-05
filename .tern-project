@@ -1,7 +1,7 @@
 {
-    "libs":["browser"],
-    "plugins":{
-        "node":{},
-        "angular":{}
-    }
+    "libs":["browser","underscore"],
+        "plugins":{
+            "node":{},
+            "angular":{}
+        }
 }

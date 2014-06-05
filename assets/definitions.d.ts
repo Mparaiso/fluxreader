@@ -1,4 +1,5 @@
-declare module model{
+declare module fluxreader{
+
     interface Feed{
         id:string;
         feedUrl:string;
@@ -11,6 +12,7 @@ declare module model{
         updatedAt:Date;     
         refreshedAt:Date;
     }
+
     interface Entry{
         id:string;
         title:string;
@@ -24,6 +26,25 @@ declare module model{
         link:string;
         categories:Array<string>;
     }
+
+    interface Folder{
+        title:string;
+        open:boolean;
+        createdAt:Date;
+        foo:string;
+    }
+
+    interface FolderRepository<T>{
+        findAll(query):Promise<T[]>;
+        find(query):Promise<T>;
+        insert(f:T):Promise<T>;
+        update(f:T):Promise<T>;
+        delete(f:T):Promise<T>;
+    }
+}
+
+interface Promise<T>{
+
 }
 
 declare module database{
