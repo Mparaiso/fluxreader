@@ -2,19 +2,16 @@
 /*global angular,jasmine,expect,describe,it,beforeEach,inject,module*/
 "use strict";
 describe('opml',function(){
-    beforeEach(function(){
-        var self=this;
-        module('opml');
-        inject(function  ($timeout,$injector,opml,$window,$rootScope) {
-            self.$injector= $injector;
-            self.opml=opml;
-            self.$window=$window;
-            self.$rootScope=$rootScope;
-            self.$timeout=$timeout;
-        });
+    beforeEach(module('opml'));
+    beforeEach(inject(function  ($timeout,$injector,opml,$window,$rootScope) {
+        this.$injector= $injector;
+        this.opml=opml;
+        this.$window=$window;
+        this.$rootScope=$rootScope;
+        this.$timeout=$timeout;
         this.feedList=[{title:"foo",type:"rss",feedUrl:"bar",link:"baz"}];
         this.xmlString='<opml version="1.0"><body><outline title="foo" text="foo" type="rss" xmlUrl="bar" htmlUrl="baz"/></body></opml>';
-    });
+    }));
     describe('#export',function(){
         it('should return a XMLDOM',function(){
             var res=this.opml.export(this.feedList);
@@ -25,6 +22,7 @@ describe('opml',function(){
     describe('#import',function(){
         beforeEach(function(){
             var self=this;
+            /*mock FileReader */
             this.$window.FileReader=function(){};
             this.$window.FileReader.prototype.result=this.xmlString;
             this.$window.FileReader.prototype.readAsText=function(value){

@@ -586,7 +586,15 @@ fluxreader.FeedProxy= function (Feed,Promisifier, $timeout, $q) {
     },Promisifier.promisify(Feed,'delete'),function(feed){
         return this.feeds.splice(_.findIndex(this.feeds,{id:feed.id}),1)[0];
     });
+    this.findAll=function(query){
+        return this.load().then(function(feeds){
+            return _.filter(feeds,query);
+        });
+    };
+    this.import= Feed.import.bind(Feed);
+    this.export= Promisifier.promisify(Feed,'export');
 };
+
 fluxreader.FolderRepository=function(Promisifier,tableFactory,Folder,$q){
     var folderTable = tableFactory.create('folder');
 
@@ -669,7 +677,7 @@ fluxreader.FolderProxy=function($q,FolderRepository){
     this.find=function(query){
         return this._load()
         .then(function(folders){
-            return _.filter(folders,query);
+            return _.filter(folders,query)[0];
         });
     };
     this.update=function(folder){

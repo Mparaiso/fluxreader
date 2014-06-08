@@ -1,5 +1,6 @@
-<img ng-src="{{utils.getFavicon(feed.link)}}" alt="{{feed.link}}" width="16px" height="16px">
-<a  ng-href="#/dashboard/feed/{{feed.id}}">{{feed.title|limitTo:13}} </a>
+<a  ng-href="#/dashboard/feed/{{feed.id}}" style=" display:inline-block;width:80%;" class="ellipsis">
+    <img ng-src="{{utils.getFavicon(feed.link)}}" align="bottom" alt="{{feed.link}}" width="16px" height="16px">
+    {{feed.title}} </a>
 <!--<span class="text-small" ng-show="feed.entryCount>0">{{feed.entryCount}}</span>-->
 <!-- Single button -->
 <div class="pull-right">

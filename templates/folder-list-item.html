@@ -4,7 +4,7 @@
     <a href="" title="open / close folder"><i class="glyphicon" ng-click="toggleFolderOpen(folder)"
             ng-class="{'glyphicon-folder-open':folder.open,'glyphicon-folder-close':!folder.open}"></i></a>
     &nbsp;
-    <a >
+    <a ng-href="#/dashboard/folder/{{folder.id}}/{{folder.title}}">
         {{folder.title}}
     </a>
     <!-- Single button -->

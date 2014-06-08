@@ -11,7 +11,8 @@
         </div>
     </div>
     <h2 class="text-muted blink" data-ng-show="!EntryProxy.entries">Loading Entries...</h2>
-    <div ng-include="extra" class="text-muted text-small"></div>
+    <div ng-if="extra" ng-include="extra" class="text-muted text-small"></div>
+    <h1 ng-if="!extra"></h1>
     <h2 class="text-muted" data-ng-show="EntryProxy.entries.length<1">No Entry found, please subscribe a new feed.</h2>
     <!-- LIST OF ENTRIES -->
     <div ng-include="'templates/pagination.html'" ng-show="EntryProxy.entries.length>Pagination.limit()"></div>
@@ -30,7 +31,7 @@
                 ng-src="{{utils.getFavicon(entry.feed.link)}}" alt="{{entry.feed.link}}"></td>
             <td title="{{entry.contentSnippet||entry.title}}" mp-bindonce >
                 <a ng-class="{'text-muted':entry.read}"
-                    data-ng-href="#/dashboard/entry/{{entry.id}}">{{entry.title||entry.contentSnippet|limitTo:90}}</a>
+                    data-ng-href="#/dashboard/entry/{{entry.id}}/{{entry.title}}">{{entry.title||entry.contentSnippet|limitTo:90}}</a>
             </td>
             <!-- MEDIAS -->
             <td mp-bindonce >

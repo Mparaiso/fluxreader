@@ -1,43 +1,40 @@
 /*jslint eqeq:true,node:true,white:true,plusplus:true,nomen:true,unparam:true,devel:true,regexp:true */
 /*global fluxreader,window,spyOn,describe,jasmine,beforeEach,it,expect,angular,module,inject*/
 
-
 "use strict";
 describe('fluxreader', function () {
     beforeEach(function () {
         var self = this;
         angular.module('test', ['fluxReader', 'dropboxDatabase', 'pagination', 'dropbox.mock', 'googleFeed.mock'])
-            .config(function (feedFinderProvider, $provide) {
-                feedFinderProvider.setGoogle({
-                    load: function () {
-                        return;
-                    }
-                });
-            })
-            .constant('Table',fluxreader.TableStub)
-            .service('FolderProxy',fluxreader.FolderProxy)
-            .constant('forceHTTPS', false);
+        .config(function (feedFinderProvider, $provide) {
+            feedFinderProvider.setGoogle({
+                load: function () {
+                    return;
+                }
+            });
+        })
+        .constant('Table',fluxreader.TableStub)
+        .service('FolderProxy',fluxreader.FolderProxy)
+        .constant('forceHTTPS', false);
         module('test');
         inject(function ($window, $timeout, $rootScope, $injector, $controller,$httpBackend,$q) {
-            self.$timeout = $timeout;
-            self.$injector = $injector;
-            self.$window = $window;
-            self.$controller = $controller;
-            self.$rootScope = $rootScope;
-            self.$scope = $rootScope.$new();
-            self.$q=$q;
-            self.$httpBackend=$httpBackend;
+            this.$timeout = $timeout;
+            this.$injector = $injector;
+            this.$window = $window;
+            this.$controller = $controller;
+            this.$rootScope = $rootScope;
+            this.$scope = $rootScope.$new();
+            this.$q=$q;
+            this.$httpBackend=$httpBackend;
             spyOn($window, 'prompt');
             spyOn($window, 'alert');
             spyOn($window, 'confirm');
             $httpBackend.when('GET', '/templates/index.html').respond("");
         });
     });
-    it('should run properly', function () {
-        inject(function (baseUrl) {
-            expect(baseUrl).toBeDefined();
-        });
-    });
+    it('should run properly', inject(function (baseUrl) {
+        expect(baseUrl).toBeDefined();
+    }));
     describe('MainCtrl', function () {
         beforeEach(function () {
             this.$scope = this.$rootScope.$new();
@@ -84,6 +81,21 @@ describe('fluxreader', function () {
             this.$scope.search();
         });
     });
+    describe('FolderCtrl',function(){
+        beforeEach(inject(function(FolderProxy){
+            this.FolderProxy=FolderProxy;
+            this.FolderProxy.folders=[{id:0,title:"foobar"}];
+            this.FolderProxy.dirty=false;
+            this.scope=this.$rootScope.$new();
+            this.route={current:{params:{id:0}}};
+            this.FolderCtrl=this.$controller('FolderCtrl',{$scope:this.scope,$route:this.route});
+            this.$rootScope.$apply();
+            this.$timeout.flush();
+        }));
+        it('when',function(){
+            expect(this.scope.pageTitle).toContain('foobar');
+        });
+    });
     describe('FeedCtrl', function () {
         beforeEach(function () {
             this.$scope.feed = {title: "foo"};
@@ -99,22 +111,20 @@ describe('fluxreader', function () {
         });
     });
     describe('FeedListCtrl', function () {
+        beforeEach(inject(function ($controller, $injector) {
+            this.FeedProxy=$injector.get('FeedProxy');
+            this.Entry=$injector.get('Entry');
+            this.Feed=$injector.get('Feed');
+            this.Notification=$injector.get('Notification');
+            this.feed = {id: 'foo', title: 'bar',open:true,entries:[]};
+            this.scope = $injector.get('$rootScope').$new();
+            this.FeedListCtrl = $controller('FeedListCtrl', {$scope: this.scope});
+        }));
         beforeEach(function (done) {
-            var self = this;
-            inject(function ($controller, $injector) {
-                self.FeedProxy=$injector.get('FeedProxy');
-                self.Entry=$injector.get('Entry');
-                self.Feed=$injector.get('Feed');
-                self.Notification=$injector.get('Notification');
-                self.feed = {id: 'foo', title: 'bar',open:true,entries:[]};
-                self.scope = $injector.get('$rootScope').$new();
-                self.FeedListCtrl = $controller('FeedListCtrl', {$scope: self.scope});
-            });
-            this.FeedProxy.insert(self.feed).then(done);
+            this.FeedProxy.insert(this.feed).then(done);
             this.$rootScope.$apply();
             this.$timeout.flush();
         });
-
         it('#watches FeedProxy.feeds',function(done){
             var self=this;
             this.FeedProxy.load(true).then(done);
@@ -126,14 +136,12 @@ describe('fluxreader', function () {
         });
     });
     describe('SubscribeCtrl', function () {
-        beforeEach(function () {
-            var self = this;
-            inject(function ($controller, $window, Feed) {
-                self.scope = {};
-                self.Feed = Feed;
-                self.SubscribeCtrl = $controller('SubscribeCtrl', {$scope: self.scope});
-            });
-        });
+        beforeEach( inject(function ($controller, $window, Feed) {
+            this.scope = {};
+            this.Feed = Feed;
+            this.SubscribeCtrl = $controller('SubscribeCtrl', {$scope: this.scope});
+        }));
+
         it('#subscribe', function () {
             spyOn(this.Feed, 'subscribe');
             this.$window.prompt.and.returnValue('http://testFeed');
@@ -143,15 +151,12 @@ describe('fluxreader', function () {
         });
     });
     describe('DashboardCtrl', function () {
-        beforeEach(function () {
-            var self = this;
+        beforeEach(inject(function ($controller, $window) {
             this.feed = {id: 'foo', title: 'title'};
-            inject(function ($controller, $window) {
-                self.scope = {};
-                self.$window = $window;
-                self.DashboardCtrl = $controller('DashboardCtrl', {'$scope': self.scope});
-            });
-        });
+            this.scope = {};
+            this.$window = $window;
+            this.DashboardCtrl = $controller('DashboardCtrl', {'$scope': this.scope});
+        }));
         it('$scope', function () {
             expect(this.scope.pageTitle).toBeDefined();
         });
@@ -201,21 +206,18 @@ describe('fluxreader', function () {
         });
     });
     describe('EntryCtrl', function () {
-        beforeEach(function () {
-            var self = this;
+        beforeEach(inject(function ($controller, Entry, FeedProxy, Notification) {
             this.entry = {};
-            inject(function ($controller, Entry, FeedProxy, Notification) {
-                self.scope = {};
-                self.entry = {title: 'foo', favorite: false};
-                self.Entry = Entry;
-                self.route = {current: {params: {id: 'foo'}}};
-                spyOn(self.Entry, 'toggleFavorite');
-                spyOn(self.Entry, 'getById').and.callFake(function (id, cb) {
-                    return cb(undefined, self.entry);
-                });
-                self.EntryCtrl = $controller('EntryCtrl', {$scope: self.scope, $route: self.route});
-            });
-        });
+            this.scope = {};
+            this.entry = {title: 'foo', favorite: false};
+            this.Entry = Entry;
+            this.route = {current: {params: {id: 'foo'}}};
+            spyOn(this.Entry, 'toggleFavorite');
+            spyOn(this.Entry, 'getById').and.callFake(function (id, cb) {
+                return cb(undefined, this.entry);
+            }.bind(this));
+            this.EntryCtrl = $controller('EntryCtrl', {$scope: this.scope, $route: this.route});
+        }));
         it('#toggleFavorite', function () {
             expect(this.Entry.getById).toHaveBeenCalled();
             this.scope.toggleFavorite();

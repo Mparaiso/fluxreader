@@ -6,9 +6,10 @@
     angular.module('pagination', [])
     .filter('paginator',function(Pagination){
         return function(list){
-            return Pagination.slice(list);
+            var slice=Pagination.slice(list);
+            return slice;
         }
-    }).service('Pagination',function(){
+    }).service('Pagination',function($log){
         var _skip=0,_limit=Infinity;
         this.skip=function(skip){
             if(skip){
